@@ -35,6 +35,11 @@ button {
 button:hover {
   background-color: #0056b3;
 }
+a {
+  text-align: center;
+  text-decoration: none;
+  color: blue;
+}
 
 /* Password input field */
 input[type="password"] {

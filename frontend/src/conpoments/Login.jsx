@@ -1,32 +1,20 @@
 import { useState } from "react";
 import "./singup.css";
-import usesingup from "../hooks/usesingup";
 import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { Link } from "react-router-dom";
+import "react-toastify/dist/ReactToastify.css";
 
-const Signup = () => {
-  const [userInput, setUserInput] = useState({
+const Login = () => {
+  const [userinput, setUserInput] = useState({
     name: "",
     email: "",
     password: "",
   });
-  const { createtheuser, loading, error } = usesingup();
 
-  const handleSubmithandler = async (e) => {
+  const handleSubmithandler = (e) => {
     e.preventDefault();
-    if (
-      userInput.name === "" ||
-      userInput.email === "" ||
-      userInput.password === ""
-    ) {
-      toast.error("Please Put Each And Everything");
-      return;
-    }
-
-    const success = await createtheuser(userInput);
-    if (!success) {
-      toast.error(error);
+    if (userinput.name == "" || userinput.email == "" || userinput.password) {
+      toast.error("Please Fill Each And Every Filed");
     }
   };
 
@@ -38,7 +26,7 @@ const Signup = () => {
           <input
             id="username"
             type="text"
-            value={userInput.name}
+            value={userinput.name}
             onChange={(e) => {
               setUserInput((prev) => {
                 return { ...prev, name: e.target.value };
@@ -51,7 +39,7 @@ const Signup = () => {
           <input
             id="email"
             type="email"
-            value={userInput.email}
+            value={userinput.email}
             onChange={(e) => {
               setUserInput((prev) => {
                 return { ...prev, email: e.target.value };
@@ -63,7 +51,7 @@ const Signup = () => {
           <label htmlFor="password">PassWord</label>
           <input
             id="password"
-            value={userInput.password}
+            value={userinput.password}
             onChange={(e) => {
               setUserInput((prev) => {
                 return { ...prev, password: e.target.value };
@@ -71,15 +59,15 @@ const Signup = () => {
             }}
             type="password"
           />
-          <button type="submit">
-            {loading ? "loading" : "Create New User"}
-          </button>
+          <button type="submit">Log in</button>
         </form>
-        <Link to="/login">Log in</Link>
+        <Link to="/">
+          <p>Create New Account</p>
+        </Link>
       </div>
       <ToastContainer />
     </>
   );
 };
 
-export default Signup;
+export default Login;
