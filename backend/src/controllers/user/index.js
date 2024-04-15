@@ -37,6 +37,33 @@ const singuptheusercontroler = async (request, response) => {
   }
 };
 
+const logintheuser = async (request, response) => {
+  const { email } = request.body;
+
+  try {
+    let exsitinuser = await model.usermodel.findOne({
+      where: {
+        email: email,
+      },
+    });
+
+    if (!exsitinuser)
+      return response
+        .status(StatusCodes.OK)
+        .json({ message: "Users has been never created" });
+
+    return response
+      .status(StatusCodes.OK)
+      .json({ message: "Sucessfully log in" });
+  } catch (error) {
+    console.log(error);
+
+    return response
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ meessage: "Internal Server errors" });
+  }
+};
 module.exports = {
   singuptheusercontroler,
+  logintheuser,
 };

@@ -6,4 +6,5 @@ router.post(
   "/singuptheuser",
   controllers.usercontroller.singuptheusercontroler
 );
+router.post("/loginuser", controllers.usercontroller.logintheuser);
 module.exports = router;

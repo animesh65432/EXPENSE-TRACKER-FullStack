@@ -3,6 +3,7 @@ import "./singup.css";
 import { toast, ToastContainer } from "react-toastify";
 import { Link } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
+import uselogin from "../hooks/uselogin";
 
 const Login = () => {
   const [userinput, setUserInput] = useState({
@@ -10,11 +11,24 @@ const Login = () => {
     email: "",
     password: "",
   });
+  const { logintheuser, loading, error } = uselogin();
 
-  const handleSubmithandler = (e) => {
+  const handleSubmithandler = async (e) => {
     e.preventDefault();
-    if (userinput.name == "" || userinput.email == "" || userinput.password) {
+    if (
+      userinput.name === "" ||
+      userinput.email === "" ||
+      userinput.password === ""
+    ) {
       toast.error("Please Fill Each And Every Filed");
+    } else {
+      let success = await logintheuser(userinput);
+
+      if (!success) {
+        toast.error(error);
+      } else {
+        toast.success("Sucessfully login");
+      }
     }
   };
 
@@ -59,7 +73,7 @@ const Login = () => {
             }}
             type="password"
           />
-          <button type="submit">Log in</button>
+          <button type="submit">{loading ? "loading" : "login"}</button>
         </form>
         <Link to="/">
           <p>Create New Account</p>
