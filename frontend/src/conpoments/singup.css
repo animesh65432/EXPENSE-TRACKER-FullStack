@@ -36,7 +36,15 @@ button:hover {
   background-color: #0056b3;
 }
 
-/* Responsive styles */
+/* Password input field */
+input[type="password"] {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
 @media screen and (max-width: 600px) {
   .signup-container {
     width: 90%;
