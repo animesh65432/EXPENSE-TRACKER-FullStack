@@ -1,22 +1,19 @@
 import { useState } from "react";
 import axios from "axios";
-import { useDispatch } from "react-redux";
-import { changetotrue } from "../stroe/slices";
-const uselogin = () => {
+
+const useCreateExpense = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const dispatch = useDispatch();
 
-  const logintheuser = async (obj) => {
+  const createexpenses = async (obj) => {
     setLoading(true);
     setError(null);
     try {
       let response = await axios.post(
-        "http://localhost:3000/users/loginuser",
+        "http://localhost:3000/Expenses/Create",
         obj
       );
       console.log(response);
-      dispatch(changetotrue());
       return true;
     } catch (error) {
       console.log(error);
@@ -31,7 +28,7 @@ const uselogin = () => {
     }
   };
 
-  return { logintheuser, loading, error };
+  return { createexpenses, loading, error };
 };
 
-export default uselogin;
+export default useCreateExpense;
