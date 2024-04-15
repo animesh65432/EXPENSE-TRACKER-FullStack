@@ -4,7 +4,7 @@ const router = express.Router();
 
 router.post(
   "/singuptheuser",
-  controllers.usercontroller.singuptheusercontroler
+  controllers.usercontroller.signuptheusercontroller
 );
 router.post("/loginuser", controllers.usercontroller.logintheuser);
 module.exports = router;

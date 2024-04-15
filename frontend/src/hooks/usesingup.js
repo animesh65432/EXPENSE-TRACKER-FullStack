@@ -16,7 +16,7 @@ const usesingup = () => {
       return true;
     } catch (error) {
       if (error.response && error.response.data) {
-        setError(error.response.data.user);
+        setError(error.response.data.message);
       } else {
         setError("An error occurred. Please try again later.");
       }

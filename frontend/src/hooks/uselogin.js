@@ -12,11 +12,11 @@ const uselogin = () => {
         "http://localhost:3000/users/loginuser",
         obj
       );
-      console.log(response);
       return true;
     } catch (error) {
+      console.log(error);
       if (error.response && error.response.data) {
-        setError(error.response.data.user);
+        setError(error.response.data.message);
       } else {
         setError("An error occurred. Please try again later.");
       }

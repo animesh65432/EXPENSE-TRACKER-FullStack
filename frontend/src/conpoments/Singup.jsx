@@ -27,6 +27,8 @@ const Signup = () => {
     const success = await createtheuser(userInput);
     if (!success) {
       toast.error(error);
+    } else {
+      toast.success("Sucessfully Created User");
     }
   };
 

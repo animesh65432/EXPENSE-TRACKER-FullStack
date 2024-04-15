@@ -23,8 +23,9 @@ const Login = () => {
       toast.error("Please Fill Each And Every Filed");
     } else {
       let success = await logintheuser(userinput);
-
+      console.log(success);
       if (!success) {
+        console.log(error);
         toast.error(error);
       } else {
         toast.success("Sucessfully login");
