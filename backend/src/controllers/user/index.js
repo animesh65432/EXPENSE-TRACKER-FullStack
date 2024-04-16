@@ -1,6 +1,7 @@
 const usermodel = require("../../model/user");
 const { StatusCodes } = require("http-status-codes");
 const bcrypt = require("bcrypt");
+const { auth } = require("../../middlewares");
 
 const signuptheusercontroller = async (request, response) => {
   const { name, email, password } = request.body;
@@ -26,15 +27,16 @@ const signuptheusercontroller = async (request, response) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    await usermodel.create({
+    let newuser = await usermodel.create({
       name: name,
       email: email,
       password: hashedPassword,
     });
 
+    let token = auth.CreateTheJwTokens({ email: email, id: newuser.id });
     return response
       .status(StatusCodes.OK)
-      .json({ message: "Successfully created the user." });
+      .json({ message: "Successfully created the user.", idtoken: token });
   } catch (error) {
     console.error("Error in signuptheusercontroller:", error);
     return response
@@ -62,9 +64,10 @@ const logintheuser = async (request, response) => {
     const passwordMatch = await bcrypt.compare(password, user.password);
 
     if (passwordMatch) {
+      let token = auth.CreateTheJwTokens({ email: email, idtoken: user.id });
       return response
         .status(StatusCodes.OK)
-        .json({ message: "Successfully logged in." });
+        .json({ message: "Successfully logged in.", idtoken: token });
     } else {
       return response
         .status(StatusCodes.BAD_REQUEST)

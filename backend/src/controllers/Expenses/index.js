@@ -13,6 +13,7 @@ const CreatetheExpenses = async (request, response) => {
       ExpensesName: ExpensesName,
       description: description,
       Category: Category,
+      userId: request.user.id,
     });
 
     return response
@@ -27,7 +28,11 @@ const CreatetheExpenses = async (request, response) => {
 
 const GettheExpenses = async (request, response) => {
   try {
-    let AlltheExpenses = await expensemodel.findAll({});
+    let AlltheExpenses = await expensemodel.findAll({
+      where: {
+        userId: request.user.id,
+      },
+    });
     return response.status(StatusCodes.OK).json({ data: AlltheExpenses });
   } catch (error) {
     return response
@@ -43,6 +48,7 @@ const DeletheExpesnes = async (request, response) => {
     await expensemodel.destroy({
       where: {
         id: ExpenseId,
+        userId: request.user.id,
       },
     });
 

@@ -1,9 +1,11 @@
-import { useState } from "react";
 import axios from "axios";
+import { useState } from "react";
+import { useSelector } from "react-redux";
 
 const useCreateExpense = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const idtoken = useSelector((state) => state.user.value);
 
   const createexpenses = async (obj) => {
     setLoading(true);
@@ -11,7 +13,12 @@ const useCreateExpense = () => {
     try {
       let response = await axios.post(
         "http://localhost:3000/Expenses/Create",
-        obj
+        obj,
+        {
+          headers: {
+            idtoken: idtoken,
+          },
+        }
       );
       console.log(response);
       return true;

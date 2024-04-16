@@ -26,6 +26,10 @@
   text-align: center;
   margin-top: 20px;
 }
+button {
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  width: 200px;
+}
 
 /* Responsive Design */
 @media screen and (max-width: 768px) {

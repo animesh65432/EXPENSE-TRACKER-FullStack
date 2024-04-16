@@ -3,6 +3,7 @@ const database = require("./db");
 const cors = require("cors");
 const app = express();
 const cofig = require("./config");
+const { usermodel, expensemodel } = require("./model");
 const { userrouter, expenserouter } = require("./routers");
 
 app.use(express.urlencoded({ extended: true }));
@@ -11,6 +12,9 @@ app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use("/users", userrouter);
 app.use("/Expenses", expenserouter);
+
+usermodel.hasMany(expensemodel);
+expensemodel.belongsTo(usermodel);
 
 database
   .sync()

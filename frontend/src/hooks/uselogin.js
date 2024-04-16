@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { changetotrue } from "../stroe/slices";
+import { addthetokens } from "../stroe/slices";
 const uselogin = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -15,8 +15,8 @@ const uselogin = () => {
         "http://localhost:3000/users/loginuser",
         obj
       );
-      console.log(response);
-      dispatch(changetotrue());
+      let token = response?.data?.idtoken;
+      dispatch(addthetokens(token));
       return true;
     } catch (error) {
       console.log(error);

@@ -7,15 +7,16 @@ import { useSelector } from "react-redux";
 
 const MainPage = () => {
   const isUserLoggedIn = useSelector((state) => state.user.value);
+  const flagvalue = !!isUserLoggedIn;
   const Naviagte = useNavigate();
 
-  if (isUserLoggedIn) {
+  if (flagvalue) {
     Naviagte("/");
   }
 
   return (
     <>
-      {isUserLoggedIn ? (
+      {flagvalue ? (
         <Routes>
           <Route path="/" element={<ExpensesFrom />} />
         </Routes>
