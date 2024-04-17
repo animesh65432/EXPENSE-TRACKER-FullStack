@@ -1,8 +1,11 @@
-import React from "react";
 import useGetExpense from "../hooks/useGetExpense";
 import ExpensesItem from "./ExpensesItem";
+import { useSelector } from "react-redux";
+import Button from "./Button";
 
 const Expenses = () => {
+  const ispremuinm = useSelector((state) => state.user.ispremuinm);
+  console.log(false);
   const [expenses, loading] = useGetExpense();
   console.log(expenses);
 
@@ -31,6 +34,8 @@ const Expenses = () => {
           </div>
         ))}
       </div>
+
+      {ispremuinm && <Button />}
     </>
   );
 };

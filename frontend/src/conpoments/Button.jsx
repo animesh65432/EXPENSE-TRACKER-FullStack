@@ -1,24 +1,18 @@
-import React from "react";
-import axios from "axios";
-import { useSelector } from "react-redux";
+import React, { useState } from "react";
+import Leaderbord from "./Leaderbord";
+import useGetTheLeadeBord from "../hooks/useGetTheLeadeBord";
 
 const Button = () => {
-  const idtoken = useSelector((state) => state.user.value);
-  const OnClick = async () => {
-    let res = await axios.get(
-      `http://localhost:3000/paymentFeatures/ShowTheLeadersboard`,
-      {
-        headers: {
-          idtoken: idtoken,
-        },
-      }
-    );
-
-    console.log(res);
+  const [show, setshow] = useState(false);
+  const [leaderboard, fecthingthedata] = useGetTheLeadeBord();
+  const OnClick = () => {
+    setshow((prev) => !prev);
+    fecthingthedata();
   };
   return (
     <>
       <button onClick={OnClick}>Click Me</button>
+      {show && <Leaderbord leaderboard={leaderboard} />}
     </>
   );
 };
