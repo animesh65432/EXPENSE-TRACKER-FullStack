@@ -4,6 +4,7 @@ import useCreateExpense from "../hooks/useCreateExpense";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Expenses from "./Expenses";
+import RazorpayPayment from "./RazorPay";
 
 const ExpensesFrom = () => {
   const [userinput, setuserinput] = useState({
@@ -67,6 +68,7 @@ const ExpensesFrom = () => {
           ></input>
           <button>{loading ? "loading" : "Create Expenses"}</button>
         </form>
+        <RazorpayPayment />
       </div>
       <Expenses />
       <ToastContainer />

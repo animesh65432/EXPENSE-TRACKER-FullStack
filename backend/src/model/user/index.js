@@ -15,6 +15,10 @@ const User = database.define("user", {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  ispremiumuser: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
+  },
 });
 
 module.exports = User;
