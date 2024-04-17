@@ -19,6 +19,11 @@ const Expenses = database.define("Expenses", {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  Expenseamount: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    defaultValue: 0,
+  },
 });
 
 module.exports = Expenses;

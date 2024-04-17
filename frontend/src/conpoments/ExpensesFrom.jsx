@@ -5,21 +5,27 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Expenses from "./Expenses";
 import RazorpayPayment from "./RazorPay";
+import { useSelector, useStore } from "react-redux";
+import Button from "./Button";
 
 const ExpensesFrom = () => {
   const [userinput, setuserinput] = useState({
     ExpensesName: "",
     description: "",
     Category: "",
+    Expenseamount: 0,
   });
   const { createexpenses, loading, error } = useCreateExpense();
+  const ispremuinuser = useSelector((state) => state.user.ispremuinm);
+  console.log(ispremuinuser);
 
   const handlesumbithandler = (e) => {
     e.preventDefault();
     if (
       userinput.ExpensesName == "" ||
       userinput.description == "" ||
-      userinput.Category == ""
+      userinput.Category == "" ||
+      !userinput.Expenseamount
     ) {
       toast.error("Please Fill up Each and Everything");
     } else {
@@ -33,7 +39,10 @@ const ExpensesFrom = () => {
     }
   };
   return (
-    <>
+    <div>
+      {ispremuinuser && (
+        <div className="premium-user">You Are Premiun-User</div>
+      )}
       <div className="form-container">
         <form onSubmit={handlesumbithandler}>
           <label htmlFor="expensename">Expenses Name :</label>
@@ -56,6 +65,16 @@ const ExpensesFrom = () => {
               });
             }}
           ></input>
+          <label htmlFor="money">ExpensePrice:</label>
+          <input
+            type="number"
+            id="money"
+            onChange={(e) => {
+              setuserinput((prev) => {
+                return { ...prev, Expenseamount: e.target.value };
+              });
+            }}
+          ></input>
           <label htmlFor=" Category">Category:</label>
           <input
             type="text"
@@ -72,7 +91,8 @@ const ExpensesFrom = () => {
       </div>
       <Expenses />
       <ToastContainer />
-    </>
+      <Button />
+    </div>
   );
 };
 

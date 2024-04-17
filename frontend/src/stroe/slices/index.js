@@ -4,6 +4,7 @@ const UserLogin = createSlice({
   name: "login",
   initialState: {
     value: "" || localStorage.getItem("idtoken"),
+    ispremuinm: false,
   },
   reducers: {
     addthetokens: (state, action) => {
@@ -14,8 +15,13 @@ const UserLogin = createSlice({
       state.value = "";
       localStorage.removeItem("idtoken");
     },
+    makePremuinm: (state, action) => {
+      console.log(action.payload);
+      state.ispremuinm = action.payload;
+    },
   },
 });
 
-export const { addthetokens, deletethetokens } = UserLogin.actions;
+export const { addthetokens, deletethetokens, makePremuinm } =
+  UserLogin.actions;
 export default UserLogin.reducer;

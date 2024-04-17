@@ -1,12 +1,14 @@
 import React from "react";
 import axios from "axios";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { makePremuinm } from "../stroe/slices";
 
 const RazorpayPayment = () => {
   const idtoken = useSelector((state) => state.user.value);
+  const dispath = useDispatch();
   const createRazorpayOrder = async () => {
     try {
-      const response = await axios.post(
+      const result = await axios.post(
         "http://localhost:3000/payment/createpayment",
         {
           amount: 2500,
@@ -17,11 +19,11 @@ const RazorpayPayment = () => {
         }
       );
 
-      const orderId = response.data.order.id;
+      const orderId = result.data.order.id;
 
       const options = {
         key: "rzp_test_oDPI9BzawwVmp3",
-        amount: 2500,
+        amount: 2500000,
         currency: "INR",
         order_id: orderId,
         name: "Expense Tracker",
@@ -42,7 +44,7 @@ const RazorpayPayment = () => {
                 },
               }
             );
-            console.log(result.data);
+            dispath(makePremuinm(result?.data?.sucess));
           } catch (err) {
             console.log(err);
           }

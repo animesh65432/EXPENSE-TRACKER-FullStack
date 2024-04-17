@@ -1,7 +1,8 @@
 import { useState } from "react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { addthetokens } from "../stroe/slices";
+import { addthetokens, makePremuinm } from "../stroe/slices";
+import { parseJwt } from "../utils";
 const uselogin = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -15,8 +16,14 @@ const uselogin = () => {
         "http://localhost:3000/users/loginuser",
         obj
       );
+
+      console.log(response);
       let token = response?.data?.idtoken;
       dispatch(addthetokens(token));
+      console.log(parseJwt(token));
+      let result = parseJwt(token).ispremiumuser;
+      dispatch(makePremuinm(result));
+
       return true;
     } catch (error) {
       console.log(error);
