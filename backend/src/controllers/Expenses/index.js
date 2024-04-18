@@ -1,47 +1,64 @@
 const { StatusCodes } = require("http-status-codes");
 const { expensemodel } = require("../../model");
+const database = require("../../db");
 
 const CreatetheExpenses = async (request, response) => {
+  const t = await database.transaction();
   try {
     const { ExpensesName, description, Category, Expenseamount } = request.body;
-    let totalexpenses =
+    const totalexpenses =
       Number(request.user.totalexpenses) + Number(Expenseamount);
-    if (!ExpensesName && !description && !Category && Expenseamount)
+
+    if (!ExpensesName || !description || !Category || !Expenseamount) {
       return response
         .status(StatusCodes.BAD_REQUEST)
-        .json({ message: "please Put Each and Everything" });
+        .json({ message: "Please provide all necessary fields" });
+    }
 
-    let expense = await expensemodel.create({
-      ExpensesName: ExpensesName,
-      description: description,
-      Category: Category,
-      Expenseamount: Expenseamount,
-      userId: request.user.id,
-    });
+    const expense = await expensemodel.create(
+      {
+        ExpensesName,
+        description,
+        Category,
+        Expenseamount,
+        userId: request.user.id,
+      },
+      { transaction: t }
+    );
 
-    let updatetheuser = await request.user.update({
-      totalexpenses: totalexpenses,
-    });
+    await request.user.update(
+      {
+        totalexpenses,
+      },
+      {
+        transaction: t,
+      }
+    );
+
+    await t.commit();
 
     return response
       .status(StatusCodes.CREATED)
-      .json({ messsage: "Sucessfully create it expesnses" });
+      .json({ message: "Successfully created expense" });
   } catch (error) {
+    await t.rollback();
+    console.error("Create expense error:", error);
     return response.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-      message: "Internal Server Errors",
+      message: "Internal Server Error",
     });
   }
 };
 
 const GettheExpenses = async (request, response) => {
   try {
-    let AlltheExpenses = await expensemodel.findAll({
+    const AlltheExpenses = await expensemodel.findAll({
       where: {
         userId: request.user.id,
       },
     });
     return response.status(StatusCodes.OK).json({ data: AlltheExpenses });
   } catch (error) {
+    console.error("Get expenses error:", error);
     return response
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
       .json({ message: "Internal server errors" });
@@ -49,20 +66,47 @@ const GettheExpenses = async (request, response) => {
 };
 
 const DeletheExpesnes = async (request, response) => {
+  const t = await database.transaction();
   try {
     const ExpenseId = request.params.ExpenseId;
 
-    await expensemodel.destroy({
-      where: {
-        id: ExpenseId,
-        userId: request.user.id,
+    let expenseitem = await expensemodel.findOne(
+      {
+        where: {
+          id: ExpenseId,
+          userId: request.user.id,
+        },
       },
-    });
+      {
+        transaction: t,
+      }
+    );
 
+    console.log(expenseitem.Expenseamount);
+
+    let totalexpenses =
+      Number(request.user.totalexpenses) - Number(expenseitem.Expenseamount);
+
+    let Promiseone = expenseitem.destroy({
+      transaction: t,
+    });
+    let PromiseTwo = request.user.update(
+      {
+        totalexpenses: totalexpenses,
+      },
+      {
+        transaction: t,
+      }
+    );
+
+    await Promise.all([Promiseone, PromiseTwo]);
+    await t.commit();
     return response
       .status(StatusCodes.OK)
-      .json({ message: "Sucessfully delete it" });
+      .json({ message: "Successfully deleted expense" });
   } catch (error) {
+    await t.rollback();
+    console.error("Delete expense error:", error);
     return response.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
       message: "Internal server errors",
     });

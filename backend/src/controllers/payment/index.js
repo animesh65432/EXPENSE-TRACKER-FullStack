@@ -2,8 +2,10 @@ const razorpay = require("razorpay");
 const { key_id, key_secret } = require("../../config");
 const { StatusCodes } = require("http-status-codes");
 const { payment } = require("../../model");
+const database = require("../../db");
 
 const createPayment = async (request, response) => {
+  const t = await database.transaction();
   try {
     const rzp = new razorpay({
       key_id: "rzp_test_oDPI9BzawwVmp3",
@@ -16,13 +18,17 @@ const createPayment = async (request, response) => {
       if (err) {
         console.log(err);
       }
+
       let result = await request.user.createOrder({
         orderid: order.id,
         status: "PENDING",
       });
+
+      await t.commit();
       response.status(StatusCodes.CREATED).json({ order, key_id: rzp.key_id });
     });
   } catch (error) {
+    await t.rollback();
     response.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
       message: "Something Went Wrong",
     });
@@ -30,30 +36,40 @@ const createPayment = async (request, response) => {
 };
 
 const updatePayment = async (request, response) => {
+  const t = await database.transaction();
   try {
     const { payment_id, order_id } = request.body;
-    console.log(payment_id, order_id);
 
-    let order = await payment.findOne({ where: { orderid: order_id } });
+    const order = await payment.findOne({ where: { orderid: order_id } });
 
-    let promise1 = order.update({
-      paymentid: payment_id,
-      status: "SUCESS",
-    });
+    if (!order) {
+      await t.rollback();
+      return response.status(StatusCodes.NOT_FOUND).json({
+        success: false,
+        message: "Order not found",
+      });
+    }
 
-    let promise2 = request.user.update({
-      ispremiumuser: true,
-    });
+    await Promise.all([
+      order.update(
+        { paymentid: payment_id, status: "SUCCESS" },
+        { transaction: t }
+      ),
+      request.user.update({ ispremiumuser: true }, { transaction: t }),
+    ]);
 
-    Promise.all([promise1, promise2]).then(() => {
-      return response
-        .status(StatusCodes.OK)
-        .json({ sucess: true, message: "Sucessfully Payment" });
+    await t.commit();
+    return response.status(StatusCodes.OK).json({
+      success: true,
+      message: "Successfully updated payment",
     });
   } catch (error) {
-    return response
-      .status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .json({ sucess: false, message: "Internal server errors" });
+    console.error("Update payment error:", error);
+    await t.rollback();
+    return response.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      success: false,
+      message: "Internal Server Error",
+    });
   }
 };
 

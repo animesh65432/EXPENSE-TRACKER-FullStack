@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Leaderbord from "./Leaderbord";
 import useGetTheLeadeBord from "../hooks/useGetTheLeadeBord";
 
-const Button = () => {
+const PremiunButton = () => {
   const [show, setshow] = useState(false);
   const [leaderboard, fecthingthedata] = useGetTheLeadeBord();
   const OnClick = () => {
@@ -17,4 +17,4 @@ const Button = () => {
   );
 };
 
-export default Button;
+export default PremiunButton;
