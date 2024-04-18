@@ -1,11 +1,10 @@
 import useGetExpense from "../hooks/useGetExpense";
 import ExpensesItem from "./ExpensesItem";
 import { useSelector } from "react-redux";
-import Button from "./Button";
+import LeaderBoardsButton from "./Button";
 
 const Expenses = () => {
-  const ispremuinm = useSelector((state) => state.user.ispremuinm);
-  console.log(false);
+  const ispremuinuser = useSelector((state) => state.user.ispremuinm);
   const [expenses, loading] = useGetExpense();
   console.log(expenses);
 
@@ -34,8 +33,7 @@ const Expenses = () => {
           </div>
         ))}
       </div>
-
-      {ispremuinm && <Button />}
+      {ispremuinuser && <LeaderBoardsButton />}
     </>
   );
 };

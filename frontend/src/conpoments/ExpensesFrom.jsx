@@ -6,7 +6,6 @@ import "react-toastify/dist/ReactToastify.css";
 import Expenses from "./Expenses";
 import RazorpayPayment from "./RazorPay";
 import { useSelector, useStore } from "react-redux";
-import Button from "./Button";
 
 const ExpensesFrom = () => {
   const [userinput, setuserinput] = useState({
@@ -91,7 +90,6 @@ const ExpensesFrom = () => {
       </div>
       <Expenses />
       <ToastContainer />
-      <Button />
     </div>
   );
 };

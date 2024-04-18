@@ -11,7 +11,7 @@ const Button = () => {
   };
   return (
     <>
-      <button onClick={OnClick}>Click Me</button>
+      <button onClick={OnClick}>Show The LeaderBoards</button>
       {show && <Leaderbord leaderboard={leaderboard} />}
     </>
   );

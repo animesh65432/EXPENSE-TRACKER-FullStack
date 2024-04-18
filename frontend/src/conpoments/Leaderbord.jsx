@@ -2,8 +2,8 @@ import Leaderboradlist from "./Leaderboradlist";
 const Leaderbord = ({ leaderboard }) => {
   return (
     <div>
-      {leaderboard.map((obj, index) => (
-        <Leaderboradlist key={index} obj={obj} />
+      {leaderboard.map((obj) => (
+        <Leaderboradlist key={obj.id} obj={obj} />
       ))}
     </div>
   );

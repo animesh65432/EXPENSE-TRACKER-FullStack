@@ -19,6 +19,7 @@ const useGetTheLeadeBord = () => {
     setleaderboard(res?.data?.data);
   };
 
+  console.log(leaderboard);
   return [leaderboard, fecthingthedata];
 };
 
