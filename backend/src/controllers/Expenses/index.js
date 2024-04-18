@@ -4,17 +4,23 @@ const { expensemodel } = require("../../model");
 const CreatetheExpenses = async (request, response) => {
   try {
     const { ExpensesName, description, Category, Expenseamount } = request.body;
+    let totalexpenses =
+      Number(request.user.totalexpenses) + Number(Expenseamount);
     if (!ExpensesName && !description && !Category && Expenseamount)
       return response
         .status(StatusCodes.BAD_REQUEST)
         .json({ message: "please Put Each and Everything" });
 
-    let expesne = await expensemodel.create({
+    let expense = await expensemodel.create({
       ExpensesName: ExpensesName,
       description: description,
       Category: Category,
       Expenseamount: Expenseamount,
       userId: request.user.id,
+    });
+
+    let updatetheuser = await request.user.update({
+      totalexpenses: totalexpenses,
     });
 
     return response

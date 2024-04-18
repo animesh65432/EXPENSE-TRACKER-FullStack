@@ -44,6 +44,7 @@ const RazorpayPayment = () => {
                 },
               }
             );
+            console.log(result?.data);
             dispath(makePremuinm(result?.data?.sucess));
           } catch (err) {
             console.log(err);

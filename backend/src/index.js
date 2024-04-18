@@ -26,7 +26,7 @@ expensemodel.belongsTo(usermodel);
 payment.belongsTo(usermodel);
 
 database
-  .sync()
+  .sync({ force: true })
   .then(() => {
     app.listen(cofig.port, () => {
       console.log(`you server you port at ${process.env.PORT}`);
