@@ -3,4 +3,5 @@ module.exports = {
   expenseController: require("./Expenses"),
   paymentController: require("./payment"),
   paymentfeatures: require("./premiunfeatures"),
+  resetpassworcController: require("./resetpasswords"),
 };

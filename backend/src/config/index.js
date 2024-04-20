@@ -8,4 +8,6 @@ module.exports = {
   SecrectPassword: process.env.serectPassword,
   key_id: process.env.key_id,
   key_secret: process.env.key_secrect,
+  EmailForNodeMailer: process.env.email,
+  pass: process.env.pass,
 };

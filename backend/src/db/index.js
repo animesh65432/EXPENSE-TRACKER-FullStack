@@ -9,4 +9,6 @@ const database = new Sequelize({
   dialect: "mysql",
 });
 
+
+
 module.exports = database;

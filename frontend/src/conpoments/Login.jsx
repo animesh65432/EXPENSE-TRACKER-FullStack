@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./singup.css";
 import { toast, ToastContainer } from "react-toastify";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import uselogin from "../hooks/uselogin";
 
@@ -12,7 +12,7 @@ const Login = () => {
     password: "",
   });
   const { logintheuser, loading, error } = uselogin();
-
+  const Navigate = useNavigate();
   const handleSubmithandler = async (e) => {
     e.preventDefault();
     if (
@@ -30,6 +30,10 @@ const Login = () => {
         toast.success("Sucessfully login");
       }
     }
+  };
+
+  const ResetPassword = () => {
+    Navigate("/ResetPassWord");
   };
 
   return (
@@ -79,6 +83,8 @@ const Login = () => {
           <p>Create New Account</p>
         </Link>
       </div>
+
+      <button onClick={ResetPassword}>ResetPasssword</button>
       <ToastContainer />
     </>
   );
