@@ -1,10 +1,12 @@
 import axios from "axios";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteexpenses } from "../stroe/slices/expense/index";
 
 const usedeleteExpense = () => {
   const [loading, setLoading] = useState(false);
   const idtoken = useSelector((state) => state.user.value);
+  const dispatch = useDispatch();
 
   const deletethexpenses = async (id) => {
     setLoading(true);
@@ -14,6 +16,7 @@ const usedeleteExpense = () => {
           idtoken: idtoken,
         },
       });
+      dispatch(deleteexpenses(id));
       return true;
     } catch (error) {
       return false;

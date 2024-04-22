@@ -1,7 +1,7 @@
 const { StatusCodes } = require("http-status-codes");
 const { expensemodel } = require("../../model");
 const { uploadAndShareFile } = require("../../services");
-
+const database = require("../../db");
 const CreatetheExpenses = async (request, response) => {
   const t = await database.transaction();
   try {

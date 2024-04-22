@@ -1,6 +1,5 @@
 const { Sequelize } = require("sequelize");
 const config = require("../config");
-
 const database = new Sequelize({
   database: config.databasename,
   host: "localhost",
@@ -8,7 +7,5 @@ const database = new Sequelize({
   username: "root",
   dialect: "mysql",
 });
-
-
 
 module.exports = database;

@@ -1,11 +1,13 @@
 import axios from "axios";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { addexpensefromExpenseFrom } from "../stroe/slices/expense/index";
 
 const useCreateExpense = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const idtoken = useSelector((state) => state.user.value);
+  const dispatch = useDispatch();
 
   const createexpenses = async (obj) => {
     setLoading(true);
@@ -21,6 +23,7 @@ const useCreateExpense = () => {
         }
       );
       console.log(response);
+      dispatch(addexpensefromExpenseFrom(obj));
       return true;
     } catch (error) {
       console.log(error);

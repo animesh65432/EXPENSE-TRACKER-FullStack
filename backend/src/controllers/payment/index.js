@@ -8,8 +8,8 @@ const createPayment = async (request, response) => {
   const t = await database.transaction();
   try {
     const rzp = new razorpay({
-      key_id: "rzp_test_oDPI9BzawwVmp3",
-      key_secret: "edBkWb9z7KQi6CmOMc59mcHv",
+      key_id: key_id,
+      key_secret: key_secret,
     });
 
     const amount = 2500;

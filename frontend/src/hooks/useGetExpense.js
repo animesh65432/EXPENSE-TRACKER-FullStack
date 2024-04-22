@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { Getexpenses } from "../stroe/slices/expense/index";
 
 const useGetExpense = () => {
-  const [expenses, setExpenses] = useState([]);
   const [loading, setloading] = useState(false);
   const idtoken = useSelector((state) => state.user.value);
+  const dispatch = useDispatch();
 
   const getTheAllExpenses = async () => {
     setloading(true);
@@ -15,7 +16,8 @@ const useGetExpense = () => {
           idtoken: idtoken,
         },
       });
-      setExpenses(response.data?.data);
+      let expenseslist = response.data?.data;
+      dispatch(Getexpenses(expenseslist));
     } catch (error) {
       console.log(error);
     } finally {
@@ -27,7 +29,7 @@ const useGetExpense = () => {
     getTheAllExpenses();
   }, []);
 
-  return [expenses, loading];
+  return [loading];
 };
 
 export default useGetExpense;

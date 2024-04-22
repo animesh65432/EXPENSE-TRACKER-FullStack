@@ -4,9 +4,8 @@ import { useSelector } from "react-redux";
 
 const Expenses = () => {
   const ispremuinuser = useSelector((state) => state.user.ispremuinm);
-  const [expenses, loading] = useGetExpense();
-  console.log(ispremuinuser);
-
+  const expenses = useSelector((state) => state.expenses.values) || [];
+  const [loading] = useGetExpense();
   if (loading) {
     return (
       <div className="loading-message">
