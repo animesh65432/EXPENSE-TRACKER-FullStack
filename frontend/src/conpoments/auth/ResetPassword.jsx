@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import useResetPassword from "../hooks/useResetPassword";
+import useResetPassword from "../../hooks/useResetPassword";
 
 const ResetPassword = () => {
   const [Email, SetEmail] = useState("");

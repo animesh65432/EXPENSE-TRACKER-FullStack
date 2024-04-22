@@ -1,39 +1,34 @@
 import { useState } from "react";
-import "./singup.css";
+import usesingup from "../../hooks/usesingup.js";
 import { toast, ToastContainer } from "react-toastify";
-import { Link, useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
-import uselogin from "../hooks/uselogin";
+import { Link } from "react-router-dom";
 
-const Login = () => {
-  const [userinput, setUserInput] = useState({
+const Signup = () => {
+  const [userInput, setUserInput] = useState({
     name: "",
     email: "",
     password: "",
   });
-  const { logintheuser, loading, error } = uselogin();
-  const Navigate = useNavigate();
+  const { createtheuser, loading, error } = usesingup();
+
   const handleSubmithandler = async (e) => {
     e.preventDefault();
     if (
-      userinput.name === "" ||
-      userinput.email === "" ||
-      userinput.password === ""
+      userInput.name === "" ||
+      userInput.email === "" ||
+      userInput.password === ""
     ) {
-      toast.error("Please Fill Each And Every Filed");
-    } else {
-      let success = await logintheuser(userinput);
-
-      if (!success) {
-        toast.error(error);
-      } else {
-        toast.success("Sucessfully login");
-      }
+      toast.error("Please Put Each And Everything");
+      return;
     }
-  };
 
-  const ResetPassword = () => {
-    Navigate("/ResetPassWord");
+    const success = await createtheuser(userInput);
+    if (!success) {
+      toast.error(error);
+    } else {
+      toast.success("Sucessfully Created User");
+    }
   };
 
   return (
@@ -44,7 +39,7 @@ const Login = () => {
           <input
             id="username"
             type="text"
-            value={userinput.name}
+            value={userInput.name}
             onChange={(e) => {
               setUserInput((prev) => {
                 return { ...prev, name: e.target.value };
@@ -57,7 +52,7 @@ const Login = () => {
           <input
             id="email"
             type="email"
-            value={userinput.email}
+            value={userInput.email}
             onChange={(e) => {
               setUserInput((prev) => {
                 return { ...prev, email: e.target.value };
@@ -69,7 +64,7 @@ const Login = () => {
           <label htmlFor="password">PassWord</label>
           <input
             id="password"
-            value={userinput.password}
+            value={userInput.password}
             onChange={(e) => {
               setUserInput((prev) => {
                 return { ...prev, password: e.target.value };
@@ -77,17 +72,15 @@ const Login = () => {
             }}
             type="password"
           />
-          <button type="submit">{loading ? "loading" : "login"}</button>
+          <button type="submit">
+            {loading ? "loading" : "Create New User"}
+          </button>
         </form>
-        <Link to="/">
-          <p>Create New Account</p>
-        </Link>
+        <Link to="/login">Log in</Link>
       </div>
-
-      <button onClick={ResetPassword}>ResetPasssword</button>
       <ToastContainer />
     </>
   );
 };
 
-export default Login;
+export default Signup;

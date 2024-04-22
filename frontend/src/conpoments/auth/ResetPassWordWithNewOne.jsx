@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import useSetPassword from "../hooks/useSetPassword";
+import useSetPassword from "../../hooks/useSetPassword";
 import { useParams } from "react-router-dom";
 
 const ResetPassWordWithNewOne = () => {

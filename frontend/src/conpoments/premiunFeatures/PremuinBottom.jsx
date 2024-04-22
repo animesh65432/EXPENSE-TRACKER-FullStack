@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Leaderbord from "./Leaderbord";
-import useGetTheLeadeBord from "../hooks/useGetTheLeadeBord";
+import useGetTheLeadeBord from "../../hooks/useGetTheLeadeBord";
 
 const PremiunButton = () => {
   const [show, setshow] = useState(false);

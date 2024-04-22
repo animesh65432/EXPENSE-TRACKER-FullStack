@@ -1,11 +1,11 @@
 import React from "react";
-import Signup from "./conpoments/Singup";
-import Login from "./conpoments/Login";
+import Signup from "./conpoments/auth/Singup";
+import Login from "./conpoments/auth/Login";
 import { Route, Routes, useNavigate } from "react-router-dom";
-import ExpensesFrom from "./conpoments/ExpensesFrom";
+import ExpensesFrom from "./conpoments/expenses/ExpensesFrom";
 import { useSelector } from "react-redux";
-import ResetPassword from "./conpoments/ResetPassword";
-import ResetPassWordWithNewOne from "./conpoments/ResetPassWordWithNewOne";
+import ResetPassword from "./conpoments/auth/ResetPassword";
+import ResetPassWordWithNewOne from "./conpoments/auth/ResetPassWordWithNewOne";
 
 const MainPage = () => {
   const isUserLoggedIn = useSelector((state) => state.user.value);

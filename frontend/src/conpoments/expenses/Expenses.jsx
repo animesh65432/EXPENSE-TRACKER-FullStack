@@ -1,4 +1,4 @@
-import useGetExpense from "../hooks/useGetExpense";
+import useGetExpense from "../../hooks/useGetExpense";
 import ExpensesItem from "./ExpensesItem";
 import { useSelector } from "react-redux";
 
