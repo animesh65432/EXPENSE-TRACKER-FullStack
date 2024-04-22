@@ -15,4 +15,9 @@ router.delete(
   expenseController.DeletheExpesnes
 );
 
+router.post(
+  "/dowaloadtheexpenses",
+  auth.Authentication,
+  expenseController.DowanloadTheExpenses
+);
 module.exports = router;

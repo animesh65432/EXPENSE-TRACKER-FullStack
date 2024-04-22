@@ -10,4 +10,6 @@ module.exports = {
   key_secret: process.env.key_secrect,
   EmailForNodeMailer: process.env.email,
   pass: process.env.pass,
+  Access_key: process.env.Access_key,
+  Secret_access_key: process.env.Secret_access_key,
 };

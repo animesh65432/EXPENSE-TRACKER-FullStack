@@ -61,7 +61,6 @@ const forgotpassword = async (request, response) => {
 const updatePassword = async (request, response) => {
   try {
     const { newPassword, id } = request.body;
-
     const forgetRecord = await forgetpassword.findOne({ where: { id } });
 
     if (!forgetRecord || !forgetRecord.active) {

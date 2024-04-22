@@ -1,6 +1,6 @@
 const { StatusCodes } = require("http-status-codes");
 const { expensemodel } = require("../../model");
-const database = require("../../db");
+const { uploadAndShareFile } = require("../../services");
 
 const CreatetheExpenses = async (request, response) => {
   const t = await database.transaction();
@@ -113,8 +113,43 @@ const DeletheExpesnes = async (request, response) => {
   }
 };
 
+const DowanloadTheExpenses = async (request, response) => {
+  console.log("Okay");
+  try {
+    let user = request.user;
+
+    if (!user.ispremiumuser) {
+      return response
+        .status(StatusCodes.FORBIDDEN)
+        .json({ status: false, message: "User is not premiumuser" });
+    }
+
+    let expenseslist = await expensemodel.findAll({
+      where: {
+        userId: user.id,
+      },
+    });
+
+    let obj = JSON.stringify(expenseslist);
+    let url = await uploadAndShareFile(obj);
+
+    return response.status(StatusCodes.OK).json({
+      sucess: true,
+      dowanloadurl: url,
+    });
+  } catch (errors) {
+    console.log(errors);
+
+    return response.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      sucess: false,
+      message: "internal server errors",
+    });
+  }
+};
+
 module.exports = {
   CreatetheExpenses,
   GettheExpenses,
   DeletheExpesnes,
+  DowanloadTheExpenses,
 };
