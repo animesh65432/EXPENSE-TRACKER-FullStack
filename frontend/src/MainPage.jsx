@@ -6,6 +6,7 @@ import ExpensesFrom from "./conpoments/expenses/ExpensesFrom";
 import { useSelector } from "react-redux";
 import ResetPassword from "./conpoments/auth/ResetPassword";
 import ResetPassWordWithNewOne from "./conpoments/auth/ResetPassWordWithNewOne";
+import UserDeatils from "./conpoments/users/UserDeatils";
 
 const MainPage = () => {
   const isUserLoggedIn = useSelector((state) => state.user.value);
@@ -21,6 +22,7 @@ const MainPage = () => {
       {flagvalue ? (
         <Routes>
           <Route path="/" element={<ExpensesFrom />} />
+          <Route path="/UserDeatils" element={<UserDeatils />}></Route>
         </Routes>
       ) : (
         <Routes>
