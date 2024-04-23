@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import usedeleteExpense from "../../hooks/usedeleteExpense";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Updatexpense from "./Updatexpense";
 
 const ExpensesItem = ({ obj }) => {
   const [loading, deletethexpenses] = usedeleteExpense();
+  const [updateshow, setupdateshow] = useState(false);
 
   const Onclickdelete = (id) => {
     let result = deletethexpenses(id);
@@ -14,6 +16,10 @@ const ExpensesItem = ({ obj }) => {
     } else {
       toast.error("Please try again");
     }
+  };
+
+  const Ontoogle = () => {
+    setupdateshow((prev) => !prev);
   };
   return (
     <>
@@ -25,7 +31,9 @@ const ExpensesItem = ({ obj }) => {
           <button onClick={() => Onclickdelete(obj.id)}>
             {loading ? "laoding" : "Delete"}
           </button>
+          <button onClick={Ontoogle}>update</button>
         </div>
+        {updateshow && <Updatexpense obj={obj} />}
       </div>
       <ToastContainer />
     </>

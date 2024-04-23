@@ -40,7 +40,10 @@ const updatePayment = async (request, response) => {
   try {
     const { payment_id, order_id } = request.body;
 
-    const order = await payment.findOne({ where: { orderid: order_id } });
+    const order = await payment.findOne({
+      where: { orderid: order_id },
+      transaction: t,
+    });
 
     if (!order) {
       await t.rollback();

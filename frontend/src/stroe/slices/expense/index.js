@@ -17,9 +17,23 @@ const Expenses = createSlice({
     addexpensefromExpenseFrom: (state, action) => {
       state.values = state.values.concat(action.payload);
     },
+    updateexpense: (state, action) => {
+      const { id, ExpensesName, description, Category, Expenseamount } =
+        action.payload;
+
+      state.values = state.values.map((expense) =>
+        expense.id === id
+          ? { ...expense, ExpensesName, description, Category, Expenseamount }
+          : expense
+      );
+    },
   },
 });
 
-export const { Getexpenses, deleteexpenses, addexpensefromExpenseFrom } =
-  Expenses.actions;
+export const {
+  Getexpenses,
+  deleteexpenses,
+  addexpensefromExpenseFrom,
+  updateexpense,
+} = Expenses.actions;
 export default Expenses.reducer;

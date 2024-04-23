@@ -10,6 +10,7 @@ const {
   paymentrouter,
   paymentFeatures,
   resetpasswordrouter,
+  userdetailsrouter,
 } = require("./routers");
 
 app.use(express.urlencoded({ extended: true }));
@@ -21,6 +22,7 @@ app.use("/Expenses", expenserouter);
 app.use("/payment", paymentrouter);
 app.use("/paymentFeatures", paymentFeatures);
 app.use("/Resest", resetpasswordrouter);
+app.use("/userdeatils", userdetailsrouter);
 
 usermodel.hasMany(expensemodel);
 usermodel.hasMany(payment);

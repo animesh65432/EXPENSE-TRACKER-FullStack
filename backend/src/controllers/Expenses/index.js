@@ -113,8 +113,44 @@ const DeletheExpesnes = async (request, response) => {
   }
 };
 
+const UpdateExpense = async (request, response) => {
+  try {
+    const ExpenseId = request.params.ExpenseId;
+    const { ExpensesName, description, Category, Expenseamount } = request.body;
+    if (!ExpensesName || !description || !Category || !Expenseamount) {
+      return response
+        .status(StatusCodes.BAD_REQUEST)
+        .json({ message: "Please provide all necessary fields" });
+    }
+
+    let data = await expensemodel.update(
+      {
+        ExpensesName,
+        description,
+        Category,
+        Expenseamount,
+      },
+      {
+        where: {
+          id: ExpenseId,
+          userId: request.user.id,
+        },
+      }
+    );
+
+    return response.status(StatusCodes.OK).json({
+      sucess: true,
+      message: "sucessfully update it",
+    });
+  } catch (errors) {
+    return response.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      sucess: false,
+      message: "internal server errors",
+    });
+  }
+};
+
 const DowanloadTheExpenses = async (request, response) => {
-  console.log("Okay");
   try {
     let user = request.user;
 
@@ -152,4 +188,5 @@ module.exports = {
   GettheExpenses,
   DeletheExpesnes,
   DowanloadTheExpenses,
+  UpdateExpense,
 };

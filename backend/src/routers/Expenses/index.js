@@ -15,6 +15,12 @@ router.delete(
   expenseController.DeletheExpesnes
 );
 
+router.put(
+  "/update/:ExpenseId",
+  auth.Authentication,
+  expenseController.UpdateExpense
+);
+
 router.post(
   "/dowaloadtheexpenses",
   auth.Authentication,

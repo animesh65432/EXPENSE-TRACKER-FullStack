@@ -27,6 +27,12 @@ const ExpensesFrom = () => {
       !userinput.Expenseamount
     ) {
       toast.error("Please Fill up Each and Everything");
+      setuserinput({
+        ExpensesName: "",
+        description: "",
+        Category: "",
+        Expenseamount: 0,
+      });
     } else {
       let Sucessfully = createexpenses(userinput);
 
