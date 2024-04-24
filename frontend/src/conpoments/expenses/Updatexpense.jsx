@@ -1,21 +1,22 @@
 import React, { useState } from "react";
 import useupdateexpense from "../../hooks/useupdateexpense";
+import styles from "./Updatexpense.module.css";
 
 const Updatexpense = ({ obj }) => {
-  const [userinput, setuserinput] = useState({
+  const [userInput, setUserInput] = useState({
     ExpensesName: obj.ExpensesName,
     description: obj.description,
     Category: obj.Category,
     Expenseamount: obj.Expenseamount,
   });
 
-  const [loading, UpdateTheExpensefun] = useupdateexpense();
+  const [loading, updateTheExpensefun] = useupdateexpense();
 
-  const handlesubmit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      let res = await UpdateTheExpensefun({
-        ...userinput,
+      let res = await updateTheExpensefun({
+        ...userInput,
         id: obj.id,
       });
 
@@ -26,54 +27,57 @@ const Updatexpense = ({ obj }) => {
   };
 
   return (
-    <div>
-      <form onSubmit={handlesubmit}>
-        <label htmlFor="expensename">ExpenseName :</label>
+    <div className={styles.updateform}>
+      <form onSubmit={handleSubmit}>
+        <label htmlFor="expensename">Expense Name:</label>
         <input
           type="text"
           id="expensename"
-          value={userinput.ExpensesName}
+          value={userInput.ExpensesName}
           onChange={(e) =>
-            setuserinput((prev) => {
-              return { ...prev, ExpensesName: e.target.value };
-            })
+            setUserInput((prev) => ({
+              ...prev,
+              ExpensesName: e.target.value,
+            }))
           }
-        ></input>
-        <label htmlFor="description">DesCription :</label>
+        />
+        <label htmlFor="description">Description:</label>
         <input
           type="text"
           id="description"
-          value={userinput.description}
+          value={userInput.description}
           onChange={(e) =>
-            setuserinput((prev) => {
-              return { ...prev, Decription: e.target.value };
-            })
+            setUserInput((prev) => ({
+              ...prev,
+              description: e.target.value,
+            }))
           }
-        ></input>
-        <label htmlFor="category">CateGory :</label>
+        />
+        <label htmlFor="category">Category:</label>
         <input
           type="text"
           id="category"
-          value={userinput.Category}
+          value={userInput.Category}
           onChange={(e) =>
-            setuserinput((prev) => {
-              return { ...prev, Category: e.target.value };
-            })
+            setUserInput((prev) => ({
+              ...prev,
+              Category: e.target.value,
+            }))
           }
-        ></input>
-        <label htmlFor="amount">Amount :</label>
+        />
+        <label htmlFor="amount">Amount:</label>
         <input
           type="text"
           id="amount"
-          value={userinput.Expenseamount}
+          value={userInput.Expenseamount}
           onChange={(e) =>
-            setuserinput((prev) => {
-              return { ...prev, Expenseamount: e.target.value };
-            })
+            setUserInput((prev) => ({
+              ...prev,
+              Expenseamount: e.target.value,
+            }))
           }
-        ></input>
-
-        <button type="submit">{loading ? "loading" : "Update"}</button>
+        />
+        <button type="submit">{loading ? "Loading" : "Update"}</button>
       </form>
     </div>
   );

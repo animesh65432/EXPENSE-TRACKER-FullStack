@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import useSetPassword from "../../hooks/useSetPassword";
 import { useParams } from "react-router-dom";
+import styles from "./ResetpasswordWithNewOne.module.css";
 
 const ResetPassWordWithNewOne = () => {
   const [userInput, setUserInput] = useState({
@@ -32,32 +33,47 @@ const ResetPassWordWithNewOne = () => {
 
   return (
     <>
-      <form onSubmit={Onsubmithandler}>
-        <label htmlFor="NewPassWord">NewPassWord</label>
-        <input
-          id="NewPassWord"
-          placeholder="Please Write New Password here"
-          onChange={(e) =>
-            setUserInput((prev) => {
-              return { ...prev, newPassword: e.target.value };
-            })
-          }
-        ></input>
-
-        <label htmlFor="ConfirmPassWrod">
+      <div className={styles.container}>
+        <form onSubmit={Onsubmithandler}>
+          <label htmlFor="NewPassword" className={styles.label}>
+            New Password
+          </label>
           <input
-            id="ConfirmPassWrod"
-            placeholder="ConfirmPassWord"
-            onChange={(e) => {
-              setUserInput((prev) => {
-                return { ...prev, confirmPassword: e.target.value };
-              });
-            }}
-          ></input>
-        </label>
+            id="NewPassword"
+            type="password"
+            className={styles.input}
+            placeholder="Please write new password here"
+            value={userInput.newPassword}
+            onChange={(e) =>
+              setUserInput((prev) => ({
+                ...prev,
+                newPassword: e.target.value,
+              }))
+            }
+          />
 
-        <button type="submit">Reset</button>
-      </form>
+          <label htmlFor="ConfirmPassword" className={styles.label}>
+            Confirm Password
+          </label>
+          <input
+            id="ConfirmPassword"
+            type="password"
+            className={styles.input}
+            placeholder="Confirm password"
+            value={userInput.confirmPassword}
+            onChange={(e) =>
+              setUserInput((prev) => ({
+                ...prev,
+                confirmPassword: e.target.value,
+              }))
+            }
+          />
+
+          <button type="submit" className={styles.button}>
+            Reset
+          </button>
+        </form>
+      </div>
     </>
   );
 };

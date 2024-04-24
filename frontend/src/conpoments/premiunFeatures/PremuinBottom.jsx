@@ -1,19 +1,18 @@
-import React, { useState } from "react";
-import Leaderbord from "./Leaderbord";
-import useGetTheLeadeBord from "../../hooks/useGetTheLeadeBord";
+import { Link, useNavigate } from "react-router-dom";
+import styles from "./PremiunButton.module.css";
 
 const PremiunButton = () => {
-  const [show, setshow] = useState(false);
-  const [leaderboard, fecthingthedata] = useGetTheLeadeBord();
-  const OnClick = () => {
-    setshow((prev) => !prev);
-    fecthingthedata();
+  const navigate = useNavigate();
+
+  const GotoLeaderBorads = () => {
+    navigate("/leaderborads");
   };
   return (
-    <>
-      <button onClick={OnClick}>Show The LeaderBoards</button>
-      {show && <Leaderbord leaderboard={leaderboard} />}
-    </>
+    <div className={styles.container}>
+      <button className={styles.button} onClick={GotoLeaderBorads}>
+        Show The Leaderboards
+      </button>
+    </div>
   );
 };
 

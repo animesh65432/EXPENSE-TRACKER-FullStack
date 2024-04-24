@@ -1,0 +1,55 @@
+/* expense.module.css */
+
+.expensescontainer {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.expensesitem {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.loadingmessage,
+.noexpensesmessage {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 18px;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.pagination span {
+  margin: 0 10px;
+  cursor: pointer;
+  color: #007bff;
+  font-weight: bold;
+}
+
+.pagination span:hover {
+  color: #0056b3;
+}
+
+.pagination span.disabled {
+  color: #6c757d;
+  cursor: not-allowed;
+}
+
+@media (max-width: 600px) {
+  .expensescontainer {
+    padding: 10px;
+  }
+
+  .loadingmessage,
+  .noexpensesmessage {
+    font-size: 16px;
+  }
+}

@@ -3,6 +3,7 @@ import usesingup from "../../hooks/usesingup.js";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Link } from "react-router-dom";
+import classes from "./singn.module.css";
 
 const Signup = () => {
   const [userInput, setUserInput] = useState({
@@ -33,8 +34,8 @@ const Signup = () => {
 
   return (
     <>
-      <div className="signup-container">
-        <form onSubmit={handleSubmithandler}>
+      <div className={classes.container}>
+        <form onSubmit={handleSubmithandler} className={classes.formGroup}>
           <label htmlFor="username">Name</label>
           <input
             id="username"
@@ -72,11 +73,13 @@ const Signup = () => {
             }}
             type="password"
           />
-          <button type="submit">
+          <button type="submit" className={classes.button}>
             {loading ? "loading" : "Create New User"}
           </button>
         </form>
-        <Link to="/login">Log in</Link>
+        <div className={classes.footer}>
+          <Link to="/login">Log in</Link>
+        </div>
       </div>
       <ToastContainer />
     </>

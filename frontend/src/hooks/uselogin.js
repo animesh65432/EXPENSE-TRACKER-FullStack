@@ -3,10 +3,12 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { addthetokens, makePremuinm } from "../stroe/slices";
 import { parseJwt } from "../utils";
+import { useNavigate } from "react-router-dom";
 const uselogin = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const logintheuser = async (obj) => {
     setLoading(true);
@@ -18,12 +20,13 @@ const uselogin = () => {
       );
 
       console.log(response);
+      console.log(response?.data);
       let token = response?.data?.idtoken;
       dispatch(addthetokens(token));
       console.log(parseJwt(token));
       let result = parseJwt(token).ispremiumuser;
       dispatch(makePremuinm(result));
-
+      navigate("/");
       return true;
     } catch (error) {
       console.log(error);

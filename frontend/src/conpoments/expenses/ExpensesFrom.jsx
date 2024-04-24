@@ -1,105 +1,98 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import useCreateExpense from "../../hooks/useCreateExpense";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Expenses from "./Expenses";
-import RazorpayPayment from "../payment/RazorPay";
-import { useSelector } from "react-redux";
-import PremiunButton from "../premiunFeatures/PremuinBottom";
+import styles from "./expenseFrom.module.css";
 
 const ExpensesFrom = () => {
-  const [userinput, setuserinput] = useState({
+  const [userInput, setUserInput] = useState({
     ExpensesName: "",
     description: "",
     Category: "",
     Expenseamount: 0,
   });
   const { createexpenses, loading, error } = useCreateExpense();
-  const ispremuinuser = useSelector((state) => state.user.ispremuinm);
-  console.log(ispremuinuser);
 
-  const handlesumbithandler = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    if (
-      userinput.ExpensesName == "" ||
-      userinput.description == "" ||
-      userinput.Category == "" ||
-      !userinput.Expenseamount
-    ) {
-      toast.error("Please Fill up Each and Everything");
-      setuserinput({
+    const { ExpensesName, description, Category, Expenseamount } = userInput;
+
+    if (!ExpensesName || !description || !Category || !Expenseamount) {
+      toast.error("Please fill out all fields");
+      setUserInput({
         ExpensesName: "",
         description: "",
         Category: "",
         Expenseamount: 0,
       });
     } else {
-      let Sucessfully = createexpenses(userinput);
-
-      if (Sucessfully) {
-        toast.success("SucessFully Created Expesnes");
+      const success = createexpenses(userInput);
+      if (success) {
+        toast.success("Successfully created expenses");
       } else {
         toast.error(error);
       }
     }
   };
+
   return (
     <>
-      <div>
-        {ispremuinuser && (
-          <div className="premium-user">You Are Premiun-User</div>
-        )}
-        <div className="form-container">
-          <form onSubmit={handlesumbithandler}>
-            <label htmlFor="expensename">Expenses Name :</label>
-            <input
-              type="text"
-              id="expensename"
-              onChange={(e) => {
-                setuserinput((prev) => {
-                  return { ...prev, ExpensesName: e.target.value };
-                });
-              }}
-            ></input>
-            <label htmlFor="description">DesCription :</label>
-            <input
-              type="text"
-              id="description"
-              onChange={(e) => {
-                setuserinput((prev) => {
-                  return { ...prev, description: e.target.value };
-                });
-              }}
-            ></input>
-            <label htmlFor="money">ExpensePrice:</label>
-            <input
-              type="number"
-              id="money"
-              onChange={(e) => {
-                setuserinput((prev) => {
-                  return { ...prev, Expenseamount: e.target.value };
-                });
-              }}
-            ></input>
-            <label htmlFor=" Category">Category:</label>
-            <input
-              type="text"
-              id="Category"
-              onChange={(e) => {
-                setuserinput((prev) => {
-                  return { ...prev, Category: e.target.value };
-                });
-              }}
-            ></input>
-            <button>{loading ? "loading" : "Create Expenses"}</button>
-          </form>
-          <RazorpayPayment />
-        </div>
-        <Expenses />
-        <ToastContainer />
+      <div className={styles["form-container"]}>
+        <form onSubmit={handleSubmit}>
+          <label htmlFor="expensename">Expenses Name:</label>
+          <input
+            type="text"
+            id="expensename"
+            value={userInput.ExpensesName}
+            onChange={(e) =>
+              setUserInput((prev) => ({
+                ...prev,
+                ExpensesName: e.target.value,
+              }))
+            }
+          />
+          <label htmlFor="description">Description:</label>
+          <input
+            type="text"
+            id="description"
+            value={userInput.description}
+            onChange={(e) =>
+              setUserInput((prev) => ({
+                ...prev,
+                description: e.target.value,
+              }))
+            }
+          />
+          <label htmlFor="money">Expense Price:</label>
+          <input
+            type="number"
+            id="money"
+            value={userInput.Expenseamount}
+            onChange={(e) =>
+              setUserInput((prev) => ({
+                ...prev,
+                Expenseamount: e.target.value,
+              }))
+            }
+          />
+          <label htmlFor="category">Category:</label>
+          <input
+            type="text"
+            id="category"
+            value={userInput.Category}
+            onChange={(e) =>
+              setUserInput((prev) => ({
+                ...prev,
+                Category: e.target.value,
+              }))
+            }
+          />
+          <button>{loading ? "Loading" : "Create Expenses"}</button>
+        </form>
       </div>
-
-      {ispremuinuser && <PremiunButton />}
+      <Expenses />
+      <ToastContainer />
     </>
   );
 };

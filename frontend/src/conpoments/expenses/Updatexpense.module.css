@@ -1,0 +1,41 @@
+.updateform {
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.updateform label {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.updateform input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.updateform button {
+  width: 100%;
+  padding: 10px;
+  background-color: #000000;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.updateform button:hover {
+  background-color: #0056b3;
+}
+
+@media (min-width: 768px) {
+  .updateform {
+    max-width: 400px;
+    margin: 0 auto;
+  }
+}

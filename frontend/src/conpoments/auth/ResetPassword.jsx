@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import useResetPassword from "../../hooks/useResetPassword";
+import styles from "./Restpassword.module.css";
 
 const ResetPassword = () => {
   const [Email, SetEmail] = useState("");
@@ -23,17 +24,22 @@ const ResetPassword = () => {
   };
 
   return (
-    <>
+    <div className={styles.container}>
       <form onSubmit={Onsubmithandler}>
-        <label htmlFor="Email">Email</label>
+        <label htmlFor="email" className={styles.label}>
+          Email
+        </label>
         <input
-          id="Email"
-          onChange={(e) => SetEmail(e.target.value)}
+          id="email"
           type="email"
-        ></input>
-        <button>Send</button>
+          className={styles.input}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <button type="submit" className={styles.button}>
+          Send
+        </button>
       </form>
-    </>
+    </div>
   );
 };
 

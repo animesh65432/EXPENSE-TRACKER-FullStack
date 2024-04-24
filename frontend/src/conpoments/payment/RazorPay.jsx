@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { makePremuinm } from "../../stroe/slices";
+import styles from "./payment.module.css";
 
 const RazorpayPayment = () => {
   const idtoken = useSelector((state) => state.user.value);
@@ -59,8 +60,10 @@ const RazorpayPayment = () => {
   };
 
   return (
-    <div>
-      <button onClick={createRazorpayOrder}>Pay with Razorpay</button>
+    <div className={styles.container}>
+      <button className={styles.button} onClick={createRazorpayOrder}>
+        Become Premuin
+      </button>
     </div>
   );
 };
