@@ -2,17 +2,23 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styles from "./header.module.css";
 import { Logo } from "../assets/image";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import PremuinBottom from "./premiunFeatures/PremuinBottom";
 import RazorPay from "../conpoments/payment/RazorPay";
 import useGetthefile from "../hooks/useGetthefile";
+import { deletethetokens } from "../stroe/slices/index";
 
 const Header = () => {
   const isPremiumUser = useSelector((state) => state.user.ispremuinm);
+  const distpatch = useDispatch();
   const [Fechdata] = useGetthefile();
 
   const Gethefile = () => {
     Fechdata();
+  };
+
+  const Onclicklogoust = () => {
+    distpatch(deletethetokens());
   };
   return (
     <header className={styles.header}>
@@ -39,6 +45,13 @@ const Header = () => {
           </div>
         </nav>
       )}
+      <nav className={styles.navbar}>
+        <div className={styles.container}>
+          <button className={styles.button} onClick={Onclicklogoust}>
+            Log out
+          </button>
+        </div>
+      </nav>
     </header>
   );
 };
