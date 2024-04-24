@@ -33,6 +33,8 @@ const Expenses = () => {
     }
   };
 
+  console.log(expenses);
+
   return (
     <div className={styles.expensescontainer}>
       {expenses.slice(page, page + 1).map((obj) => (

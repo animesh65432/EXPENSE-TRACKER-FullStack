@@ -10,9 +10,10 @@ const ExpensesItem = ({ obj }) => {
   const [updateshow, setUpdateshow] = useState(false);
 
   const onClickDelete = (id) => {
+    console.log(id);
     let result = deletethexpenses(id);
 
-    if (result) {
+    if (!result) {
       toast.success("Successfully deleted");
     } else {
       toast.error("Please try again");

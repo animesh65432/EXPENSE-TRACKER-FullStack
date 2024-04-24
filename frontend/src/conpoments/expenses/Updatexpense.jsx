@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import useupdateexpense from "../../hooks/useupdateexpense";
 import styles from "./Updatexpense.module.css";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Updatexpense = ({ obj }) => {
   const [userInput, setUserInput] = useState({
@@ -14,15 +16,27 @@ const Updatexpense = ({ obj }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      let res = await updateTheExpensefun({
-        ...userInput,
-        id: obj.id,
-      });
 
-      console.log(res);
-    } catch (error) {
-      console.log(error);
+    if (
+      userInput.ExpensesName.length == "" ||
+      userInput.description == "" ||
+      userInput.Category == "" ||
+      userInput.Expenseamount == ""
+    ) {
+      toast.error("Please Fill each and every thing");
+
+      return;
+    } else {
+      try {
+        let res = await updateTheExpensefun({
+          ...userInput,
+          id: obj.id,
+        });
+
+        toast.success("Sucessfully update it");
+      } catch (error) {
+        toast.error("please try again");
+      }
     }
   };
 
@@ -79,6 +93,7 @@ const Updatexpense = ({ obj }) => {
         />
         <button type="submit">{loading ? "Loading" : "Update"}</button>
       </form>
+      <ToastContainer />
     </div>
   );
 };

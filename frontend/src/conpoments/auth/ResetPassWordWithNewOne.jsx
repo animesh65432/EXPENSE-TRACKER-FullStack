@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import useSetPassword from "../../hooks/useSetPassword";
 import { useParams } from "react-router-dom";
 import styles from "./ResetpasswordWithNewOne.module.css";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ResetPassWordWithNewOne = () => {
   const [userInput, setUserInput] = useState({
@@ -25,9 +27,9 @@ const ResetPassWordWithNewOne = () => {
     );
 
     if (res) {
-      console.log("Sucessfully changed ");
+      toast.success("Sucessfully changed ");
     } else {
-      console.log("Something went wrong");
+      toast.error("Something went wrong");
     }
   };
 
@@ -74,6 +76,7 @@ const ResetPassWordWithNewOne = () => {
           </button>
         </form>
       </div>
+      <ToastContainer />
     </>
   );
 };

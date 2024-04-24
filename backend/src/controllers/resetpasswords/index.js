@@ -5,6 +5,7 @@ const { usermodel, forgetpassword } = require("../../model");
 const { StatusCodes } = require("http-status-codes");
 const bcrypt = require("bcrypt");
 const forgotpassword = async (request, response) => {
+  console.log(EmailForNodeMailer, pass);
   try {
     const { email } = request.body;
     console.log(email);
@@ -51,6 +52,7 @@ const forgotpassword = async (request, response) => {
       data: "Reset password email sent successfully",
     });
   } catch (error) {
+    console.log(error);
     return response.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
       success: false,
       data: "Failed to send reset password email",

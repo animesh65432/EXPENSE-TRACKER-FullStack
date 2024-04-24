@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import useResetPassword from "../../hooks/useResetPassword";
 import styles from "./Restpassword.module.css";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ResetPassword = () => {
   const [Email, SetEmail] = useState("");
   const [SentTheEmail] = useResetPassword();
   const Onsubmithandler = (e) => {
     e.preventDefault();
+    console.log(Email);
 
     if (Email.length == 0) {
       return;
@@ -16,9 +19,9 @@ const ResetPassword = () => {
       });
 
       if (result) {
-        console.log("Please Check Your Email");
+        toast.success("Please Check Your Email");
       } else {
-        console.log("Something Went Wrong");
+        toast.error("Something Went Wrong");
       }
     }
   };
@@ -33,12 +36,14 @@ const ResetPassword = () => {
           id="email"
           type="email"
           className={styles.input}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e) => SetEmail(e.target.value)}
+          value={Email}
         />
         <button type="submit" className={styles.button}>
           Send
         </button>
       </form>
+      <ToastContainer />
     </div>
   );
 };
