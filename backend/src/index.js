@@ -52,7 +52,7 @@ forgetpassword.belongsTo(usermodel);
 database
   .sync()
   .then(() => {
-    app.listen(cofig.port || 4000, () => {
+    app.listen(cofig.port || 3000, () => {
       console.log(`you server you port at ${process.env.PORT}`);
     });
   })
