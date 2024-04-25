@@ -15,6 +15,7 @@ let obj = {
   Access_key: process.env.Access_key,
   Secret_access_key: process.env.Secret_access_key,
   Node_env: process.env.Node_env,
+  hostname: process.env.hostname,
 };
 console.log(obj);
 module.exports = obj;
