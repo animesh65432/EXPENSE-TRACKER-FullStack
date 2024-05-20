@@ -17,6 +17,7 @@ const useGetExpense = () => {
         },
       });
       let expenseslist = response.data?.data;
+      console.log(response?.data);
       dispatch(Getexpenses(expenseslist));
     } catch (error) {
       console.log(error);

@@ -11,11 +11,15 @@ const usedeleteExpense = () => {
   const deletethexpenses = async (id) => {
     setLoading(true);
     try {
-      await axios.delete(`http://localhost:3000/Expenses/delete/${id}`, {
-        headers: {
-          idtoken: idtoken,
-        },
-      });
+      let response = await axios.delete(
+        `http://localhost:3000/Expenses/delete/${id}`,
+        {
+          headers: {
+            idtoken: idtoken,
+          },
+        }
+      );
+      console.log(response);
       dispatch(deleteexpenses(id));
       return true;
     } catch (error) {

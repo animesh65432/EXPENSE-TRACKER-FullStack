@@ -17,9 +17,7 @@ const Authentication = async (req, res, next) => {
     let verify = jwt.verify(Authenticationtoken, SecrectPassword);
     const { email } = verify;
     const user = await usermodel.findOne({
-      where: {
-        email: email,
-      },
+      email: email,
     });
 
     if (!user)

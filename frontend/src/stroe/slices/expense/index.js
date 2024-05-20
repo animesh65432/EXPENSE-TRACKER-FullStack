@@ -11,7 +11,8 @@ const Expenses = createSlice({
     },
     deleteexpenses: (state, action) => {
       const id = action.payload;
-      const WithOutDeleteExpenses = state.values.filter((obj) => obj.id !== id);
+      const WithOutDeleteExpenses = state.values.filter((obj) => obj._id != id);
+      console.log(WithOutDeleteExpenses);
       state.values = WithOutDeleteExpenses;
     },
     addexpensefromExpenseFrom: (state, action) => {

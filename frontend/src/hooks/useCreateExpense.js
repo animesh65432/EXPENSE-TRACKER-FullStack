@@ -23,7 +23,9 @@ const useCreateExpense = () => {
         }
       );
       console.log(response);
-      dispatch(addexpensefromExpenseFrom(obj));
+      dispatch(
+        addexpensefromExpenseFrom({ ...obj, _id: response?.data?.data?._id })
+      );
       return true;
     } catch (error) {
       console.log(error);

@@ -1,18 +1,15 @@
 const uuid = require("uuid");
 const nodemailer = require("nodemailer");
 const { pass, EmailForNodeMailer } = require("../../config");
-const { usermodel, forgetpassword } = require("../../model");
+const { usermodel, forgetpasswordmodel } = require("../../model");
 const { StatusCodes } = require("http-status-codes");
 const bcrypt = require("bcrypt");
 const forgotpassword = async (request, response) => {
-  console.log(EmailForNodeMailer, pass);
   try {
     const { email } = request.body;
     console.log(email);
     const User = await usermodel.findOne({
-      where: {
-        email: email,
-      },
+      email: email,
     });
 
     if (!User)
@@ -21,12 +18,8 @@ const forgotpassword = async (request, response) => {
         data: "user does not exsit",
       });
 
-    let id = uuid.v4();
-
-    let forgetpasswordrecord = await forgetpassword.create({
-      id: id,
+    let forgetpasswordrecord = await forgetpasswordmodel.create({
       active: true,
-      userId: User.id,
     });
 
     var transporter = nodemailer.createTransport({
@@ -42,7 +35,7 @@ const forgotpassword = async (request, response) => {
       to: email,
       subject: "Sending Email using Node.js",
       text: "Click here For Set The New Password",
-      html: `<a href='http://localhost:5173/resetpassword/${id}'>Click here for Reset Password</a>`,
+      html: `<a href='http://localhost:5173/resetpassword/${forgetpasswordrecord._id}'>Click here for Reset Password</a>`,
     };
 
     let senddata = await transporter.sendMail(mailOptions);
@@ -63,7 +56,7 @@ const forgotpassword = async (request, response) => {
 const updatePassword = async (request, response) => {
   try {
     const { newPassword, id } = request.body;
-    const forgetRecord = await forgetpassword.findOne({ where: { id } });
+    const forgetRecord = await forgetpasswordmodel.findById(id);
 
     if (!forgetRecord || !forgetRecord.active) {
       return response.status(StatusCodes.NOT_FOUND).json({
@@ -72,13 +65,13 @@ const updatePassword = async (request, response) => {
       });
     }
 
-    const user = await usermodel.findByPk(forgetRecord.userId);
+    const user = await usermodel.findById(forgetRecord.user._id);
 
     const hashedPassword = await bcrypt.hash(newPassword, 10);
 
-    await user.update({ password: hashedPassword });
+    await user.updateOne({ password: hashedPassword });
 
-    await forgetRecord.update({ active: false });
+    await forgetRecord.updateOne({ active: false });
 
     return response.status(StatusCodes.OK).json({
       success: true,

@@ -12,7 +12,7 @@ const useupdateexpense = () => {
     setLoading(true);
     try {
       let response = await axios.put(
-        `http://localhost:3000/Expenses/update/${obj.id}`,
+        `http://localhost:3000/Expenses/update/${obj._id}`,
         obj,
         {
           headers: {

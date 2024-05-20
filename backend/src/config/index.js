@@ -1,8 +1,5 @@
 const dotenv = require("dotenv");
 dotenv.config();
-
-console.log(process.env);
-
 let obj = {
   port: process.env.PORT,
   databasename: process.env.databasename,
@@ -17,5 +14,5 @@ let obj = {
   Node_env: process.env.Node_env,
   hostname: process.env.hostname,
 };
-console.log(obj);
+
 module.exports = obj;

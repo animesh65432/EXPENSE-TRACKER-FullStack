@@ -1,9 +1,8 @@
 const { StatusCodes } = require("http-status-codes");
-const { expensemodel } = require("../../model");
+const { expensemodel, usermodel } = require("../../model");
 const { uploadAndShareFile } = require("../../services");
-const database = require("../../db");
+
 const CreatetheExpenses = async (request, response) => {
-  const t = await database.transaction();
   try {
     const { ExpensesName, description, Category, Expenseamount } = request.body;
     const totalexpenses =
@@ -15,33 +14,22 @@ const CreatetheExpenses = async (request, response) => {
         .json({ message: "Please provide all necessary fields" });
     }
 
-    const expense = await expensemodel.create(
-      {
-        ExpensesName,
-        description,
-        Category,
-        Expenseamount,
-        userId: request.user.id,
-      },
-      { transaction: t }
-    );
+    const expense = await expensemodel.create({
+      ExpensesName,
+      description,
+      Category,
+      Expenseamount,
+      user: request.user,
+    });
 
-    await request.user.update(
-      {
-        totalexpenses,
-      },
-      {
-        transaction: t,
-      }
-    );
-
-    await t.commit();
+    await request.user.updateOne({
+      totalexpenses: totalexpenses,
+    });
 
     return response
       .status(StatusCodes.CREATED)
-      .json({ message: "Successfully created expense" });
+      .json({ message: "Successfully created expense", data: expense });
   } catch (error) {
-    await t.rollback();
     console.error("Create expense error:", error);
     return response.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
       message: "Internal Server Error",
@@ -51,11 +39,10 @@ const CreatetheExpenses = async (request, response) => {
 
 const GettheExpenses = async (request, response) => {
   try {
-    const AlltheExpenses = await expensemodel.findAll({
-      where: {
-        userId: request.user.id,
-      },
+    const AlltheExpenses = await expensemodel.find({
+      user: request.user._id,
     });
+    console.log(AlltheExpenses);
     return response.status(StatusCodes.OK).json({ data: AlltheExpenses });
   } catch (error) {
     console.error("Get expenses error:", error);
@@ -66,46 +53,34 @@ const GettheExpenses = async (request, response) => {
 };
 
 const DeletheExpesnes = async (request, response) => {
-  const t = await database.transaction();
+  const ExpenseId = request.params.ExpenseId;
   try {
-    const ExpenseId = request.params.ExpenseId;
+    let expenseitem = await expensemodel.findOne({
+      _id: ExpenseId,
+      user: request.user._id,
+    });
 
-    let expenseitem = await expensemodel.findOne(
-      {
-        where: {
-          id: ExpenseId,
-          userId: request.user.id,
-        },
-      },
-      {
-        transaction: t,
-      }
-    );
-
-    console.log(expenseitem.Expenseamount);
+    if (!expenseitem) {
+      return response.status(StatusCodes.BAD_REQUEST).json({
+        sucess: false,
+        data: "expense items did not find",
+      });
+    }
 
     let totalexpenses =
       Number(request.user.totalexpenses) - Number(expenseitem.Expenseamount);
 
-    let Promiseone = expenseitem.destroy({
-      transaction: t,
+    let Promiseone = expensemodel.findByIdAndDelete(ExpenseId);
+    let PromiseTwo = request.user.updateOne({
+      totalexpenses: totalexpenses,
     });
-    let PromiseTwo = request.user.update(
-      {
-        totalexpenses: totalexpenses,
-      },
-      {
-        transaction: t,
-      }
-    );
 
     await Promise.all([Promiseone, PromiseTwo]);
-    await t.commit();
+
     return response
       .status(StatusCodes.OK)
       .json({ message: "Successfully deleted expense" });
   } catch (error) {
-    await t.rollback();
     console.error("Delete expense error:", error);
     return response.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
       message: "Internal server errors",
@@ -117,35 +92,49 @@ const UpdateExpense = async (request, response) => {
   try {
     const ExpenseId = request.params.ExpenseId;
     const { ExpensesName, description, Category, Expenseamount } = request.body;
+
     if (!ExpensesName || !description || !Category || !Expenseamount) {
       return response
         .status(StatusCodes.BAD_REQUEST)
         .json({ message: "Please provide all necessary fields" });
     }
 
-    let data = await expensemodel.update(
-      {
-        ExpensesName,
-        description,
-        Category,
-        Expenseamount,
-      },
-      {
-        where: {
-          id: ExpenseId,
-          userId: request.user.id,
-        },
-      }
-    );
+    let expenseitem = await expensemodel.findOne({
+      _id: ExpenseId,
+      user: request.user._id,
+    });
+
+    if (!expenseitem) {
+      return response.status(StatusCodes.NOT_FOUND).json({
+        message: "Expense item not found",
+      });
+    }
+
+    const oldExpenseAmount = expenseitem.Expenseamount;
+    const newExpenseAmount = Number(Expenseamount);
+    const totalexpenses =
+      Number(request.user.totalexpenses) - oldExpenseAmount + newExpenseAmount;
+
+    await expensemodel.findByIdAndUpdate(ExpenseId, {
+      ExpensesName,
+      description,
+      Category,
+      Expenseamount: newExpenseAmount,
+    });
+
+    await request.user.updateOne({
+      totalexpenses: totalexpenses,
+    });
 
     return response.status(StatusCodes.OK).json({
-      sucess: true,
-      message: "sucessfully update it",
+      success: true,
+      message: "Successfully updated expense",
     });
-  } catch (errors) {
+  } catch (error) {
+    console.error("Update expense error:", error);
     return response.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-      sucess: false,
-      message: "internal server errors",
+      success: false,
+      message: "Internal server error",
     });
   }
 };
@@ -160,10 +149,8 @@ const DowanloadTheExpenses = async (request, response) => {
         .json({ status: false, message: "User is not premiumuser" });
     }
 
-    let expenseslist = await expensemodel.findAll({
-      where: {
-        userId: user.id,
-      },
+    let expenseslist = await expensemodel.find({
+      user: user._id,
     });
 
     let obj = JSON.stringify(expenseslist);

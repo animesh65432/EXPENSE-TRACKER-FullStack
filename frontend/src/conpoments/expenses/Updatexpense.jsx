@@ -30,7 +30,7 @@ const Updatexpense = ({ obj }) => {
       try {
         let res = await updateTheExpensefun({
           ...userInput,
-          id: obj.id,
+          _id: obj._id,
         });
 
         toast.success("Sucessfully update it");

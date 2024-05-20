@@ -9,12 +9,11 @@ const ExpensesItem = ({ obj }) => {
   const [loading, deletethexpenses] = usedeleteExpense();
   const [updateshow, setUpdateshow] = useState(false);
 
-  const onClickDelete = (id) => {
-    console.log(id);
-    let result = deletethexpenses(id);
-
-    if (!result) {
-      toast.success("Successfully deleted");
+  const onClickDelete = async (id) => {
+    let result = await deletethexpenses(id);
+    console.log(result);
+    if (result) {
+      toast.success("Sucessfully delete it");
     } else {
       toast.error("Please try again");
     }
@@ -31,7 +30,7 @@ const ExpensesItem = ({ obj }) => {
           <h3>Expenses Name: {obj.ExpensesName}</h3>
           <p>Description: {obj.description}</p>
           <p>Category: {obj.Category}</p>
-          <button onClick={() => onClickDelete(obj.id)}>
+          <button onClick={() => onClickDelete(obj._id)}>
             {loading ? "Loading" : "Delete"}
           </button>
           <button onClick={onToggle}>Update</button>

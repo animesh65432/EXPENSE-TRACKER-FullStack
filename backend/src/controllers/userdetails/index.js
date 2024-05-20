@@ -4,17 +4,15 @@ const database = require("../../db");
 
 const GettheUser = async (request, response) => {
   try {
-    const id = request.user.id;
+    const _id = request.user._id;
 
-    const user = await usermodel.findAll({
-      where: {
-        id: id,
-      },
+    const user = await usermodel.findOne({
+      _id: _id,
     });
 
     return response.status(StatusCodes.OK).json({
       success: true,
-      data: user,
+      data: [user],
     });
   } catch (errors) {
     return response.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
@@ -25,42 +23,24 @@ const GettheUser = async (request, response) => {
 };
 
 const UpdateUser = async (request, response) => {
-  const t = await database.transaction();
-
   try {
-    const id = request.user.id;
+    const id = request.user._id;
     const { name, email } = request.body;
 
-    let updateuser = usermodel.update(
-      {
-        name: name,
-        email: email,
-      },
-      {
-        where: {
-          id: id,
-        },
-        transaction: t,
-      }
-    );
-
-    let user = usermodel.findAll({
-      where: {
-        id: id,
-      },
-      transaction: t,
+    let updateuser = usermodel.findByIdAndUpdate(id, {
+      name: name,
+      email: email,
     });
 
-    await Promise.all([updateuser, user]);
+    let user = usermodel.findById(id);
 
-    await t.commit();
+    await Promise.all([updateuser, user]);
 
     return response.status(StatusCodes.OK).json({
       success: true,
       data: user,
     });
   } catch (error) {
-    await t.rollback();
     console.error("Error updating user:", error);
     return response.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
       success: false,

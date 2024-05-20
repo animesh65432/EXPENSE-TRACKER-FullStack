@@ -14,9 +14,7 @@ const signuptheusercontroller = async (request, response) => {
 
   try {
     let existingUser = await usermodel.findOne({
-      where: {
-        email: email,
-      },
+      email: email,
     });
 
     if (existingUser) {
@@ -27,11 +25,13 @@ const signuptheusercontroller = async (request, response) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    let newuser = await usermodel.create({
+    let newuser = new usermodel({
       name: name,
       email: email,
       password: hashedPassword,
     });
+
+    await newuser.save();
 
     let token = auth.CreateTheJwTokens({
       email: email,
@@ -55,9 +55,7 @@ const logintheuser = async (request, response) => {
 
   try {
     const user = await usermodel.findOne({
-      where: {
-        email: email,
-      },
+      email: email,
     });
 
     if (!user) {
