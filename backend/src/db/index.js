@@ -9,15 +9,15 @@
 // });
 
 const mongoose = require("mongoose");
+const config = require("../config");
 
 async function connectodatabase() {
   try {
-    let response = await mongoose.connect(
-      "mongodb://127.0.0.1:27017/ExpenseTracker"
-    );
-
+    let response = await mongoose.connect(config.dburl);
+    console.log("Sucessfully connected to the database");
     return response;
   } catch (error) {
+    console.log(error, "did not connect to database");
     return error;
   }
 }

@@ -5,6 +5,7 @@ const { uploadAndShareFile } = require("../../services");
 const CreatetheExpenses = async (request, response) => {
   try {
     const { ExpensesName, description, Category, Expenseamount } = request.body;
+    console.log(Expenseamount, description, Category, Expenseamount);
     const totalexpenses =
       Number(request.user.totalexpenses) + Number(Expenseamount);
 

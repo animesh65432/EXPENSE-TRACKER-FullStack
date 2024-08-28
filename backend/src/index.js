@@ -4,7 +4,7 @@ const cors = require("cors");
 const app = express();
 const cofig = require("./config");
 const helmet = require("helmet");
-const { usermodel, expensemodel, payment, forgetpassword } = require("./model");
+// const { usermodel, expensemodel, payment, forgetpassword } = require("./model");
 const {
   userrouter,
   expenserouter,

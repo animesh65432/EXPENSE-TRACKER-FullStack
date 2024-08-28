@@ -1,13 +1,12 @@
 import { useSelector } from "react-redux";
-
+import { backendurl } from "../utils";
 const useGetthefile = () => {
   const idtoken = useSelector((state) => state.user.value);
-  console.log(idtoken);
 
   const Fechdata = async () => {
     try {
       const response = await fetch(
-        "http://localhost:3000/Expenses/dowaloadtheexpenses",
+        `${backendurl}/Expenses/dowaloadtheexpenses`,
         {
           method: "POST",
           headers: {

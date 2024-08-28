@@ -16,7 +16,6 @@ const UserLogin = createSlice({
       localStorage.removeItem("idtoken");
     },
     makePremuinm: (state, action) => {
-      console.log(action.payload);
       state.ispremuinm = action.payload;
     },
   },

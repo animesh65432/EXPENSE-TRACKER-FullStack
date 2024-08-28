@@ -1,19 +1,20 @@
-import { Link, useNavigate } from "react-router-dom";
-import styles from "./PremiunButton.module.css";
+import { useNavigate } from "react-router-dom";
 
-const PremiunButton = () => {
+const PremiumButton = () => {
   const navigate = useNavigate();
 
-  const GotoLeaderBorads = () => {
-    navigate("/leaderborads");
+  const gotoLeaderboards = () => {
+    navigate("/leaderboards");
   };
+
   return (
-    <div className={styles.container}>
-      <button className={styles.button} onClick={GotoLeaderBorads}>
-        Show The Leaderboards
-      </button>
-    </div>
+    <button
+      onClick={gotoLeaderboards}
+      className="bg-blue-500 text-white px-6 py-3 rounded-lg shadow-md hover:bg-blue-600 transition duration-300"
+    >
+      Show the Leaderboards
+    </button>
   );
 };
 
-export default PremiunButton;
+export default PremiumButton;

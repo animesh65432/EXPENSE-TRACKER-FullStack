@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addexpensefromExpenseFrom } from "../stroe/slices/expense/index";
+import { backendurl } from "../utils";
 
 const useCreateExpense = () => {
   const [loading, setLoading] = useState(false);
@@ -13,15 +14,11 @@ const useCreateExpense = () => {
     setLoading(true);
     setError(null);
     try {
-      let response = await axios.post(
-        "http://localhost:3000/Expenses/Create",
-        obj,
-        {
-          headers: {
-            idtoken: idtoken,
-          },
-        }
-      );
+      let response = await axios.post(`${backendurl}/Expenses/Create`, obj, {
+        headers: {
+          idtoken: idtoken,
+        },
+      });
       console.log(response);
       dispatch(
         addexpensefromExpenseFrom({ ...obj, _id: response?.data?.data?._id })

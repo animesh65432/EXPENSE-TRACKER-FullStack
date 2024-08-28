@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteexpenses } from "../stroe/slices/expense/index";
+import { backendurl } from "../utils";
 
 const usedeleteExpense = () => {
   const [loading, setLoading] = useState(false);
@@ -11,14 +12,11 @@ const usedeleteExpense = () => {
   const deletethexpenses = async (id) => {
     setLoading(true);
     try {
-      let response = await axios.delete(
-        `http://localhost:3000/Expenses/delete/${id}`,
-        {
-          headers: {
-            idtoken: idtoken,
-          },
-        }
-      );
+      let response = await axios.delete(`${backendurl}/Expenses/delete/${id}`, {
+        headers: {
+          idtoken: idtoken,
+        },
+      });
       console.log(response);
       dispatch(deleteexpenses(id));
       return true;

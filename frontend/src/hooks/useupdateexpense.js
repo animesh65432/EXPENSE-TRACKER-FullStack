@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateexpense } from "../stroe/slices/expense";
+import { backendurl } from "../utils";
 
 const useupdateexpense = () => {
   const [loading, setLoading] = useState(false);
@@ -12,7 +13,7 @@ const useupdateexpense = () => {
     setLoading(true);
     try {
       let response = await axios.put(
-        `http://localhost:3000/Expenses/update/${obj._id}`,
+        `${backendurl}/Expenses/update/${obj._id}`,
         obj,
         {
           headers: {

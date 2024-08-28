@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import useGetExpense from "../../hooks/useGetExpense";
-import ExpensesItem from "./ExpensesItem";
 import { useSelector } from "react-redux";
-import styles from "./expense.module.css";
+import ExpensesItem from "./ExpensesItem";
+import { useGetExpense } from "../../hooks";
 
 const Expenses = () => {
   const expenses = useSelector((state) => state.expenses.values) || [];
@@ -10,22 +9,14 @@ const Expenses = () => {
   const [loading] = useGetExpense();
 
   if (loading) {
-    return (
-      <div className={styles.loadingmessage}>
-        <p>Loading...</p>
-      </div>
-    );
+    return <div className="text-center">Loading...</div>;
   }
 
   if (expenses.length === 0) {
-    return (
-      <div className={styles.noexpensesmessage}>
-        <p>No expenses have been added</p>
-      </div>
-    );
+    return <div className="text-center">No expenses have been added</div>;
   }
 
-  const totalPages = Math.ceil(expenses.length);
+  const totalPages = Math.ceil(expenses.length / 10);
 
   const selectPageHandler = (selectPage) => {
     if (selectPage >= 0 && selectPage < totalPages) {
@@ -33,26 +24,45 @@ const Expenses = () => {
     }
   };
 
-  console.log(expenses);
-
   return (
-    <div className={styles.expensescontainer}>
-      {expenses.slice(page, page + 1).map((obj) => (
-        <div className={styles.expensesitem} key={obj.id}>
-          <ExpensesItem obj={obj} />
-        </div>
-      ))}
-
-      <div className={styles.pagination}>
-        <span onClick={() => selectPageHandler(page - 1)}>⬅️</span>
-        {[...Array(totalPages)].map((_, index) => (
-          <div key={index}>
-            <span onClick={() => selectPageHandler(index)}>{index + 1}</span>
+    <>
+      <div>
+        <div className="container mx-auto px-4">
+          {expenses.slice(page * 10, page * 10 + 10).map((obj) => (
+            <div key={obj.id}>
+              <ExpensesItem obj={obj} />
+            </div>
+          ))}
+          <div className="flex justify-center space-x-2 mt-4">
+            <button
+              onClick={() => selectPageHandler(page - 1)}
+              disabled={page === 0}
+            >
+              ⬅️
+            </button>
+            {[...Array(totalPages)].map((_, index) => (
+              <button
+                key={index}
+                onClick={() => selectPageHandler(index)}
+                className={`px-3 py-1 border rounded ${
+                  index === page
+                    ? "bg-primary text-white"
+                    : "bg-white text-primary"
+                }`}
+              >
+                {index + 1}
+              </button>
+            ))}
+            <button
+              onClick={() => selectPageHandler(page + 1)}
+              disabled={page === totalPages - 1}
+            >
+              ➡️
+            </button>
           </div>
-        ))}
-        <span onClick={() => selectPageHandler(page + 1)}>➡️</span>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

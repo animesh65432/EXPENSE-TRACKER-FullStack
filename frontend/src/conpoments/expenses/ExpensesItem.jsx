@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import usedeleteExpense from "../../hooks/usedeleteExpense";
+import { usedeleteExpense } from "../../hooks";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Updatexpense from "./Updatexpense";
-import styles from "./ExpensesItem.module.css";
 
 const ExpensesItem = ({ obj }) => {
   const [loading, deletethexpenses] = usedeleteExpense();
@@ -11,9 +10,8 @@ const ExpensesItem = ({ obj }) => {
 
   const onClickDelete = async (id) => {
     let result = await deletethexpenses(id);
-    console.log(result);
     if (result) {
-      toast.success("Sucessfully delete it");
+      toast.success("Successfully deleted");
     } else {
       toast.error("Please try again");
     }
@@ -24,21 +22,30 @@ const ExpensesItem = ({ obj }) => {
   };
 
   return (
-    <>
-      <div className={styles.expensesitem}>
-        <div>
-          <h3>Expenses Name: {obj.ExpensesName}</h3>
-          <p>Description: {obj.description}</p>
-          <p>Category: {obj.Category}</p>
-          <button onClick={() => onClickDelete(obj._id)}>
-            {loading ? "Loading" : "Delete"}
-          </button>
-          <button onClick={onToggle}>Update</button>
-        </div>
-        {updateshow && <Updatexpense obj={obj} />}
+    <div className="bg-white p-4 mb-4 rounded shadow-md">
+      <h3 className="text-xl font-semibold text-primary">
+        Expenses Name: {obj.ExpensesName}
+      </h3>
+      <p className="text-secondary">Description: {obj.description}</p>
+      <p className="text-secondary">Category: {obj.Category}</p>
+      <p className="text-secondary">Expense Amount: {obj.Expenseamount}</p>
+      <div className="flex justify-between mt-4">
+        <button
+          onClick={() => onClickDelete(obj.id)}
+          className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700"
+        >
+          Delete
+        </button>
+        <button
+          onClick={onToggle}
+          className="bg-yellow-600 text-white px-3 py-1 rounded hover:bg-yellow-700"
+        >
+          {updateshow ? "Hide Update" : "Show Update"}
+        </button>
       </div>
+      {updateshow && <Updatexpense expense={obj} />}
       <ToastContainer />
-    </>
+    </div>
   );
 };
 

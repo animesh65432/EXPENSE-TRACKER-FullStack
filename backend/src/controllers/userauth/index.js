@@ -17,6 +17,8 @@ const signuptheusercontroller = async (request, response) => {
       email: email,
     });
 
+    console.log(existingUser);
+
     if (existingUser) {
       return response
         .status(StatusCodes.BAD_REQUEST)

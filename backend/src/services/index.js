@@ -4,13 +4,17 @@ const {
   GetObjectCommand,
 } = require("@aws-sdk/client-s3");
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
-const { Secret_access_key, Access_key } = require("../config");
+const {
+  Amazon_Access_key,
+  Amazon_Secret_access_key,
+  Amazon_Bucket_Name,
+} = require("../config");
 
 const s3client = new S3Client({
   region: "us-east-1",
   credentials: {
-    accessKeyId: Access_key,
-    secretAccessKey: Secret_access_key,
+    accessKeyId: Amazon_Access_key,
+    secretAccessKey: Amazon_Secret_access_key,
   },
 });
 
@@ -19,7 +23,7 @@ async function uploadAndShareFile(data) {
     const key = `files/users/${Date.now()}-expenses.txt`;
 
     const uploadCommand = new PutObjectCommand({
-      Bucket: "bucket.animesh.practice",
+      Bucket: Amazon_Bucket_Name,
       Key: key,
       Body: data,
     });
@@ -27,7 +31,7 @@ async function uploadAndShareFile(data) {
     await s3client.send(uploadCommand);
 
     const getObjectCommand = new GetObjectCommand({
-      Bucket: "bucket.animesh.practice",
+      Bucket: Amazon_Bucket_Name,
       Key: key,
     });
     const Send = await s3client.send(getObjectCommand);

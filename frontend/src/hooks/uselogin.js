@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { addthetokens, makePremuinm } from "../stroe/slices";
 import { parseJwt } from "../utils";
 import { useNavigate } from "react-router-dom";
+import { backendurl } from "../utils";
 const uselogin = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -14,10 +15,7 @@ const uselogin = () => {
     setLoading(true);
     setError(null);
     try {
-      let response = await axios.post(
-        "http://localhost:3000/users/loginuser",
-        obj
-      );
+      let response = await axios.post(`${backendurl}/users/loginuser`, obj);
 
       console.log(response);
       console.log(response?.data);

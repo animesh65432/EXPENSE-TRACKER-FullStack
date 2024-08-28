@@ -13,3 +13,8 @@ export function parseJwt(token) {
 
   return JSON.parse(jsonPayload);
 }
+
+export const backendurl = "http://localhost:3000";
+
+export const expenstrackerwebsiteimages =
+  "https://repository-images.githubusercontent.com/419507496/cfcc1354-86ac-432e-823a-da56c21302ba";

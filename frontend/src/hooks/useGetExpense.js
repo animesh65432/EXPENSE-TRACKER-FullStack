@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { Getexpenses } from "../stroe/slices/expense/index";
+import { backendurl } from "../utils";
 
 const useGetExpense = () => {
   const [loading, setloading] = useState(false);
@@ -11,7 +12,7 @@ const useGetExpense = () => {
   const getTheAllExpenses = async () => {
     setloading(true);
     try {
-      let response = await axios.get("http://localhost:3000/Expenses/Get", {
+      let response = await axios.get(`${backendurl}/Expenses/Get`, {
         headers: {
           idtoken: idtoken,
         },

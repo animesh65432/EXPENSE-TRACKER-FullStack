@@ -1,9 +1,9 @@
-import React from "react";
 import axios from "axios";
+import { backendurl } from "../utils";
 const useSetPassword = () => {
   const SetThePassWord = async (obj) => {
     try {
-      await axios.put(`http://localhost:3000/Resest/updatePasswords`, obj);
+      await axios.put(`${backendurl}/Resest/updatePasswords`, obj);
 
       return true;
     } catch (error) {

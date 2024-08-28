@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import { backendurl } from "../utils";
 const usesingup = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -8,10 +9,7 @@ const usesingup = () => {
     setLoading(true);
     setError(null);
     try {
-      let response = await axios.post(
-        "http://localhost:3000/users/singuptheuser",
-        obj
-      );
+      let response = await axios.post(`${backendurl}/users/singuptheuser`, obj);
       console.log(response);
       return true;
     } catch (error) {

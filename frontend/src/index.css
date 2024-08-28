@@ -1,3 +1,48 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.bg-primary {
+  @apply bg-indigo-600;
+}
+
+.text-primary {
+  @apply text-white;
+}
+
+.text-secondary {
+  @apply text-indigo-300;
+}
+
+.bg-secondary {
+  @apply bg-indigo-800;
+}
+/* Add these classes to your global stylesheet or use inline Tailwind CSS classes */
+
+.container {
+  @apply mx-auto px-4 py-6;
+}
+
+.form-container {
+  @apply bg-white p-6 rounded-lg shadow-md flex-1;
+}
+
+.form-input {
+  @apply border border-gray-300 rounded w-full px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500;
+}
+
+.submit-button {
+  @apply bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition duration-300;
+}
+
+.premium-button {
+  @apply bg-blue-500 text-white px-6 py-3 rounded-lg shadow-md hover:bg-blue-600 transition duration-300;
+}
+
+.premium-button-container {
+  @apply flex-none space-y-4;
+}
+
+.link-button {
+  @apply bg-white text-indigo-800 px-4 py-2 rounded-md hover:bg-indigo-100 transition duration-300;
+}
