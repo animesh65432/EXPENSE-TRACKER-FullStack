@@ -40,3 +40,4 @@ database()
   .catch((errors) => {
     console.log(errors);
   });
+module.exports.handler = app;

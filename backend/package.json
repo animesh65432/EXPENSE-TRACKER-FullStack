@@ -19,6 +19,7 @@
     "nodemailer": "^6.9.13",
     "razorpay": "^2.9.2",
     "sequelize": "^6.37.3",
+    "serverless-http": "^3.2.0",
     "stripe": "^16.8.0",
     "uuid": "^9.0.1"
   },
