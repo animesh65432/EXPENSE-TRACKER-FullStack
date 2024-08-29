@@ -18,9 +18,12 @@ const useGetthefile = () => {
       console.log(response);
       if (response.ok) {
         const data = await response.json();
-        console.log(data);
-        const downloadUrl = data.dowanloadurl;
-        window.open(downloadUrl, "_blank");
+        const link = document.createElement("a");
+        link.href = data.dowanloadurl;
+        link.download = "";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
       }
     } catch (error) {
       console.error("Error fetching file:", error);
