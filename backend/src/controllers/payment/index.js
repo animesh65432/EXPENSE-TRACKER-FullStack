@@ -1,5 +1,6 @@
-const config = require("../../config");
-const stripe = require("stripe")(config.STRIPESECRECTKEY);
+const stripe = require("stripe")(
+  "sk_test_51Psqi7JhBtJKyrO1y9PnD88ySiq22pVUAyLWeliOG2dqfvyjzhP63xeiVvNUXx1aJxEYfynbWuFsMYp5lzPXwFwS00PLuX66mz"
+);
 const { payment } = require("../../model");
 
 const createPayment = async (req, res) => {
