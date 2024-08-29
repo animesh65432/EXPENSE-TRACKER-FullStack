@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import { useSetPassword } from "../../hooks";
-import { useParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { toast, Toaster } from "react-hot-toast";
 const ResetPassWordWithNewOne = () => {
   const [userInput, setUserInput] = useState({
     newPassword: "",
     confirmPassword: "",
   });
+  const [searchParams] = useSearchParams();
+  const id = searchParams.get("id");
   const [SetThePassWord] = useSetPassword();
-  const { id } = useParams();
 
   const Onsubmithandler = (e) => {
     e.preventDefault();

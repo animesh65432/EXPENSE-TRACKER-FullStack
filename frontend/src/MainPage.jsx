@@ -9,7 +9,7 @@ import {
   Leaderbord,
   UserDetails,
 } from "./conpoments";
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import { useSelector } from "react-redux";
 import useGettheuser from "./hooks/useGettheuser";
 
@@ -42,7 +42,7 @@ const MainPage = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/ResetPassWord" element={<ResetPassword />}></Route>
             <Route
-              path="/resetpassword/:id"
+              path="/resetpasswordwithnewone"
               element={<ResetPassWordWithNewOne />}
             ></Route>
             <Route path="*" element={<Login />}></Route>

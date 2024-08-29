@@ -1,4 +1,3 @@
-const uuid = require("uuid");
 const nodemailer = require("nodemailer");
 const { pass, EmailForNodeMailer } = require("../../config");
 const { usermodel, forgetpasswordmodel } = require("../../model");
@@ -7,6 +6,7 @@ const bcrypt = require("bcrypt");
 const forgotpassword = async (request, response) => {
   try {
     const { email } = request.body;
+    console.log(email);
     const User = await usermodel.findOne({
       email: email,
     });
@@ -35,11 +35,11 @@ const forgotpassword = async (request, response) => {
       to: email,
       subject: "Sending Email using Node.js",
       text: "Click here For Set The New Password",
-      html: `<a href='https://expense-tracker-full-stack-gilt.vercel.app/resetpassword/${forgetpasswordrecord._id}'>Click here for Reset Password</a>`,
+      html: `<a href='https://expense-tracker-full-stack-gilt.vercel.app/resetpasswordwithnewone?id=${forgetpasswordrecord._id}'>Click here for Reset Password</a>`,
     };
 
     let senddata = await transporter.sendMail(mailOptions);
-
+    console.log("sent");
     return response.status(StatusCodes.OK).json({
       success: true,
       data: "Reset password email sent successfully",
@@ -55,7 +55,8 @@ const forgotpassword = async (request, response) => {
 
 const updatePassword = async (request, response) => {
   try {
-    const { newPassword, id } = request.body;
+    const { id } = request.query;
+    const { newPassword } = request.body;
 
     if (!newPassword || !id) {
       return response.status(StatusCodes.BAD_GATEWAY).json({

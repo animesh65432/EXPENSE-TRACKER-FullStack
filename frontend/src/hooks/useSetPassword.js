@@ -3,7 +3,7 @@ import { backendurl } from "../utils";
 const useSetPassword = () => {
   const SetThePassWord = async (obj) => {
     try {
-      await axios.put(`${backendurl}/Resest/updatePasswords`, obj);
+      await axios.put(`${backendurl}/Resest/updatePasswords?id=${obj.id}`, obj);
 
       return true;
     } catch (error) {

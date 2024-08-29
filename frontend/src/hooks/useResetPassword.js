@@ -3,6 +3,7 @@ import { backendurl } from "../utils";
 
 const useResetPassword = () => {
   const SentTheEmail = async (obj) => {
+    console.log(backendurl, obj);
     try {
       await axios.post(`${backendurl}/Resest/forgetpassword`, obj);
 
