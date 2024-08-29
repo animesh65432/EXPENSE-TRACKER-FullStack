@@ -15,8 +15,10 @@ const useGetthefile = () => {
         }
       );
 
+      console.log(response);
       if (response.ok) {
         const data = await response.json();
+        console.log(data);
         const downloadUrl = data.dowanloadurl;
         window.open(downloadUrl, "_blank");
       }

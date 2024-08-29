@@ -1,4 +1,4 @@
-const { usermodel, expensemodel } = require("../../model");
+const { usermodel } = require("../../model");
 const { StatusCodes } = require("http-status-codes");
 
 const ShowTheLeadersboard = async (request, response) => {
