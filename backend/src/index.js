@@ -33,6 +33,12 @@ app.use("/userdeatils", userdetailsrouter);
 // usermodel.hasMany(forgetpassword);
 // forgetpassword.belongsTo(usermodel);
 
+app.get("/", (req, res) => {
+  res.status(200).json({
+    name: "Animesh dutta",
+  });
+});
+
 database()
   .then(() => {
     app.listen(cofig.port, () => console.log(`server start at ${cofig.port}`));
@@ -40,4 +46,4 @@ database()
   .catch((errors) => {
     console.log(errors);
   });
-module.exports.handler = app;
+module.exports = app;

@@ -14,7 +14,8 @@ export function parseJwt(token) {
   return JSON.parse(jsonPayload);
 }
 
-export const backendurl = "http://localhost:3000";
+export const backendurl =
+  "https://backend-laimyt8oj-animesh-duttas-projects.vercel.app/";
 export const STRIPEPUBLISHKEY =
   "pk_test_51Psqi7JhBtJKyrO1Zrk7Uqzm09yw2dbHDJ5X3ANmtNuSnxwfwKaVu7tAEH5lp9OlWweGajBUsLkQ5qzcqBViqiFj0015Jw3xzG";
 
