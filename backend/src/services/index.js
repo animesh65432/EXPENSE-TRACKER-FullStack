@@ -11,7 +11,7 @@ const {
 } = require("../config");
 
 const s3client = new S3Client({
-  region: "us-east-1",
+  region: "eu-north-1",
   credentials: {
     accessKeyId: Amazon_Access_key,
     secretAccessKey: Amazon_Secret_access_key,

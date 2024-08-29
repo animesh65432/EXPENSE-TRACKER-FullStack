@@ -25,6 +25,8 @@ let obj = {
   Amazon_Access_key: process.env.AWSSECRECTKEY,
   Amazon_Secret_access_key: process.env.AWSSECRECTACESSKEY,
   Amazon_Bucket_Name: process.env.AWSS3BUCKETNAME,
+  JsonWebSecrect: process.env.JSONWEBSECRECT,
+  STRIPESECRECTKEY: process.env.STRIPESECRECTKEY,
 };
 console.log(obj);
 module.exports = obj;

@@ -4,7 +4,7 @@ const PremiumButton = () => {
   const navigate = useNavigate();
 
   const gotoLeaderboards = () => {
-    navigate("/leaderboards");
+    navigate("/leaderborads");
   };
 
   return (

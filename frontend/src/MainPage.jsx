@@ -8,7 +8,6 @@ import {
   Header,
   Leaderbord,
   UserDetails,
-  Footer,
 } from "./conpoments";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -33,8 +32,8 @@ const MainPage = () => {
             <Route path="/" element={<ExpensesFrom />} />
             <Route path="/leaderborads" element={<Leaderbord />}></Route>
             <Route path="/user" element={<UserDetails />}></Route>
+            <Route path="*" element={<ExpensesFrom />}></Route>
           </Routes>
-          <Footer />
         </>
       ) : (
         <>
@@ -46,6 +45,7 @@ const MainPage = () => {
               path="/resetpassword/:id"
               element={<ResetPassWordWithNewOne />}
             ></Route>
+            <Route path="*" element={<Login />}></Route>
           </Routes>
         </>
       )}

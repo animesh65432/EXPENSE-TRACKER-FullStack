@@ -8,6 +8,7 @@ const UserDetails = () => {
   const fetchUserData = async () => {
     try {
       const response = await getUser();
+      console.log(response);
       setUser(response);
     } catch (error) {
       console.log(error);

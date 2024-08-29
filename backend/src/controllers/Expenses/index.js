@@ -1,11 +1,10 @@
 const { StatusCodes } = require("http-status-codes");
-const { expensemodel, usermodel } = require("../../model");
+const { expensemodel } = require("../../model");
 const { uploadAndShareFile } = require("../../services");
 
 const CreatetheExpenses = async (request, response) => {
   try {
     const { ExpensesName, description, Category, Expenseamount } = request.body;
-    console.log(Expenseamount, description, Category, Expenseamount);
     const totalexpenses =
       Number(request.user.totalexpenses) + Number(Expenseamount);
 
@@ -40,16 +39,35 @@ const CreatetheExpenses = async (request, response) => {
 
 const GettheExpenses = async (request, response) => {
   try {
-    const AlltheExpenses = await expensemodel.find({
+    const page = parseInt(request.query.page) || 1;
+    const limit = parseInt(request.query.limit) || 2;
+
+    const startIndex = (page - 1) * limit;
+
+    const totalItems = await expensemodel.countDocuments({
       user: request.user._id,
     });
-    console.log(AlltheExpenses);
-    return response.status(StatusCodes.OK).json({ data: AlltheExpenses });
+    const expenses = await expensemodel
+      .find({ user: request.user._id })
+      .skip(startIndex)
+      .limit(limit);
+
+    if (expenses.length === 0) {
+      return response.status(StatusCodes.OK).json({
+        data: expenses,
+        totalItems: 0,
+      });
+    }
+
+    return response.status(StatusCodes.OK).json({
+      data: expenses,
+      totalItems,
+    });
   } catch (error) {
     console.error("Get expenses error:", error);
     return response
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .json({ message: "Internal server errors" });
+      .json({ message: "Internal server error" });
   }
 };
 
@@ -146,7 +164,7 @@ const DowanloadTheExpenses = async (request, response) => {
 
     if (!user.ispremiumuser) {
       return response
-        .status(StatusCodes.FORBIDDEN)
+        .status(400)
         .json({ status: false, message: "User is not premiumuser" });
     }
 
@@ -157,14 +175,14 @@ const DowanloadTheExpenses = async (request, response) => {
     let obj = JSON.stringify(expenseslist);
     let url = await uploadAndShareFile(obj);
 
-    return response.status(StatusCodes.OK).json({
+    return response.status(200).json({
       sucess: true,
       dowanloadurl: url,
     });
   } catch (errors) {
     console.log(errors);
 
-    return response.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+    return response.status(500).json({
       sucess: false,
       message: "internal server errors",
     });

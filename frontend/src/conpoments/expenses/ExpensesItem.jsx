@@ -9,6 +9,7 @@ const ExpensesItem = ({ obj }) => {
   const [updateshow, setUpdateshow] = useState(false);
 
   const onClickDelete = async (id) => {
+    console.log(id);
     let result = await deletethexpenses(id);
     if (result) {
       toast.success("Successfully deleted");
@@ -31,7 +32,7 @@ const ExpensesItem = ({ obj }) => {
       <p className="text-secondary">Expense Amount: {obj.Expenseamount}</p>
       <div className="flex justify-between mt-4">
         <button
-          onClick={() => onClickDelete(obj.id)}
+          onClick={() => onClickDelete(obj._id)}
           className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700"
         >
           Delete

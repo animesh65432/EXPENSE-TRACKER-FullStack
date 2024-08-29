@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { Getexpenses } from "../stroe/slices/expense/index";
@@ -9,29 +9,32 @@ const useGetExpense = () => {
   const idtoken = useSelector((state) => state.user.value);
   const dispatch = useDispatch();
 
-  const getTheAllExpenses = async () => {
+  const getTheAllExpenses = async ({ currentPage, limit }) => {
     setloading(true);
     try {
-      let response = await axios.get(`${backendurl}/Expenses/Get`, {
-        headers: {
-          idtoken: idtoken,
-        },
-      });
+      let response = await axios.get(
+        `${backendurl}/Expenses/Get?page=${currentPage}&limit=${limit}`,
+        {
+          headers: {
+            idtoken: idtoken,
+          },
+        }
+      );
+
       let expenseslist = response.data?.data;
-      console.log(response?.data);
+      let totalItems = response.data?.totalItems;
+
       dispatch(Getexpenses(expenseslist));
+      return { totalItems };
     } catch (error) {
       console.log(error);
+      return { totalItems: 0 };
     } finally {
       setloading(false);
     }
   };
 
-  useEffect(() => {
-    getTheAllExpenses();
-  }, []);
-
-  return [loading];
+  return [loading, getTheAllExpenses];
 };
 
 export default useGetExpense;

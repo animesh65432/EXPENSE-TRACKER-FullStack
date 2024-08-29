@@ -2,10 +2,8 @@ import React, { useState } from "react";
 import { useCreateExpense } from "../../hooks";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useDispatch, useSelector } from "react-redux";
-import PremiunBottom from "../premiunFeatures/PremuinBottom";
-import RazorPay from "../payment/RazorPay";
-import { useGetthefile } from "../../hooks";
+import { useSelector } from "react-redux";
+import StripePay from "../payment/StripePay";
 import Expenses from "./Expenses";
 
 const ExpensesFrom = () => {
@@ -15,12 +13,10 @@ const ExpensesFrom = () => {
     Category: "",
     Expenseamount: "",
   });
+
   const { createexpenses, loading, error } = useCreateExpense();
   const isPremiumUser = useSelector((state) => state.user.ispremuinm);
 
-  const [fetchData] = useGetthefile();
-
-  console.log(isPremiumUser);
   const handleSubmit = (e) => {
     e.preventDefault();
     const { ExpensesName, description, Category, Expenseamount } = userInput;
@@ -48,7 +44,7 @@ const ExpensesFrom = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-6">
+    <div className="container mx-auto px-4 py-6 h-dvh">
       <div className="flex flex-col md:flex-row gap-6">
         <div className="bg-white p-6 rounded-lg shadow-md flex-1">
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -142,17 +138,7 @@ const ExpensesFrom = () => {
         </div>
 
         <div className="flex-none space-y-4">
-          {isPremiumUser && <PremiunBottom />}
-          {!isPremiumUser && <RazorPay />}
-
-          {isPremiumUser && (
-            <button
-              onClick={fetchData}
-              className="bg-white text-indigo-800 px-4 py-2 rounded-md hover:bg-indigo-100 transition duration-300"
-            >
-              Upload Expense File
-            </button>
-          )}
+          {!isPremiumUser && <StripePay />}
         </div>
       </div>
       <Expenses />

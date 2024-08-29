@@ -1,36 +1,29 @@
-const razorpay = require("razorpay");
-const { key_id, key_secret } = require("../../config");
-const { StatusCodes } = require("http-status-codes");
+const config = require("../../config");
+const stripe = require("stripe")(config.STRIPESECRECTKEY);
 const { payment } = require("../../model");
 
-const createPayment = async (request, response) => {
+const createPayment = async (req, res) => {
+  const { amount } = req.body;
+
   try {
-    const rzp = new razorpay({
-      key_id: key_id,
-      key_secret: key_secret,
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: amount * 100,
+      currency: "inr",
+      payment_method_types: ["card"],
     });
 
-    const amount = 2500;
-
-    rzp.orders.create({ amount, currency: "INR" }, async (err, order) => {
-      if (err) {
-        console.log(err);
-      }
-
-      let result = await payment.create({
-        orderid: order.id,
-        status: "pending",
-      });
-
-      response.status(StatusCodes.CREATED).json({ order, key_id: rzp.key_id });
+    await payment.create({
+      orderid: paymentIntent.id,
+      status: "pending",
     });
+
+    res.status(201).json({ clientSecret: paymentIntent.client_secret });
   } catch (error) {
-    response.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+    res.status(500).json({
       message: "Something Went Wrong",
     });
   }
 };
-
 const updatePayment = async (request, response) => {
   try {
     const { payment_id, order_id } = request.body;
@@ -38,7 +31,7 @@ const updatePayment = async (request, response) => {
     const order = await payment.findOne({ orderid: order_id });
 
     if (!order) {
-      return response.status(StatusCodes.NOT_FOUND).json({
+      return response.status(404).json({
         success: false,
         message: "Order not found",
       });
@@ -49,13 +42,13 @@ const updatePayment = async (request, response) => {
       request.user.updateOne({ ispremiumuser: true }),
     ]);
 
-    return response.status(StatusCodes.OK).json({
+    return response.status(200).json({
       success: true,
       message: "Successfully updated payment",
     });
   } catch (error) {
     console.error("Update payment error:", error);
-    return response.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+    return response.status(500).json({
       success: false,
       message: "Internal Server Error",
     });

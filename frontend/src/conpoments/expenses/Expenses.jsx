@@ -1,12 +1,42 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import ExpensesItem from "./ExpensesItem";
-import { useGetExpense } from "../../hooks";
+import useGetExpense from "../../hooks/useGetExpense";
 
 const Expenses = () => {
   const expenses = useSelector((state) => state.expenses.values) || [];
-  const [page, setPage] = useState(0);
-  const [loading] = useGetExpense();
+  const [loading, getTheAllExpenses] = useGetExpense();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalItems, setTotalItems] = useState(0);
+  const [totalPages, setTotalPages] = useState(1);
+  const limit = 2;
+
+  useEffect(() => {
+    const fetchExpenses = async () => {
+      try {
+        const { totalItems } = await getTheAllExpenses({ currentPage, limit });
+        setTotalItems(totalItems);
+        setTotalPages(Math.ceil(totalItems / limit));
+      } catch {
+        setTotalItems(0);
+        setTotalPages(1); // Ensuring at least 1 page
+      }
+    };
+
+    fetchExpenses();
+  }, [currentPage]);
+
+  const PrevPageHandler = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const NextPageHandler = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
 
   if (loading) {
     return <div className="text-center">Loading...</div>;
@@ -16,53 +46,22 @@ const Expenses = () => {
     return <div className="text-center">No expenses have been added</div>;
   }
 
-  const totalPages = Math.ceil(expenses.length / 10);
-
-  const selectPageHandler = (selectPage) => {
-    if (selectPage >= 0 && selectPage < totalPages) {
-      setPage(selectPage);
-    }
-  };
-
   return (
-    <>
-      <div>
-        <div className="container mx-auto px-4">
-          {expenses.slice(page * 10, page * 10 + 10).map((obj) => (
-            <div key={obj.id}>
-              <ExpensesItem obj={obj} />
-            </div>
-          ))}
-          <div className="flex justify-center space-x-2 mt-4">
-            <button
-              onClick={() => selectPageHandler(page - 1)}
-              disabled={page === 0}
-            >
-              ⬅️
-            </button>
-            {[...Array(totalPages)].map((_, index) => (
-              <button
-                key={index}
-                onClick={() => selectPageHandler(index)}
-                className={`px-3 py-1 border rounded ${
-                  index === page
-                    ? "bg-primary text-white"
-                    : "bg-white text-primary"
-                }`}
-              >
-                {index + 1}
-              </button>
-            ))}
-            <button
-              onClick={() => selectPageHandler(page + 1)}
-              disabled={page === totalPages - 1}
-            >
-              ➡️
-            </button>
-          </div>
+    <div className="container mx-auto px-4">
+      {expenses.map((obj) => (
+        <div key={obj._id}>
+          <ExpensesItem obj={obj} />
         </div>
+      ))}
+      <div className="flex justify-center space-x-2 mt-4">
+        <button onClick={PrevPageHandler} disabled={currentPage === 1}>
+          ⬅️
+        </button>
+        <button onClick={NextPageHandler} disabled={currentPage === totalPages}>
+          ➡️
+        </button>
       </div>
-    </>
+    </div>
   );
 };
 

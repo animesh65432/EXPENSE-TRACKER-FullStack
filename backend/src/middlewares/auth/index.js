@@ -1,10 +1,10 @@
 const jwt = require("jsonwebtoken");
 const { StatusCodes } = require("http-status-codes");
 const { usermodel } = require("../../model");
-const { SecrectPassword } = require("../../config");
+const { JsonWebSecrect } = require("../../config");
 
 const CreateTheJwTokens = (obj) => {
-  const tokens = jwt.sign(obj, SecrectPassword, {
+  const tokens = jwt.sign(obj, JsonWebSecrect, {
     expiresIn: "15d",
   });
   return tokens;
@@ -14,7 +14,7 @@ const Authentication = async (req, res, next) => {
   const Authenticationtoken = req.header("idtoken");
 
   try {
-    let verify = jwt.verify(Authenticationtoken, SecrectPassword);
+    let verify = jwt.verify(Authenticationtoken, JsonWebSecrect);
     const { email } = verify;
     const user = await usermodel.findOne({
       email: email,

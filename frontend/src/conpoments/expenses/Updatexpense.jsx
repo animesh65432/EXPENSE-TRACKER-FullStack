@@ -29,11 +29,12 @@ const Updatexpense = ({ expense }) => {
       try {
         let res = await updateTheExpensefun({
           ...userInput,
-          _id: obj._id,
+          _id: expense._id,
         });
 
         toast.success("Sucessfully update it");
       } catch (error) {
+        console.log(error);
         toast.error("please try again");
       }
     }

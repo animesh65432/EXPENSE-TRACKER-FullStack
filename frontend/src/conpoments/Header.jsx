@@ -3,10 +3,13 @@ import { Link } from "react-router-dom";
 import { Logo } from "../assets/image";
 import { deletethetokens } from "../stroe/slices";
 import { useDispatch, useSelector } from "react-redux";
+import { useGetthefile } from "../hooks";
+import PremiunBottom from "./premiunFeatures/PremuinBottom";
 
 const Header = () => {
   const dispatch = useDispatch();
   const isPremiumUser = useSelector((state) => state.user.ispremuinm);
+  const [Fechdata] = useGetthefile();
   const handleLogout = () => {
     dispatch(deletethetokens());
   };
@@ -25,12 +28,14 @@ const Header = () => {
           </Link>
           {isPremiumUser && (
             <button
-              onClick={fetchData}
+              onClick={Fechdata}
               className="bg-white text-indigo-800 px-4 py-2 rounded-md hover:bg-indigo-100 transition duration-300"
             >
               Upload Expense File
             </button>
           )}
+          {isPremiumUser && <PremiunBottom />}
+
           <button
             onClick={handleLogout}
             className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-800 transition"
