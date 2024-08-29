@@ -19,12 +19,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use(
-  cors({
-    origin: "https://expense-tracker-full-stack-gilt.vercel.app",
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
+  cors({ origin: "https://expense-tracker-full-stack-gilt.vercel.app/login" })
 );
+
 app.use(express.urlencoded({ extended: true }));
 app.use("/users", userrouter);
 app.use("/Expenses", expenserouter);
