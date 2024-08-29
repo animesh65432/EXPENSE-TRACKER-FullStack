@@ -18,15 +18,19 @@ const useGetthefile = () => {
       if (response.ok) {
         const data = await response.json();
         const downloadUrl = data.dowanloadurl;
+
         try {
+          // Attempt direct download first
           const link = document.createElement("a");
           link.href = downloadUrl;
-          link.download = "expenses_file";
+          link.download = "expenses_file"; // Set default file name
           document.body.appendChild(link);
           link.click();
           document.body.removeChild(link);
         } catch (e) {
           console.warn("Direct download failed, trying Blob approach:", e);
+
+          // Fallback to Blob method
           const fileResponse = await fetch(downloadUrl);
           if (fileResponse.ok) {
             const blob = await fileResponse.blob();
