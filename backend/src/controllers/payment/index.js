@@ -19,8 +19,9 @@ const createPayment = async (req, res) => {
 
     res.status(201).json({ clientSecret: paymentIntent.client_secret });
   } catch (error) {
+    console.log(error);
     res.status(500).json({
-      message: "Something Went Wrong",
+      message: `Something Went Wrong${error}`,
     });
   }
 };
