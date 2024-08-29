@@ -1,7 +1,6 @@
 import { useState } from "react";
-import { toast, ToastContainer } from "react-toastify";
-import { Link, useNavigate } from "react-router-dom";
-import "react-toastify/dist/ReactToastify.css";
+import { Toaster, toast } from "react-hot-toast";
+import { Link } from "react-router-dom";
 import { uselogin } from "../../hooks";
 import { expenstrackerwebsiteimages } from "../../utils";
 
@@ -11,7 +10,6 @@ const Login = () => {
     password: "",
   });
   const { logintheuser, loading, error } = uselogin();
-  const Navigate = useNavigate();
 
   const handleSubmithandler = async (e) => {
     e.preventDefault();
@@ -30,10 +28,6 @@ const Login = () => {
         toast.success("Successfully logged in");
       }
     }
-  };
-
-  const ResetPassword = () => {
-    Navigate("/ResetPassword");
   };
 
   return (
@@ -117,7 +111,7 @@ const Login = () => {
           </div>
         </div>
       </div>
-      <ToastContainer />
+      <Toaster position="top-right" reverseOrder={false} />
     </>
   );
 };

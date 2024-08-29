@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { useupdateexpense } from "../../hooks";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-
+import { toast, Toaster } from "react-hot-toast";
 const Updatexpense = ({ expense }) => {
   const [userInput, setUserInput] = useState({
     ExpensesName: expense.ExpensesName,
@@ -121,7 +119,7 @@ const Updatexpense = ({ expense }) => {
           {loading ? "Loading..." : "Update"}
         </button>
       </form>
-      <ToastContainer />
+      <Toaster position="top-right" reverseOrder={false} />
     </div>
   );
 };

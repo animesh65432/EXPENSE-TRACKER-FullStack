@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useCreateExpense } from "../../hooks";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast, Toaster } from "react-hot-toast";
 import { useSelector } from "react-redux";
 import StripePay from "../payment/StripePay";
 import Expenses from "./Expenses";
@@ -142,7 +141,7 @@ const ExpensesFrom = () => {
         </div>
       </div>
       <Expenses />
-      <ToastContainer />
+      <Toaster position="top-right" reverseOrder={false} />
     </div>
   );
 };

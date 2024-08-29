@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { usesingup } from "../../hooks";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast, Toaster } from "react-hot-toast";
 import { Link } from "react-router-dom";
 import { expenstrackerwebsiteimages } from "../../utils";
 
@@ -123,7 +122,7 @@ const Signup = () => {
           </div>
         </div>
       </div>
-      <ToastContainer />
+      <Toaster position="top-right" reverseOrder={false} />
     </>
   );
 };

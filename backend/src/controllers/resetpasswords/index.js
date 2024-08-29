@@ -7,7 +7,6 @@ const bcrypt = require("bcrypt");
 const forgotpassword = async (request, response) => {
   try {
     const { email } = request.body;
-    console.log(email);
     const User = await usermodel.findOne({
       email: email,
     });
@@ -20,6 +19,7 @@ const forgotpassword = async (request, response) => {
 
     let forgetpasswordrecord = await forgetpasswordmodel.create({
       active: true,
+      user: User._id,
     });
 
     var transporter = nodemailer.createTransport({
@@ -35,7 +35,7 @@ const forgotpassword = async (request, response) => {
       to: email,
       subject: "Sending Email using Node.js",
       text: "Click here For Set The New Password",
-      html: `<a href='http://localhost:5173/resetpassword/${forgetpasswordrecord._id}'>Click here for Reset Password</a>`,
+      html: `<a href='https://expense-tracker-full-stack-gilt.vercel.app/resetpassword/${forgetpasswordrecord._id}'>Click here for Reset Password</a>`,
     };
 
     let senddata = await transporter.sendMail(mailOptions);
@@ -56,7 +56,15 @@ const forgotpassword = async (request, response) => {
 const updatePassword = async (request, response) => {
   try {
     const { newPassword, id } = request.body;
+
+    if (!newPassword || !id) {
+      return response.status(StatusCodes.BAD_GATEWAY).json({
+        message: "please give newpassword and id",
+      });
+    }
+    console.log(id);
     const forgetRecord = await forgetpasswordmodel.findById(id);
+    console.log(forgetRecord);
 
     if (!forgetRecord || !forgetRecord.active) {
       return response.status(StatusCodes.NOT_FOUND).json({
@@ -65,7 +73,7 @@ const updatePassword = async (request, response) => {
       });
     }
 
-    const user = await usermodel.findById(forgetRecord.user._id);
+    const user = await usermodel.findById(forgetRecord.user);
 
     const hashedPassword = await bcrypt.hash(newPassword, 10);
 

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { usedeleteExpense } from "../../hooks";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast, Toaster } from "react-hot-toast";
 import Updatexpense from "./Updatexpense";
 
 const ExpensesItem = ({ obj }) => {
@@ -45,7 +44,7 @@ const ExpensesItem = ({ obj }) => {
         </button>
       </div>
       {updateshow && <Updatexpense expense={obj} />}
-      <ToastContainer />
+      <Toaster position="top-right" reverseOrder={false} />
     </div>
   );
 };

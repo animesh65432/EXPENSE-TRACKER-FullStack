@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useResetPassword } from "../../hooks";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast, Toaster } from "react-hot-toast";
 
 const ResetPassword = () => {
   const [Email, SetEmail] = useState("");
@@ -55,7 +54,7 @@ const ResetPassword = () => {
             Send
           </button>
         </form>
-        <ToastContainer />
+        <Toaster position="top-right" reverseOrder={false} />
       </div>
     </div>
   );

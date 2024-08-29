@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import { useSetPassword } from "../../hooks";
 import { useParams } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-
+import { toast, Toaster } from "react-hot-toast";
 const ResetPassWordWithNewOne = () => {
   const [userInput, setUserInput] = useState({
     newPassword: "",
@@ -95,7 +93,7 @@ const ResetPassWordWithNewOne = () => {
           </form>
         </div>
       </div>
-      <ToastContainer />
+      <Toaster position="top-right" reverseOrder={false} />
     </>
   );
 };

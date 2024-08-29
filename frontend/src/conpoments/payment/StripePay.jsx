@@ -11,7 +11,7 @@ import {
   useElements,
 } from "@stripe/react-stripe-js";
 import { STRIPEPUBLISHKEY } from "../../utils";
-import { toast, ToastContainer } from "react-toastify";
+import { toast, Toaster } from "react-hot-toast";
 const stripePromise = loadStripe(STRIPEPUBLISHKEY);
 
 const CheckoutForm = () => {
@@ -122,7 +122,7 @@ const CheckoutForm = () => {
           )}
         </form>
       )}
-      <ToastContainer />
+      <Toaster position="top-right" reverseOrder={false} />
     </div>
   );
 };
