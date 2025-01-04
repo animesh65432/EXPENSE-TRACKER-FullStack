@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useupdateexpense } from "../../hooks";
 import { toast, Toaster } from "react-hot-toast";
+
 const Updatexpense = ({ expense }) => {
   const [userInput, setUserInput] = useState({
     ExpensesName: expense.ExpensesName,
@@ -15,39 +16,32 @@ const Updatexpense = ({ expense }) => {
     e.preventDefault();
 
     if (
-      userInput.ExpensesName.length == "" ||
-      userInput.description == "" ||
-      userInput.Category == "" ||
-      userInput.Expenseamount == ""
+      userInput.ExpensesName === "" ||
+      userInput.description === "" ||
+      userInput.Category === "" ||
+      userInput.Expenseamount === ""
     ) {
-      toast.error("Please Fill each and every thing");
-
+      toast.error("Please fill each and every field");
       return;
     } else {
       try {
-        let res = await updateTheExpensefun({
+        await updateTheExpensefun({
           ...userInput,
           _id: expense._id,
         });
-
-        toast.success("Sucessfully update it");
+        toast.success("Successfully updated");
       } catch (error) {
-        console.log(error);
-        toast.error("please try again");
+        console.error(error);
+        toast.error("Please try again");
       }
     }
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white p-6 rounded shadow-md space-y-4"
-      >
+    <div>
+      <form onSubmit={handleSubmit}>
         <div>
-          <label htmlFor="expensename" className="block text-gray-700">
-            Expense Name:
-          </label>
+          <label htmlFor="expensename">Expense Name:</label>
           <input
             type="text"
             id="expensename"
@@ -58,13 +52,10 @@ const Updatexpense = ({ expense }) => {
                 ExpensesName: e.target.value,
               }))
             }
-            className="border rounded w-full px-3 py-2 mt-1"
           />
         </div>
         <div>
-          <label htmlFor="description" className="block text-gray-700">
-            Description:
-          </label>
+          <label htmlFor="description">Description:</label>
           <input
             type="text"
             id="description"
@@ -75,13 +66,10 @@ const Updatexpense = ({ expense }) => {
                 description: e.target.value,
               }))
             }
-            className="border rounded w-full px-3 py-2 mt-1"
           />
         </div>
         <div>
-          <label htmlFor="category" className="block text-gray-700">
-            Category:
-          </label>
+          <label htmlFor="category">Category:</label>
           <input
             type="text"
             id="category"
@@ -92,13 +80,10 @@ const Updatexpense = ({ expense }) => {
                 Category: e.target.value,
               }))
             }
-            className="border rounded w-full px-3 py-2 mt-1"
           />
         </div>
         <div>
-          <label htmlFor="amount" className="block text-gray-700">
-            Amount:
-          </label>
+          <label htmlFor="amount">Amount:</label>
           <input
             type="text"
             id="amount"
@@ -109,15 +94,9 @@ const Updatexpense = ({ expense }) => {
                 Expenseamount: e.target.value,
               }))
             }
-            className="border rounded w-full px-3 py-2 mt-1"
           />
         </div>
-        <button
-          type="submit"
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-300"
-        >
-          {loading ? "Loading..." : "Update"}
-        </button>
+        <button type="submit">{loading ? "Loading..." : "Update"}</button>
       </form>
       <Toaster position="top-right" reverseOrder={false} />
     </div>

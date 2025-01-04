@@ -6,6 +6,7 @@ import ResetPassWordWithNewOne from "./auth/ResetPassWordWithNewOne";
 import Header from "./Header";
 import Leaderbord from "./premiunFeatures/Leaderbord";
 import UserDetails from "./users/UserDeatils";
+import Expenses from "./expenses/Expenses"
 
 export {
   Signup,
@@ -16,4 +17,5 @@ export {
   Header,
   Leaderbord,
   UserDetails,
+  Expenses
 };

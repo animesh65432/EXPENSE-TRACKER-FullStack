@@ -6,6 +6,7 @@ import Updatexpense from "./Updatexpense";
 const ExpensesItem = ({ obj }) => {
   const [loading, deletethexpenses] = usedeleteExpense();
   const [updateshow, setUpdateshow] = useState(false);
+  const { ExpensesName, description, Category, Expenseamount, _id } = obj;
 
   const onClickDelete = async (id) => {
     console.log(id);
@@ -22,24 +23,16 @@ const ExpensesItem = ({ obj }) => {
   };
 
   return (
-    <div className="bg-white p-4 mb-4 rounded shadow-md">
-      <h3 className="text-xl font-semibold text-primary">
-        Expenses Name: {obj.ExpensesName}
-      </h3>
-      <p className="text-secondary">Description: {obj.description}</p>
-      <p className="text-secondary">Category: {obj.Category}</p>
-      <p className="text-secondary">Expense Amount: {obj.Expenseamount}</p>
-      <div className="flex justify-between mt-4">
-        <button
-          onClick={() => onClickDelete(obj._id)}
-          className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700"
-        >
+    <div>
+      <h3>Expenses Name: {ExpensesName}</h3>
+      <p>Description: {description}</p>
+      <p>Category: {Category}</p>
+      <p>Expense Amount: {Expenseamount}</p>
+      <div>
+        <button onClick={() => onClickDelete(_id)}>
           Delete
         </button>
-        <button
-          onClick={onToggle}
-          className="bg-yellow-600 text-white px-3 py-1 rounded hover:bg-yellow-700"
-        >
+        <button onClick={onToggle}>
           {updateshow ? "Hide Update" : "Show Update"}
         </button>
       </div>

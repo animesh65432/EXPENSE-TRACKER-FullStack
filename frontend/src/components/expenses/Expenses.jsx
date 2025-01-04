@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import ExpensesItem from "./ExpensesItem";
 import useGetExpense from "../../hooks/useGetExpense";
+import ExpensesFrom from "./ExpensesFrom";
+import { Button } from "@material-tailwind/react"
 
 const Expenses = () => {
   const expenses = useSelector((state) => state.expenses.values) || [];
@@ -19,7 +21,7 @@ const Expenses = () => {
         setTotalPages(Math.ceil(totalItems / limit));
       } catch {
         setTotalItems(0);
-        setTotalPages(1); // Ensuring at least 1 page
+        setTotalPages(1);
       }
     };
 
@@ -43,17 +45,20 @@ const Expenses = () => {
   }
 
   if (expenses.length === 0) {
-    return <div className="text-center">No expenses have been added</div>;
+    return <div className="text-center">
+      <ExpensesFrom />
+
+    </div>;
   }
 
   return (
-    <div className="container mx-auto px-4">
+    <div >
       {expenses.map((obj) => (
         <div key={obj._id}>
           <ExpensesItem obj={obj} />
         </div>
       ))}
-      <div className="flex justify-center space-x-2 mt-4">
+      <div >
         <button onClick={PrevPageHandler} disabled={currentPage === 1}>
           ⬅️
         </button>
@@ -61,6 +66,7 @@ const Expenses = () => {
           ➡️
         </button>
       </div>
+
     </div>
   );
 };

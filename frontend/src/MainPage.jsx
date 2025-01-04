@@ -8,7 +8,8 @@ import {
   Header,
   Leaderbord,
   UserDetails,
-} from "./conpoments";
+  Expenses
+} from "./components";
 import { Route, Routes } from "react-router-dom";
 import { useSelector } from "react-redux";
 import useGettheuser from "./hooks/useGettheuser";
@@ -29,7 +30,7 @@ const MainPage = () => {
         <>
           <Header />
           <Routes>
-            <Route path="/" element={<ExpensesFrom />} />
+            <Route path="/" element={<Expenses />} />
             <Route path="/leaderborads" element={<Leaderbord />}></Route>
             <Route path="/user" element={<UserDetails />}></Route>
             <Route path="*" element={<ExpensesFrom />}></Route>

@@ -35,7 +35,7 @@ const forgotpassword = async (request, response) => {
       to: email,
       subject: "Sending Email using Node.js",
       text: "Click here For Set The New Password",
-      html: `<a href='https://expense-tracker-full-stack-gilt.vercel.app/resetpasswordwithnewone?id=${forgetpasswordrecord._id}'>Click here for Reset Password</a>`,
+      html: `<a href='http://localhost:3000/resetpasswordwithnewone?id=${forgetpasswordrecord._id}'>Click here for Reset Password</a>`,
     };
 
     let senddata = await transporter.sendMail(mailOptions);

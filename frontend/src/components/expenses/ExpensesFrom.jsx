@@ -3,7 +3,6 @@ import { useCreateExpense } from "../../hooks";
 import { toast, Toaster } from "react-hot-toast";
 import { useSelector } from "react-redux";
 import StripePay from "../payment/StripePay";
-import Expenses from "./Expenses";
 
 const ExpensesFrom = () => {
   const [userInput, setUserInput] = useState({
@@ -31,6 +30,10 @@ const ExpensesFrom = () => {
     } else {
       let ConvertExpenseamount = Number(userInput.Expenseamount);
 
+      if (!ConvertExpenseamount) {
+        toast.error("Please enter a valid amount");
+        return;
+      }
       let data = { ...userInput, Expenseamount: ConvertExpenseamount };
       console.log(data);
       const success = createexpenses(data);
@@ -42,18 +45,14 @@ const ExpensesFrom = () => {
     }
   };
 
+
   return (
-    <div className="container mx-auto px-4 py-6 h-dvh">
-      <div className="flex flex-col md:flex-row gap-6">
-        <div className="bg-white p-6 rounded-lg shadow-md flex-1">
-          <form onSubmit={handleSubmit} className="space-y-4">
+    <div>
+      <div>
+        <div>
+          <form onSubmit={handleSubmit}>
             <div>
-              <label
-                htmlFor="expensename"
-                className="block text-gray-700 font-medium mb-1"
-              >
-                Expenses Name:
-              </label>
+              <label htmlFor="expensename">Expenses Name:</label>
               <input
                 type="text"
                 id="expensename"
@@ -64,16 +63,10 @@ const ExpensesFrom = () => {
                     ExpensesName: e.target.value,
                   }))
                 }
-                className="border border-gray-300 rounded w-full px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
               />
             </div>
             <div>
-              <label
-                htmlFor="description"
-                className="block text-gray-700 font-medium mb-1"
-              >
-                Description:
-              </label>
+              <label htmlFor="description">Description:</label>
               <input
                 type="text"
                 id="description"
@@ -84,16 +77,10 @@ const ExpensesFrom = () => {
                     description: e.target.value,
                   }))
                 }
-                className="border border-gray-300 rounded w-full px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
               />
             </div>
             <div>
-              <label
-                htmlFor="money"
-                className="block text-gray-700 font-medium mb-1"
-              >
-                Expense Amount:
-              </label>
+              <label htmlFor="money">Expense Amount:</label>
               <input
                 type="text"
                 id="money"
@@ -104,16 +91,10 @@ const ExpensesFrom = () => {
                     Expenseamount: e.target.value,
                   }))
                 }
-                className="border border-gray-300 rounded w-full px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
               />
             </div>
             <div>
-              <label
-                htmlFor="category"
-                className="block text-gray-700 font-medium mb-1"
-              >
-                Category:
-              </label>
+              <label htmlFor="category">Category:</label>
               <input
                 type="text"
                 id="category"
@@ -124,24 +105,21 @@ const ExpensesFrom = () => {
                     Category: e.target.value,
                   }))
                 }
-                className="border border-gray-300 rounded w-full px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
               />
             </div>
-            <button
-              type="submit"
-              className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition duration-300"
-            >
+            <button type="submit">
               {loading ? "Loading..." : "Create Expense"}
             </button>
           </form>
         </div>
 
-        <div className="flex-none space-y-4">
+        <div>
           {!isPremiumUser && <StripePay />}
         </div>
       </div>
-      <Expenses />
       <Toaster position="top-right" reverseOrder={false} />
+
+
     </div>
   );
 };

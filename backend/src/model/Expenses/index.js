@@ -1,6 +1,7 @@
 // const database = require("../../db");
 // const { DataTypes } = require("sequelize");
 const mongoose = require("mongoose");
+const { create } = require("../user");
 
 const ExpensesSchmea = new mongoose.Schema({
   ExpensesName: {
@@ -24,6 +25,10 @@ const ExpensesSchmea = new mongoose.Schema({
     type: mongoose.Types.ObjectId,
     ref: "User",
   },
+  createdAt: {
+    type: Date,
+    default: Date.now()
+  }
 });
 
 const Expenses = mongoose.model("Expenses", ExpensesSchmea);

@@ -8,6 +8,8 @@ const CreatetheExpenses = async (request, response) => {
     const totalexpenses =
       Number(request.user.totalexpenses) + Number(Expenseamount);
 
+    console.log(Expenseamount, "4 items");
+
     if (!ExpensesName || !description || !Category || !Expenseamount) {
       return response
         .status(StatusCodes.BAD_REQUEST)
