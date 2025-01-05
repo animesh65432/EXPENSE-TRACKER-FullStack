@@ -3,7 +3,7 @@ import { Toaster, toast } from "react-hot-toast";
 import { Link } from "react-router-dom";
 import { uselogin } from "../../hooks";
 import { expenstrackerwebsiteimages } from "../../utils";
-import { Button } from "@material-tailwind/react"
+import { Button, Spinner } from "@material-tailwind/react"
 
 const Login = () => {
   const [userinput, setUserInput] = useState({
@@ -89,7 +89,7 @@ const Login = () => {
                 type="submit"
                 className="w-[200px]"
               >
-                {loading ? "Loading..." : "log in"}
+                {loading ? <Spinner /> : "log in"}
               </Button>
             </div>
           </form>

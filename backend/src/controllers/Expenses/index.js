@@ -42,7 +42,7 @@ const CreatetheExpenses = async (request, response) => {
 const GettheExpenses = async (request, response) => {
   try {
     const page = parseInt(request.query.page) || 1;
-    const limit = parseInt(request.query.limit) || 2;
+    const limit = parseInt(request.query.limit) || 5;
 
     const startIndex = (page - 1) * limit;
 

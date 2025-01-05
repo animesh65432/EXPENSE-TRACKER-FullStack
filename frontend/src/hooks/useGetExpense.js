@@ -5,12 +5,13 @@ import { Getexpenses } from "../stroe/slices/expense/index";
 import { backendurl } from "../utils";
 
 const useGetExpense = () => {
-  const [loading, setloading] = useState(false);
+  const [loading, setloading] = useState(true);
   const idtoken = useSelector((state) => state.user.value);
   const dispatch = useDispatch();
 
   const getTheAllExpenses = async ({ currentPage, limit }) => {
     setloading(true);
+    console.log(currentPage, limit)
     try {
       let response = await axios.get(
         `${backendurl}/Expenses/Get?page=${currentPage}&limit=${limit}`,

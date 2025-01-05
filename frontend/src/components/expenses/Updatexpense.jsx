@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { useupdateexpense } from "../../hooks";
 import { toast, Toaster } from "react-hot-toast";
+import { createPortal } from "react-dom"
 
 const Updatexpense = ({ expense }) => {
+  console.log(expense)
   const [userInput, setUserInput] = useState({
     ExpensesName: expense.ExpensesName,
     description: expense.description,
@@ -38,7 +40,8 @@ const Updatexpense = ({ expense }) => {
   };
 
   return (
-    <div>
+
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center ">
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="expensename">Expense Name:</label>
@@ -100,7 +103,7 @@ const Updatexpense = ({ expense }) => {
       </form>
       <Toaster position="top-right" reverseOrder={false} />
     </div>
-  );
+  )
 };
 
 export default Updatexpense;

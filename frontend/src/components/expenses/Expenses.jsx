@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import ExpensesItem from "./ExpensesItem";
 import useGetExpense from "../../hooks/useGetExpense";
-import ExpensesFrom from "./ExpensesFrom";
-import { Button } from "@material-tailwind/react"
+import { Spinner } from "@material-tailwind/react"
+import { ExpenseTable, EmptyExpense, ExpenseSerchandCreate } from "../expenses"
+
 
 const Expenses = () => {
   const expenses = useSelector((state) => state.expenses.values) || [];
@@ -11,7 +11,7 @@ const Expenses = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
-  const limit = 2;
+  const limit = 10;
 
   useEffect(() => {
     const fetchExpenses = async () => {
@@ -28,44 +28,35 @@ const Expenses = () => {
     fetchExpenses();
   }, [currentPage]);
 
-  const PrevPageHandler = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    }
-  };
-
-  const NextPageHandler = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
-    }
-  };
 
   if (loading) {
-    return <div className="text-center">Loading...</div>;
+    return <div className="flex justify-center items-center min-h-dvh bg-white">
+      <Spinner />
+    </div>
   }
 
-  if (expenses.length === 0) {
-    return <div className="text-center">
-      <ExpensesFrom />
-
-    </div>;
-  }
+  console.log(expenses)
 
   return (
-    <div >
-      {expenses.map((obj) => (
-        <div key={obj._id}>
-          <ExpensesItem obj={obj} />
-        </div>
-      ))}
-      <div >
-        <button onClick={PrevPageHandler} disabled={currentPage === 1}>
-          ⬅️
-        </button>
-        <button onClick={NextPageHandler} disabled={currentPage === totalPages}>
-          ➡️
-        </button>
-      </div>
+    <div className="bg-white min-h-dvh " >
+
+      <ExpenseSerchandCreate />
+
+      {expenses.length === 0 ?
+        <div className=" flex justify-center items-center  bg-white mt-[150px]">
+          <EmptyExpense />
+        </div> :
+        <>
+          <div className="grid grid-cols-12 mt-[80px] p-2 ">
+            <div className="col-span-7">
+              <ExpenseTable expenses={expenses} />
+            </div>
+            <div>
+
+            </div>
+          </div>
+        </>
+      }
 
     </div>
   );

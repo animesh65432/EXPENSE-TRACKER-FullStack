@@ -3,7 +3,8 @@ import { usesingup } from "../../hooks";
 import { toast, Toaster } from "react-hot-toast";
 import { Link } from "react-router-dom";
 import { expenstrackerwebsiteimages } from "../../utils";
-import { Button } from "@material-tailwind/react"
+import { Button, Spinner } from "@material-tailwind/react"
+
 
 const Signup = () => {
   const [userInput, setUserInput] = useState({
@@ -110,7 +111,7 @@ const Signup = () => {
                 variant="outlined"
                 className="w-[200px] flex justify-center py-2 px-4 "
               >
-                {loading ? "Loading..." : "Create New User"}
+                {loading ? <Spinner /> : "Create New User"}
 
               </Button>
             </div>

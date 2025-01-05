@@ -6,8 +6,16 @@ import {
     Button,
 } from "@material-tailwind/react";
 import PremiunBottom from "./premiunFeatures/PremuinBottom"
+import { useState } from "react";
+import ExpensesFrom from "./expenses/ExpensesFrom";
 
 const MenuforSmallscreen = ({ navaigatetotheuserpage, isPremiumUser, Fechdata, handleLogout }) => {
+    const [toggole, settoogle] = useState(false)
+
+    const ontoggole = () => {
+        settoogle((prev) => !prev)
+    }
+
     return (
         <>
             <Menu>
@@ -18,13 +26,11 @@ const MenuforSmallscreen = ({ navaigatetotheuserpage, isPremiumUser, Fechdata, h
                         </svg>
                     </Button>
                 </MenuHandler>
-                <MenuList>
+                <MenuList className="flex flex-col">
                     <MenuItem>
                         <Button variant="text" onClick={navaigatetotheuserpage} className="flex justify-center gap-4 items-center">
                             User
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 19.5 15-15m0 0H8.25m11.25 0v11.25" />
-                            </svg>
+
 
 
                         </Button>
@@ -38,9 +44,6 @@ const MenuforSmallscreen = ({ navaigatetotheuserpage, isPremiumUser, Fechdata, h
                                 className="flex  justify-center items-center gap-2"
                             >
                                 Upload Expense File
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 19.5 15-15m0 0H8.25m11.25 0v11.25" />
-                                </svg>
 
 
                             </Button>
@@ -49,22 +52,24 @@ const MenuforSmallscreen = ({ navaigatetotheuserpage, isPremiumUser, Fechdata, h
                     </MenuItem>
                     <MenuItem className="flex justify-center items-center text-black">
                         {isPremiumUser && <PremiunBottom />}
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 19.5 15-15m0 0H8.25m11.25 0v11.25" />
-                        </svg>
+
 
                     </MenuItem>
                     <MenuItem>
                         <Button variant="text" onClick={handleLogout} className="flex justify-center items-center">
                             log out
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 19.5 15-15m0 0H8.25m11.25 0v11.25" />
-                            </svg>
+
+                        </Button>
+                    </MenuItem>
+                    <MenuItem>
+                        <Button variant="text" className=" flex justify-center items-center" onClick={ontoggole}>Create Expense
 
                         </Button>
                     </MenuItem>
                 </MenuList>
             </Menu>
+
+            {toggole && <ExpensesFrom ontoggole={ontoggole} />}
         </>
     )
 }

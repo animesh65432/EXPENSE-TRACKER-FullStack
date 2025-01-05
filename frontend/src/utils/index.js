@@ -22,3 +22,6 @@ export const STRIPEPUBLISHKEY =
 
 export const expenstrackerwebsiteimages =
   "https://repository-images.githubusercontent.com/419507496/cfcc1354-86ac-432e-823a-da56c21302ba";
+
+
+export const expensestablesrows = ["ExpenseName", "Amount", "Category", "description"]
