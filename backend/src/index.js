@@ -4,6 +4,7 @@ const cors = require("cors");
 const app = express();
 const cofig = require("./config");
 const helmet = require("helmet");
+const path = require("path")
 // const { usermodel, expensemodel, payment, forgetpassword } = require("./model");
 const {
   userrouter,
@@ -13,10 +14,14 @@ const {
   resetpasswordrouter,
   userdetailsrouter,
 } = require("./routers");
+const { createdummyuser } = require("./utils")
 
 app.use(helmet());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(express.static(path.join(__dirname, '../public')));
+app.set('view engine', 'ejs')
+app.set('views', path.join(__dirname, './views'))
 
 app.use(
   cors({
@@ -42,15 +47,13 @@ app.use("/userdeatils", userdetailsrouter);
 // usermodel.hasMany(forgetpassword);
 // forgetpassword.belongsTo(usermodel);
 
-app.get("/", (req, res) => {
-  res.status(200).json({
-    name: "Animesh dutta",
-  });
-});
 
 database()
   .then(() => {
-    app.listen(cofig.port, () => console.log(`server start at ${cofig.port}`));
+    app.listen(cofig.port, () => {
+      createdummyuser({ name: "testname", email: "test@gmail.com", password: "testpasword" })
+      console.log(`server start at ${cofig.port}`)
+    });
   })
   .catch((errors) => {
     console.log(errors);

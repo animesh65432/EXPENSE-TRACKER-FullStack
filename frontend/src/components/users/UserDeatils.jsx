@@ -1,49 +1,102 @@
-import { useEffect, useState } from "react";
-import useGetTheUser from "../../hooks/useGettheuser";
+import { useState } from "react";
+import { useSelector } from "react-redux";
+import { Button, Input } from "@material-tailwind/react";
+import { useUpdateProfile } from "../../hooks";
 
 const UserDetails = () => {
-  const [getUser] = useGetTheUser();
-  const [user, setUser] = useState([]);
+  const user = useSelector((state) => state.userDetails.user);
+  const [imagePreview, setImagePreview] = useState("");
+  const [loading, update] = useUpdateProfile();
+  const [userInput, setUserInput] = useState({
+    name: user?.name || "",
+    email: user?.email || "",
+    image: user?.image || ""
+  });
 
-  const fetchUserData = async () => {
+  const handleFileChange = (event) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (typeof reader.result === "string") {
+        setImagePreview(reader.result);
+        setUserInput(prev => ({ ...prev, image: reader.result }));
+      }
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const updateProfile = async (e) => {
+    e.preventDefault();
     try {
-      const response = await getUser();
-      console.log(response);
-      setUser(response);
+      await update(userInput);
     } catch (error) {
-      console.log(error);
-      setUser([]);
+      console.error("Error updating profile:", error);
     }
   };
 
-  useEffect(() => {
-    fetchUserData();
-  }, []);
-
-  if (user.length === 0) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <p className="text-lg font-semibold">Loading...</p>
-      </div>
-    );
-  }
-
   return (
-    <div className="h-dvh flex items-center justify-center">
-      <div className=" flex flex-col items-center p-4 max-w-md mx-auto bg-white shadow-lg rounded-lg">
+    <div className="h-[90vh] flex items-center justify-center">
+      <div className="flex flex-col items-center p-4 mx-auto bg-blue-gray-50 shadow-lg rounded-lg lg:w-[30vw] md:w-[50vw] w-[70vw] gap-4">
         <img
-          src="https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg"
-          alt="User"
-          className="w-32 h-32 rounded-full border-2 border-gray-300 mb-4"
+          src={user.image || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkr94Z9oGA_KuzX9ghnsctIEudavAJJht_VUyCDUw6c8eBeijX1Hg1RA6ckmWhBVNUlx4&usqp=CAU"}
+          alt="User Profile"
+          className="w-20 h-20 rounded-lg object-cover"
         />
-        <h2 className="text-2xl font-bold mb-4">User Details</h2>
-        <div className="text-lg">
-          <p className="mb-2">
-            <strong>Name:</strong> {user[0].name}
-          </p>
-          <p>
-            <strong>Email:</strong> {user[0].email}
-          </p>
+
+        <div className="text-lg w-full">
+          <form className="flex flex-col gap-4" onSubmit={updateProfile}>
+            <div>
+              <Input
+                type="file"
+                onChange={handleFileChange}
+                accept="image/*"
+              />
+              {imagePreview && (
+                <img
+                  className="w-10 h-10 mt-2 rounded object-cover"
+                  src={imagePreview}
+                  alt="Preview"
+                />
+              )}
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <label htmlFor="name">Name</label>
+              <Input
+                id="name"
+                value={userInput.name}
+                onChange={(e) => setUserInput(prev => ({
+                  ...prev,
+                  name: e.target.value
+                }))}
+              />
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <label htmlFor="email">Email</label>
+              <Input
+                id="email"
+                type="email"
+                value={userInput.email}
+                onChange={(e) => setUserInput(prev => ({
+                  ...prev,
+                  email: e.target.value
+                }))}
+              />
+            </div>
+
+            <div className="flex justify-center">
+              <Button
+                type="submit"
+                className="lg:w-[9vw] w-[15vw]"
+                disabled={loading}
+              >
+                {loading ? "Loading..." : "Update"}
+              </Button>
+            </div>
+          </form>
         </div>
       </div>
     </div>

@@ -1,7 +1,10 @@
 const { StatusCodes } = require("http-status-codes");
 const { expensemodel } = require("../../model");
 const { uploadAndShareFile } = require("../../services");
-
+const ejs = require("ejs")
+const path = require("path")
+const puppeteer = require("puppeteer")
+const { readFileSync } = require("fs");
 const CreatetheExpenses = async (request, response) => {
   try {
     const { ExpensesName, description, Category, Expenseamount } = request.body;
@@ -170,17 +173,44 @@ const DowanloadTheExpenses = async (request, response) => {
         .json({ status: false, message: "User is not premiumuser" });
     }
 
-    let expenseslist = await expensemodel.find({
+    let expenses = await expensemodel.find({
       user: user._id,
     });
 
-    let obj = JSON.stringify(expenseslist);
-    let url = await uploadAndShareFile(obj);
+    console.log(expenses)
 
-    return response.status(200).json({
-      sucess: true,
-      dowanloadurl: url,
+    const totalexpenses = expenses.reduce((acc, expense) => expense.Expenseamount + acc, 0)
+
+    const html = await ejs.renderFile(path.join(__dirname, "../../views/index.ejs"), { expenses })
+
+    console.log(html, "it's html")
+    const browser = await puppeteer.launch({
+      headless: true,
+      args: [
+        '--no-sandbox',
+        '--disable-setuid-sandbox'
+      ]
+    })
+
+    console.log(browser)
+
+    const page = await browser.newPage()
+
+    console.log(page)
+
+    await page.setContent(html, { waitUntil: "load" })
+
+    await page.emulateMediaType('screen');
+    const pdfBuffer = await page.pdf({ format: "A4", printBackground: true });
+
+    await browser.close();
+    response.set({
+      "Content-Type": "application/pdf",
+      "Content-Disposition": `attachment; filename="expenses.pdf"`,
     });
+    return response.status(200).json({
+      message: "download the expense"
+    })
   } catch (errors) {
     console.log(errors);
 

@@ -9,6 +9,7 @@ import useResetPassword from "./useResetPassword";
 import useSetPassword from "./useSetPassword";
 import usesingup from "./usesingup";
 import useupdateexpense from "./useupdateexpense";
+import useUpdateProfile from "./useUpdateProfile";
 
 export {
   useCreateExpense,
@@ -22,4 +23,5 @@ export {
   useSetPassword,
   usesingup,
   useupdateexpense,
+  useUpdateProfile
 };

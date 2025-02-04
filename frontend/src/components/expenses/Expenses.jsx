@@ -38,7 +38,7 @@ const Expenses = () => {
   console.log(expenses)
 
   return (
-    <div className="bg-white min-h-dvh " >
+    <div className="bg-white h-[78vh]" >
 
       <ExpenseSerchandCreate />
 

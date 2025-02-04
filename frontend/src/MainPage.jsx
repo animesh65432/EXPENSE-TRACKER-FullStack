@@ -25,14 +25,14 @@ const MainPage = () => {
   }, [flagvalue]);
 
   return (
-    <>
+    <div className="h-[100vh]  font-mono">
       {flagvalue ? (
         <>
           <Header />
           <Routes>
             <Route path="/" element={<Expenses />} />
             <Route path="/leaderborads" element={<Leaderbord />}></Route>
-            <Route path="/user" element={<UserDetails />}></Route>
+            <Route path="/userupdate" element={<UserDetails />}></Route>
             <Route path="*" element={<ExpensesFrom />}></Route>
           </Routes>
         </>
@@ -50,7 +50,7 @@ const MainPage = () => {
           </Routes>
         </>
       )}
-    </>
+    </div>
   );
 };
 

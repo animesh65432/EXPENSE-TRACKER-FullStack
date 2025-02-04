@@ -9,7 +9,7 @@ import PremiunBottom from "./premiunFeatures/PremuinBottom"
 import { useState } from "react";
 import ExpensesFrom from "./expenses/ExpensesFrom";
 
-const MenuforSmallscreen = ({ navaigatetotheuserpage, isPremiumUser, Fechdata, handleLogout }) => {
+const MenuforSmallscreen = ({ navigatetoUpdateUser, isPremiumUser, Fechdata, handleLogout }) => {
     const [toggole, settoogle] = useState(false)
 
     const ontoggole = () => {
@@ -28,11 +28,8 @@ const MenuforSmallscreen = ({ navaigatetotheuserpage, isPremiumUser, Fechdata, h
                 </MenuHandler>
                 <MenuList className="flex flex-col">
                     <MenuItem>
-                        <Button variant="text" onClick={navaigatetotheuserpage} className="flex justify-center gap-4 items-center">
-                            User
-
-
-
+                        <Button variant="text" onClick={navigatetoUpdateUser} className="flex justify-center gap-4 items-center">
+                            UpdateUser
                         </Button>
                     </MenuItem>
                     <MenuItem>

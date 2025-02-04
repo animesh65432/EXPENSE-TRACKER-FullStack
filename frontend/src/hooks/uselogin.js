@@ -5,6 +5,7 @@ import { addthetokens, makePremuinm } from "../stroe/slices";
 import { parseJwt } from "../utils";
 import { useNavigate } from "react-router-dom";
 import { backendurl } from "../utils";
+import { getuser } from "../stroe/slices/user"
 const uselogin = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -21,6 +22,7 @@ const uselogin = () => {
       console.log(response?.data);
       let token = response?.data?.idtoken;
       dispatch(addthetokens(token));
+      dispatch(getuser(response?.data?.user))
       console.log(parseJwt(token));
       let result = parseJwt(token).ispremiumuser;
       dispatch(makePremuinm(result));

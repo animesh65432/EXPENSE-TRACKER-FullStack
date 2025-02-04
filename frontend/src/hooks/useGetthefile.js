@@ -1,63 +1,36 @@
 import { useSelector } from "react-redux";
 import { backendurl } from "../utils";
-const useGetthefile = () => {
-  const idtoken = useSelector((state) => state.user.value);
+import axios from "axios";
 
-  const Fechdata = async () => {
+const useGetFile = () => {
+  const idToken = useSelector((state) => state.user.value);
+
+  const fetchData = async () => {
     try {
-      const response = await fetch(
-        `${backendurl}/Expenses/dowaloadtheexpenses`,
-        {
-          method: "POST",
-          headers: {
-            idtoken: idtoken,
-          },
+      const response = await axios.post(`${backendurl}/Expenses/dowaloadtheexpenses`, { idToken }, {
+        responseType: "blob",
+        headers: {
+          "Content-Type": "application/json",
+          idtoken: idToken,
         }
-      );
+      });
 
-      if (response.ok) {
-        const data = await response.json();
-        const downloadUrl = data.dowanloadurl;
-
-        try {
-          // Attempt direct download first
-          const link = document.createElement("a");
-          link.href = downloadUrl;
-          link.download = "expenses_file"; // Set default file name
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-        } catch (e) {
-          console.warn("Direct download failed, trying Blob approach:", e);
-
-          // Fallback to Blob method
-          const fileResponse = await fetch(downloadUrl);
-          if (fileResponse.ok) {
-            const blob = await fileResponse.blob();
-            const url = window.URL.createObjectURL(blob);
-
-            const link = document.createElement("a");
-            link.href = url;
-            link.download = "expenses_file"; // Set default file name
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-
-            window.URL.revokeObjectURL(url); // Clean up the URL object
-          } else {
-            console.error(
-              "Failed to fetch the file from S3:",
-              fileResponse.statusText
-            );
-          }
-        }
-      }
+      console.log(response?.data)
+      const url = window.URL.createObjectURL(new Blob([response.data]), { type: "application/pdf" });
+      console.log(url, "the url")
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", `Expenses.pdf`);
+      document.body.appendChild(link);
+      link.click()
+      link.remove()
     } catch (error) {
-      console.error("Error fetching file:", error);
+      console.error("Error downloading PDF:", error);
+      throw error;
     }
   };
 
-  return [Fechdata];
+  return [fetchData];
 };
 
-export default useGetthefile;
+export default useGetFile;

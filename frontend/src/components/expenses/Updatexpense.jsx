@@ -1,9 +1,15 @@
 import React, { useState } from "react";
 import { useupdateexpense } from "../../hooks";
-import { toast, Toaster } from "react-hot-toast";
-import { createPortal } from "react-dom"
+import { toast, Toaster } from "react-hot-toast"
+import {
+  Card,
+  Input,
+  Typography,
+  Button,
+  Spinner
+} from "@material-tailwind/react";
 
-const Updatexpense = ({ expense }) => {
+const Updatexpense = ({ expense, ontoggole }) => {
   console.log(expense)
   const [userInput, setUserInput] = useState({
     ExpensesName: expense.ExpensesName,
@@ -42,65 +48,102 @@ const Updatexpense = ({ expense }) => {
   return (
 
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center ">
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="expensename">Expense Name:</label>
-          <input
-            type="text"
-            id="expensename"
-            value={userInput.ExpensesName}
-            onChange={(e) =>
-              setUserInput((prev) => ({
-                ...prev,
-                ExpensesName: e.target.value,
-              }))
-            }
-          />
-        </div>
-        <div>
-          <label htmlFor="description">Description:</label>
-          <input
-            type="text"
-            id="description"
-            value={userInput.description}
-            onChange={(e) =>
-              setUserInput((prev) => ({
-                ...prev,
-                description: e.target.value,
-              }))
-            }
-          />
-        </div>
-        <div>
-          <label htmlFor="category">Category:</label>
-          <input
-            type="text"
-            id="category"
-            value={userInput.Category}
-            onChange={(e) =>
-              setUserInput((prev) => ({
-                ...prev,
-                Category: e.target.value,
-              }))
-            }
-          />
-        </div>
-        <div>
-          <label htmlFor="amount">Amount:</label>
-          <input
-            type="text"
-            id="amount"
-            value={userInput.Expenseamount}
-            onChange={(e) =>
-              setUserInput((prev) => ({
-                ...prev,
-                Expenseamount: e.target.value,
-              }))
-            }
-          />
-        </div>
-        <button type="submit">{loading ? "Loading..." : "Update"}</button>
-      </form>
+      <Card className="md:w-[25%] sm:w-[55%] w-[60%] p-2">
+        <form onSubmit={handleSubmit}>
+          <div className="flex flex-col gap-4">
+            <div className="flex flex-col">
+              <Typography variant="h6" color="blue-gray" >
+                Expense Name
+              </Typography>
+              <Input
+                size="lg"
+                placeholder="ExpenseName"
+                className=" !border-t-blue-gray-200 focus:!border-t-gray-900 "
+                labelProps={{
+                  className: "before:content-none after:content-none",
+                }}
+                onChange={(e) =>
+                  setUserInput((prev) => ({
+                    ...prev,
+                    ExpensesName: e.target.value
+                  }))
+                }
+                value={userInput.ExpensesName}
+              />
+            </div>
+            <div className="flex flex-col">
+              <Typography variant="h6" color="blue-gray" >
+                Description:
+              </Typography>
+              <Input
+                size="lg"
+                placeholder="Description"
+                className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
+                labelProps={{
+                  className: "before:content-none after:content-none",
+                }}
+                onChange={(e) =>
+                  setUserInput((prev) => ({
+                    ...prev,
+                    description: e.target.value
+                  }))
+                }
+                value={userInput.description}
+              />
+            </div>
+            <div className="flex flex-col">
+              <Typography variant="h6" color="blue-gray" >
+                Amount
+              </Typography>
+
+              <Input
+                size="lg"
+                placeholder="Amount"
+                className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
+                labelProps={{
+                  className: "before:content-none after:content-none",
+                }}
+                onChange={(e) =>
+                  setUserInput((prev) => ({
+                    ...prev,
+                    Expenseamount: e.target.value
+                  }))
+                }
+                value={userInput.Expenseamount}
+              />
+            </div>
+            <div className="flex flex-col">
+              <Typography variant="h6" color="blue-gray" >
+                CateGory
+              </Typography>
+              <Input
+                size="lg"
+                placeholder="CateGory"
+                className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
+                labelProps={{
+                  className: "before:content-none after:content-none",
+                }}
+                onChange={(e) =>
+                  setUserInput((prev) => ({
+                    ...prev,
+                    Category: e.target.value
+                  }))
+                }
+                value={userInput.Category}
+              />
+            </div>
+            <div className="flex flex-col gap-1">
+              <Button type="submit" >
+                {loading ? <Spinner /> : "Update"}
+              </Button>
+              <Button onClick={ontoggole}>
+                back
+              </Button>
+            </div>
+          </div>
+
+        </form>
+      </Card>
       <Toaster position="top-right" reverseOrder={false} />
     </div>
   )

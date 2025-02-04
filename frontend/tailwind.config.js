@@ -13,6 +13,9 @@ module.exports = withMT({
 				foreground: "hsl(var(--foreground))",
 			},
 		},
+		fontFamily: {
+			mono: ["Space Mono", "monospace"], // Using Space Mono
+		}
 	},
 	plugins: [],
 });

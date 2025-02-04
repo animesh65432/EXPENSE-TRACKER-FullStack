@@ -77,6 +77,7 @@ const logintheuser = async (request, response) => {
       return response.status(StatusCodes.OK).json({
         message: "Successfully logged in.",
         idtoken: token,
+        user
       });
     } else {
       return response

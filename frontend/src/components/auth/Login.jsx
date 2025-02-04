@@ -7,15 +7,14 @@ import { Button, Spinner } from "@material-tailwind/react"
 
 const Login = () => {
   const [userinput, setUserInput] = useState({
-    email: "",
-    password: "",
+    email: "test@gmail.com",
+    password: "testpasword",
   });
   const { logintheuser, loading, error } = uselogin();
 
   const handleSubmithandler = async (e) => {
     e.preventDefault();
     if (
-      userinput.name === "" ||
       userinput.email === "" ||
       userinput.password === ""
     ) {

@@ -2,29 +2,38 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Logo } from "../assets/image";
 import { deletethetokens } from "../stroe/slices";
+import { removeuser } from "../stroe/slices/user"
 import { useDispatch, useSelector } from "react-redux";
 import { useGetthefile } from "../hooks";
-import { Button } from "@material-tailwind/react";
-import PremiunBottom from "./premiunFeatures/PremuinBottom";
 import MenuforSmallscreen from "./MenuforSmallscreen";
+import {
+  Popover,
+  PopoverHandler,
+  PopoverContent,
+  Button,
+  Card
+} from "@material-tailwind/react";
 
 const Header = () => {
   const dispatch = useDispatch();
   const isPremiumUser = useSelector((state) => state.user.ispremuinm);
+  const user = useSelector((state) => state.userDetails.user)
   const [Fechdata] = useGetthefile();
   const navigate = useNavigate();
 
   const handleLogout = () => {
     dispatch(deletethetokens());
+    dispatch(removeuser())
   };
+  const navigatetoUpdateUser = () => {
+    navigate("/userupdate")
+  }
 
-  const navaigatetotheuserpage = () => {
-    navigate("/user");
-  };
+  console.log(`Currentuser ${user.name}`)
 
   return (
-    <header className="sticky top-0 z-50 bg-gray-50">
-      <nav className="w-full flex justify-between sm:h-[98px] h-[80px] p-6 text-slate-300 font-bold">
+    <header className="sticky top-0 z-50 bg-gray-200 w-full h-[10vh] font-mono">
+      <nav className="w-full flex justify-between  h-[10vh] p-6 text-slate-300 font-bold items-center">
         <div className="flex items-center space-x-4">
           <Link to="/">
             <div className="relative w-[70px] h-[40px]">
@@ -34,35 +43,32 @@ const Header = () => {
         </div>
 
         <div className="hidden lg:flex items-center space-x-4">
-          <Button variant="text" onClick={navaigatetotheuserpage}>
-            User
-          </Button>
 
-          {isPremiumUser && (
-            <Button
-              onClick={Fechdata}
-              variant="text"
-              color="primary"
-            >
-              Upload Expense File
-            </Button>
-          )}
+          <Popover placement="bottom">
+            <PopoverHandler>
+              <div>{user.image ?
+                <img src={user.image} alt="User Profile" className="h-[7vh] w-[7vw] rounded-lg" /> : <>
+                  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkr94Z9oGA_KuzX9ghnsctIEudavAJJht_VUyCDUw6c8eBeijX1Hg1RA6ckmWhBVNUlx4&usqp=CAU" className="w-10 h-10 rounded-lg" /></>
+              }</div>
+            </PopoverHandler>
+            <PopoverContent>
+              <Card className="flex flex-col gap-4 p-5 font-semibold">
+                <div>{user.name}</div>
+                <div className="flex gap-3">
+                  <Button onClick={handleLogout}>logout</Button>
+                  <Button onClick={navigatetoUpdateUser}>Update</Button>
+                </div>
+              </Card>
+            </PopoverContent>
+          </Popover>
 
-          {isPremiumUser && <PremiunBottom />}
 
-          <Button
-            onClick={handleLogout}
-            variant="text"
-            color="secondary"
-          >
-            Log out
-          </Button>
         </div>
 
         <div className="lg:hidden block">
           <MenuforSmallscreen
             handleLogout={handleLogout}
-            navaigatetotheuserpage={navaigatetotheuserpage}
+            navigatetoUpdateUser={navigatetoUpdateUser}
             isPremiumUser={isPremiumUser}
             Fechdata={Fechdata}
           />

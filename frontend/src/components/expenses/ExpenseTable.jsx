@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { Card, Typography, Button, Spinner } from "@material-tailwind/react"
 import { usedeleteExpense } from "../../hooks"
 import { Updatexpense } from "../expenses"
+import { toast, Toaster } from "react-hot-toast"
+
 
 const ExpenseTable = ({ expenses }) => {
     const [loading, deletethexpenses] = usedeleteExpense()
@@ -9,11 +11,16 @@ const ExpenseTable = ({ expenses }) => {
 
     const onClickdelete = async (id) => {
         try {
+            console.log(id)
             await deletethexpenses(id)
+            toast.success("Successfully deleted")
         } catch (error) {
-            console.log(error)
+            console.log(error, "errors in delete expense table")
+            toast.error("Please try again")
         }
     }
+
+
 
     const ontoggole = () => {
         settoogle((prev) => !prev)
@@ -59,13 +66,13 @@ const ExpenseTable = ({ expenses }) => {
                                         </Typography>
                                     </td>
                                     <td className='p-4'>
-                                        <Button variant="text" onClick={() => onClickdelete(_id)}>
+                                        <Button variant="text" onClick={() => onClickdelete(expense._id)}>
                                             {loading ? <Spinner /> : "Delete"}
                                         </Button>
                                     </td>
                                     <td className='p-4'>
                                         <Button variant="text" onClick={ontoggole} >edit</Button>
-                                        {toggole && <Updatexpense expense={expense} />}
+                                        {toggole && <Updatexpense expense={expense} ontoggole={ontoggole} />}
                                     </td>
                                 </tr>
                             ))}
@@ -75,6 +82,7 @@ const ExpenseTable = ({ expenses }) => {
 
             </Card>
 
+            <Toaster />
 
         </>
     )

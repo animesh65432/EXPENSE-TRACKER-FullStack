@@ -27,6 +27,11 @@ let obj = {
   Amazon_Bucket_Name: process.env.AWSS3BUCKETNAME,
   JsonWebSecrect: process.env.JSONWEBSECRECT,
   STRIPESECRECTKEY: process.env.STRIPESECRECTKEY,
+  CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY,
+  CLOUDINARY_API_SECRECT: process.env.CLOUDINARY_API_SECRECT,
+  CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME
+
+
 };
 console.log(obj);
 module.exports = obj;

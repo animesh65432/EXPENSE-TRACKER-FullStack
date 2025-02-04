@@ -21,7 +21,7 @@ const usedeleteExpense = () => {
       dispatch(deleteexpenses(id));
       return true;
     } catch (error) {
-      return false;
+      throw new Error(error)
     } finally {
       setLoading(false);
     }
