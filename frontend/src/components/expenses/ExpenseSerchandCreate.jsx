@@ -10,8 +10,8 @@ const ExpenseSerchandCreate = () => {
         settoogle((prev) => !prev)
     }
     return (
-        <div className='flex mt-[80px] md:justify-between justify-center items-center md:ml-32 md:mr-3'>
-            <div className='lg:block hidden'>
+        <div className='flex mt-[80px] md:justify-between justify-center items-center '>
+            <div className='ml-[40px]'>
                 <Button variant="filled" onClick={ontoggole}>Create Expense</Button>
             </div>
             {toggole && <ExpenseFrom ontoggole={ontoggole} />}

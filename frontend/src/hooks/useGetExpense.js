@@ -5,7 +5,7 @@ import { Getexpenses } from "../stroe/slices/expense/index";
 import { backendurl } from "../utils";
 
 const useGetExpense = () => {
-  const [loading, setloading] = useState(true);
+  const [loading, setloading] = useState(false);
   const idtoken = useSelector((state) => state.user.value);
   const dispatch = useDispatch();
 

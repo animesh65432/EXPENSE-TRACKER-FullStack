@@ -60,7 +60,7 @@ const ExpensesFrom = ({ ontoggole }) => {
   return (
     createPortal(
       <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center ">
-        <Card className="md:w-[25%] sm:w-[55%] w-[60%] p-2">
+        <Card className="md:w-[45%] sm:w-[55%] w-[60%] p-2">
           <form onSubmit={handleSubmit} className="flex flex-col gap-5">
             <div className="flex flex-col">
               <Typography variant="h6" color="blue-gray" >

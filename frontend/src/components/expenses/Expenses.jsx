@@ -8,25 +8,19 @@ import { ExpenseTable, EmptyExpense, ExpenseSerchandCreate } from "../expenses"
 const Expenses = () => {
   const expenses = useSelector((state) => state.expenses.values) || [];
   const [loading, getTheAllExpenses] = useGetExpense();
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalItems, setTotalItems] = useState(0);
-  const [totalPages, setTotalPages] = useState(1);
-  const limit = 10;
 
   useEffect(() => {
     const fetchExpenses = async () => {
       try {
-        const { totalItems } = await getTheAllExpenses({ currentPage, limit });
-        setTotalItems(totalItems);
-        setTotalPages(Math.ceil(totalItems / limit));
-      } catch {
-        setTotalItems(0);
-        setTotalPages(1);
+        const reponse = await getTheAllExpenses({ currentPage, limit });
+        console.log(reponse)
+      } catch (error) {
+        console.log(error)
       }
     };
 
     fetchExpenses();
-  }, [currentPage]);
+  }, []);
 
 
   if (loading) {
@@ -35,28 +29,30 @@ const Expenses = () => {
     </div>
   }
 
-  console.log(expenses)
-
   return (
     <div className="bg-white h-[78vh]" >
+      <div className="flex lg:flex-col">
+        <div className="lg:w-[70vw] w-full">
+          <ExpenseSerchandCreate />
 
-      <ExpenseSerchandCreate />
+          {expenses.length === 0 ?
+            <div className=" flex justify-center items-center  bg-white mt-[150px]">
+              <EmptyExpense />
+            </div> :
+            <>
+              <div className=" lg:mt-[80px] mt-[40px] lg:p-0 p-2 ">
+                <div >
+                  <ExpenseTable expenses={expenses} />
+                </div>
+                <div>
 
-      {expenses.length === 0 ?
-        <div className=" flex justify-center items-center  bg-white mt-[150px]">
-          <EmptyExpense />
-        </div> :
-        <>
-          <div className="grid grid-cols-12 mt-[80px] p-2 ">
-            <div className="col-span-7">
-              <ExpenseTable expenses={expenses} />
-            </div>
-            <div>
-
-            </div>
-          </div>
-        </>
-      }
+                </div>
+              </div>
+            </>
+          }
+        </div>
+        <div></div>
+      </div>
 
     </div>
   );

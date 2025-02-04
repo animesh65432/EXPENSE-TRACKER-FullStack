@@ -29,13 +29,13 @@ const ExpenseTable = ({ expenses }) => {
         <>
             <Card >
                 <div className="overflow-x-auto">
-                    <table className="w-full">
+                    <table >
                         <thead>
                             <tr className="border-b border-gray-200 bg-gray-50">
-                                <th className="p-4 text-left">Name</th>
-                                <th className="p-4 text-left">Amount</th>
-                                <th className="p-4 text-left">Category</th>
-                                <th className="p-4 text-left">Description</th>
+                                <th className="p-3  text-left">Name</th>
+                                <th className="p-3  text-left">Amount</th>
+                                <th className="p-3  text-left">Category</th>
+                                <th className="p-3 text-left">Description</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -45,32 +45,32 @@ const ExpenseTable = ({ expenses }) => {
                                     className={`hover:bg-gray-50 ${index !== expenses.length - 1 ? 'border-b border-gray-200' : ''
                                         }`}
                                 >
-                                    <td className="p-4">
+                                    <td className="p-3 ">
                                         <Typography className="font-medium">
                                             {expense?.ExpensesName}
                                         </Typography>
                                     </td>
-                                    <td className="p-4">
+                                    <td className="p-3">
                                         <Typography>
                                             ${Number(expense?.Expenseamount).toLocaleString()}
                                         </Typography>
                                     </td>
-                                    <td className="p-4">
+                                    <td className="p-3">
                                         <Typography>
                                             {expense?.Category}
                                         </Typography>
                                     </td>
-                                    <td className="p-4">
+                                    <td className="p-3">
                                         <Typography className="truncate max-w-xs">
                                             {expense?.description}
                                         </Typography>
                                     </td>
-                                    <td className='p-4'>
+                                    <td className='p-3'>
                                         <Button variant="text" onClick={() => onClickdelete(expense._id)}>
                                             {loading ? <Spinner /> : "Delete"}
                                         </Button>
                                     </td>
-                                    <td className='p-4'>
+                                    <td className='p-3'>
                                         <Button variant="text" onClick={ontoggole} >edit</Button>
                                         {toggole && <Updatexpense expense={expense} ontoggole={ontoggole} />}
                                     </td>

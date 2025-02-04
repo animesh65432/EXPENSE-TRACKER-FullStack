@@ -49,9 +49,6 @@ const GettheExpenses = async (request, response) => {
 
     const startIndex = (page - 1) * limit;
 
-    const totalItems = await expensemodel.countDocuments({
-      user: request.user._id,
-    });
     const expenses = await expensemodel
       .find({ user: request.user._id })
       .skip(startIndex)
@@ -66,7 +63,6 @@ const GettheExpenses = async (request, response) => {
 
     return response.status(StatusCodes.OK).json({
       data: expenses,
-      totalItems,
     });
   } catch (error) {
     console.error("Get expenses error:", error);
