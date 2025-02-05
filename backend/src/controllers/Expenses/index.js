@@ -46,29 +46,25 @@ const GettheExpenses = async (request, response) => {
   try {
     const page = parseInt(request.query.page) || 1;
     const limit = parseInt(request.query.limit) || 5;
-
     const startIndex = (page - 1) * limit;
 
-    const expenses = await expensemodel
-      .find({ user: request.user._id })
-      .skip(startIndex)
-      .limit(limit);
-
-    if (expenses.length === 0) {
-      return response.status(StatusCodes.OK).json({
-        data: expenses,
-        totalItems: 0,
-      });
-    }
+    const [expenses, totalItems] = await Promise.all([
+      expensemodel.find({ user: request.user._id }).skip(startIndex).limit(limit),
+      expensemodel.countDocuments({ user: request.user._id }),
+    ]);
 
     return response.status(StatusCodes.OK).json({
+      success: true,
       data: expenses,
+      totalItems,
+      totalPages: totalItems / limit,
+      currentPage: page,
     });
   } catch (error) {
     console.error("Get expenses error:", error);
     return response
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .json({ message: "Internal server error" });
+      .json({ success: false, message: "Internal server error" });
   }
 };
 
@@ -113,7 +109,7 @@ const UpdateExpense = async (request, response) => {
     const ExpenseId = request.params.ExpenseId;
     const { ExpensesName, description, Category, Expenseamount } = request.body;
 
-    if (!ExpensesName || !description || !Category || !Expenseamount) {
+    if (!ExpensesName || !description || !Category || !Expenseamount || !ExpenseId) {
       return response
         .status(StatusCodes.BAD_REQUEST)
         .json({ message: "Please provide all necessary fields" });
@@ -135,20 +131,22 @@ const UpdateExpense = async (request, response) => {
     const totalexpenses =
       Number(request.user.totalexpenses) - oldExpenseAmount + newExpenseAmount;
 
-    await expensemodel.findByIdAndUpdate(ExpenseId, {
+    const UpdateExpense = await expensemodel.findByIdAndUpdate(ExpenseId, {
       ExpensesName,
       description,
       Category,
       Expenseamount: newExpenseAmount,
-    });
+    }, { new: true });
 
     await request.user.updateOne({
       totalexpenses: totalexpenses,
+
     });
 
     return response.status(StatusCodes.OK).json({
       success: true,
       message: "Successfully updated expense",
+      UpdateExpense
     });
   } catch (error) {
     console.error("Update expense error:", error);

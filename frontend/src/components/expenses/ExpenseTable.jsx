@@ -1,5 +1,10 @@
-import React, { useState } from 'react'
-import { Card, Typography, Button, Spinner } from "@material-tailwind/react"
+import React from 'react'
+import {
+    Card, Typography, Spinner, Popover,
+    PopoverHandler,
+    PopoverContent,
+    Button,
+} from "@material-tailwind/react"
 import { usedeleteExpense } from "../../hooks"
 import { Updatexpense } from "../expenses"
 import { toast, Toaster } from "react-hot-toast"
@@ -7,8 +12,6 @@ import { toast, Toaster } from "react-hot-toast"
 
 const ExpenseTable = ({ expenses }) => {
     const [loading, deletethexpenses] = usedeleteExpense()
-    const [toggole, settoogle] = useState(false)
-
     const onClickdelete = async (id) => {
         try {
             console.log(id)
@@ -21,10 +24,6 @@ const ExpenseTable = ({ expenses }) => {
     }
 
 
-
-    const ontoggole = () => {
-        settoogle((prev) => !prev)
-    }
     return (
         <>
             <Card >
@@ -71,8 +70,14 @@ const ExpenseTable = ({ expenses }) => {
                                         </Button>
                                     </td>
                                     <td className='p-3'>
-                                        <Button variant="text" onClick={ontoggole} >edit</Button>
-                                        {toggole && <Updatexpense expense={expense} ontoggole={ontoggole} />}
+                                        <Popover placement="right">
+                                            <PopoverHandler>
+                                                <Button variant="text" >edit</Button>
+                                            </PopoverHandler>
+                                            <PopoverContent>
+                                                <Updatexpense expense={expense} />
+                                            </PopoverContent>
+                                        </Popover>
                                     </td>
                                 </tr>
                             ))}

@@ -1,20 +1,23 @@
-import { useState } from 'react'
-import { Button } from "@material-tailwind/react"
+import {
+    Popover,
+    PopoverHandler,
+    PopoverContent,
+    Button,
+} from "@material-tailwind/react"
 import ExpenseFrom from "./ExpensesFrom"
-import { Typography } from "@material-tailwind/react"
-
 const ExpenseSerchandCreate = () => {
-    const [toggole, settoogle] = useState(false)
-
-    const ontoggole = () => {
-        settoogle((prev) => !prev)
-    }
     return (
         <div className='flex mt-[80px] md:justify-between justify-center items-center '>
             <div className='ml-[40px]'>
-                <Button variant="filled" onClick={ontoggole}>Create Expense</Button>
+                <Popover placement="md:right-start right">
+                    <PopoverHandler>
+                        <Button variant="filled" >Create Expense</Button>
+                    </PopoverHandler>
+                    <PopoverContent>
+                        <ExpenseFrom />
+                    </PopoverContent>
+                </Popover>
             </div>
-            {toggole && <ExpenseFrom ontoggole={ontoggole} />}
         </div>
     )
 }

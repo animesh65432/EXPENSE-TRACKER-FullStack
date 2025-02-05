@@ -9,4 +9,17 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'), // Alias for your `src` directory
     },
   },
+  preview: {
+    port: 4000,
+    strictPort: true,
+  },
+  server: {
+    port: 4000,
+    strictPort: true,
+    host: true,
+    origin: "http://0.0.0.0:4000",
+  },
+  build: {
+    outDir: "dist"
+  }
 });

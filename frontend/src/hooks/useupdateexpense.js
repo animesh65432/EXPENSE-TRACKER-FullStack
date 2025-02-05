@@ -22,7 +22,9 @@ const useupdateexpense = () => {
         }
       );
       console.log(response);
-      dispatch(updateexpense(obj));
+
+      const { UpdateExpense } = response.data
+      dispatch(updateexpense(UpdateExpense))
       return true;
     } catch (error) {
       console.log(error);

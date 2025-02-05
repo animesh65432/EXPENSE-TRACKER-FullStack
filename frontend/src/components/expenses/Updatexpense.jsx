@@ -9,8 +9,7 @@ import {
   Spinner
 } from "@material-tailwind/react";
 
-const Updatexpense = ({ expense, ontoggole }) => {
-  console.log(expense)
+const Updatexpense = ({ expense }) => {
   const [userInput, setUserInput] = useState({
     ExpensesName: expense.ExpensesName,
     description: expense.description,
@@ -47,8 +46,8 @@ const Updatexpense = ({ expense, ontoggole }) => {
 
   return (
 
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center ">
-      <Card className="md:w-[45%] sm:w-[55%] w-[60%] p-2">
+    <>
+      <Card className="p-2">
         <form onSubmit={handleSubmit}>
           <div className="flex flex-col gap-4">
             <div className="flex flex-col">
@@ -132,12 +131,9 @@ const Updatexpense = ({ expense, ontoggole }) => {
                 value={userInput.Category}
               />
             </div>
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-col gap-1 ">
               <Button type="submit" >
                 {loading ? <Spinner /> : "Update"}
-              </Button>
-              <Button onClick={ontoggole}>
-                back
               </Button>
             </div>
           </div>
@@ -145,7 +141,7 @@ const Updatexpense = ({ expense, ontoggole }) => {
         </form>
       </Card>
       <Toaster position="top-right" reverseOrder={false} />
-    </div>
+    </>
   )
 };
 

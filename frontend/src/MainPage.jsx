@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import {
   Signup,
   Login,
-  ExpensesFrom,
   ResetPassword,
   ResetPassWordWithNewOne,
   Header,
@@ -33,7 +32,7 @@ const MainPage = () => {
             <Route path="/" element={<Expenses />} />
             <Route path="/leaderborads" element={<Leaderbord />}></Route>
             <Route path="/userupdate" element={<UserDetails />}></Route>
-            <Route path="*" element={<ExpensesFrom />}></Route>
+            <Route path="*" element={<Expenses />}></Route>
           </Routes>
         </>
       ) : (

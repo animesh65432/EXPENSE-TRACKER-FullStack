@@ -9,12 +9,12 @@ const useGetExpense = () => {
   const idtoken = useSelector((state) => state.user.value);
   const dispatch = useDispatch();
 
-  const getTheAllExpenses = async ({ currentPage, limit }) => {
+  const getTheAllExpenses = async ({ currentPage }) => {
     setloading(true);
-    console.log(currentPage, limit)
+    console.log(currentPage)
     try {
       let response = await axios.get(
-        `${backendurl}/Expenses/Get?page=${currentPage}&limit=${limit}`,
+        `${backendurl}/Expenses/Get?page=${currentPage}&limit=4`,
         {
           headers: {
             idtoken: idtoken,
@@ -22,11 +22,10 @@ const useGetExpense = () => {
         }
       );
 
-      let expenseslist = response.data?.data;
-      let totalItems = response.data?.totalItems;
-
+      const expenseslist = response.data?.data;
+      const { totalPages } = response.data
       dispatch(Getexpenses(expenseslist));
-      return { totalItems };
+      return { totalPages }
     } catch (error) {
       console.log(error);
       return { totalItems: 0 };

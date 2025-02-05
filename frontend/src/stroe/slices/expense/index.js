@@ -12,20 +12,14 @@ const Expenses = createSlice({
     deleteexpenses: (state, action) => {
       const id = action.payload;
       const WithOutDeleteExpenses = state.values.filter((obj) => obj._id != id);
-      console.log(WithOutDeleteExpenses);
       state.values = WithOutDeleteExpenses;
     },
     addexpensefromExpenseFrom: (state, action) => {
       state.values = state.values.concat(action.payload);
     },
     updateexpense: (state, action) => {
-      const { id, ExpensesName, description, Category, Expenseamount } =
-        action.payload;
-
       state.values = state.values.map((expense) =>
-        expense.id === id
-          ? { ...expense, ExpensesName, description, Category, Expenseamount }
-          : expense
+        expense._id === action.payload._id ? { ...expense, ...action.payload } : expense
       );
     },
   },
