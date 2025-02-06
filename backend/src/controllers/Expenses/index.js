@@ -53,11 +53,12 @@ const GettheExpenses = async (request, response) => {
       expensemodel.countDocuments({ user: request.user._id }),
     ]);
 
+    const totalPages = Math.ceil(totalItems / limit)
     return response.status(StatusCodes.OK).json({
       success: true,
       data: expenses,
       totalItems,
-      totalPages: totalItems / limit,
+      totalPages,
       currentPage: page,
     });
   } catch (error) {
