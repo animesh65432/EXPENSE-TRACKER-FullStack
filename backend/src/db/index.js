@@ -14,7 +14,7 @@ const config = require("../config");
 async function connectodatabase() {
   try {
     let response = await mongoose.connect(config.dburl);
-    console.log("Sucessfully connected to the database");
+    console.log("Sucessfully connected to the database", config.dburl);
     return response;
   } catch (error) {
     console.log(error, "did not connect to database");

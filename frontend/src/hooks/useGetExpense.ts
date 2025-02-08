@@ -20,7 +20,7 @@ const useGetExpense = (): useGetExpensereturntypes => {
     console.log(currentPage)
     try {
       let response = await axios.get(
-        `${backendurl}/Expenses/Get?page=${currentPage}&limit=4`,
+        `${backendurl}/Expenses/Get?page=${currentPage}&limit=50`,
         {
           headers: {
             idtoken: idtoken,

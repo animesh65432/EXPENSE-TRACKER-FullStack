@@ -4,6 +4,8 @@ import useGetExpense from "../../hooks/useGetExpense";
 import { ExpenseSerchandCreate } from "../expenses";
 import { Rootstate } from "@/stroe"
 import { Icons } from "@/Icon"
+import { ExpenseDataTable } from "./ExpensDataTable"
+import { ExpensesColumn } from "./ExpenseColumn"
 
 const Expenses: React.FC = () => {
   const expenses = useSelector((state: Rootstate) => state.expenses.values) || [];
@@ -24,23 +26,20 @@ const Expenses: React.FC = () => {
     fetchExpenses();
   }, [currentPage]);
 
-  console.log(expenses)
+  if (loading) {
+    return <div className="flex h-[80vh] justify-center items-center">
+      <Icons.spinner className="mr-2 h-[20vh] w-[20vw] animate-spin" />
+    </div>
+  }
 
   return (
     <div className="bg-white h-[78vh]">
       <div className="flex lg:flex-col">
         <div className="lg:w-[70vw] w-full">
           <ExpenseSerchandCreate />
-
-          {loading && (
-            <div className="flex justify-center items-center min-h-dvh bg-white">
-              <Icons.spinner className="mr-2 h-[20vh] w-[20vw] animate-spin" />
-            </div>
-          )}
-
-
         </div>
       </div>
+      <ExpenseDataTable data={expenses} columns={ExpensesColumn} />
     </div>
   );
 };

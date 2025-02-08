@@ -5,10 +5,10 @@ import { deleteexpenses } from "../stroe/slices/expense/index";
 import { backendurl } from "../utils";
 import { Rootstate } from "@/stroe"
 
-type usedeleteExpensereturntypes = [
+type usedeleteExpensereturntypes = {
   loading: boolean,
   deletethexpenses: (id: string) => Promise<boolean>
-]
+}
 const usedeleteExpense = (): usedeleteExpensereturntypes => {
   const [loading, setLoading] = useState(false);
   const idtoken = useSelector((state: Rootstate) => state.user.value);
@@ -34,7 +34,7 @@ const usedeleteExpense = (): usedeleteExpensereturntypes => {
     }
   };
 
-  return [loading, deletethexpenses];
+  return { loading, deletethexpenses };
 };
 
 export default usedeleteExpense;

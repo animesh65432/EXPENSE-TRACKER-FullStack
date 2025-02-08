@@ -1,15 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-type Expensestypes = {
-  _id: string,
-  Category: string,
-  Expenseamount: number,
-  ExpensesName: string,
-  createdAt: string
+type ExpenseTypes = {
+  _id: string;
+  Category: "dress" | "grocery" | "books" | "others";
+  Expenseamount: number;
+  ExpensesName: string;
+  description: string;
+  createdAt: string;
 }
-
 type ExpenseIntialstate = {
-  values: Expensestypes[]
+  values: ExpenseTypes[]
 }
 
 const Expenses = createSlice({

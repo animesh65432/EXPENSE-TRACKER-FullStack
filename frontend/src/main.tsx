@@ -3,6 +3,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import MainPage from "./MainPage";
 import { BrowserRouter } from "react-router-dom";
+import { Toaster } from "@/components/ui/toaster"
 import { Provider } from "react-redux";
 import store from "./stroe";
 ReactDOM.createRoot(document.getElementById("root")!).render(
@@ -10,6 +11,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <BrowserRouter>
       <Provider store={store}>
         <MainPage />
+        <Toaster />
       </Provider>
     </BrowserRouter>
   </React.StrictMode>

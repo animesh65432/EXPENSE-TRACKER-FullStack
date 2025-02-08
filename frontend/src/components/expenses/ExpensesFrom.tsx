@@ -1,9 +1,19 @@
 import React, { useState } from "react";
 import { useCreateExpense } from "../../hooks";
-import { toast, Toaster } from "react-hot-toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Icons } from "@/Icon";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import { useToast } from "@/hooks/use-toast"
+import { ToastAction } from "@/components/ui/toast"
+
+
 
 
 
@@ -23,25 +33,31 @@ const ExpensesForm: React.FC = () => {
   });
 
   const { createexpenses, loading, error } = useCreateExpense();
+  const { toast } = useToast()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const { ExpensesName, description, Category, Expenseamount } = userInput;
 
     if (!ExpensesName || !description || !Category || !Expenseamount) {
-      toast.error("Please fill out all fields");
+      toast({
+        title: "Uh oh! Something went wrong.",
+        description: "Please put everything",
+        action: <ToastAction altText="Try again">Try again</ToastAction>,
+        variant: "destructive"
+      })
       return;
     }
 
     let ConvertExpenseamount = Number(userInput.Expenseamount);
     if (isNaN(ConvertExpenseamount) || ConvertExpenseamount <= 0) {
-      toast.error("Please enter a valid amount");
+      toast({ title: "Please enter a valid amount", variant: "destructive" })
       return;
     }
 
     let data = { ...userInput, Expenseamount: ConvertExpenseamount };
     const success = await createexpenses(data);
-    success ? toast.success("Successfully created expenses") : toast.error(error);
+    success ? toast({ title: "Successfully created expenses" }) : toast({ title: error ?? "please try agin later", variant: "destructive" });
   };
 
 
@@ -96,17 +112,25 @@ const ExpensesForm: React.FC = () => {
       </div>
       <div className="flex flex-col">
         <label>Category</label>
-        <Input
-          placeholder="Category"
-          className="border border-gray-300 focus:border-gray-900"
-          onChange={(e) =>
+        <Select
+          onValueChange={(value) =>
             setUserInput((prev) => ({
               ...prev,
-              Category: e.target.value,
+              Category: value,
             }))
           }
-          value={userInput.Category}
-        />
+        >
+          <SelectTrigger >
+            <SelectValue placeholder="Category" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="dress">Dress</SelectItem>
+            <SelectItem value="grocery">Grocery</SelectItem>
+            <SelectItem value="books">Books</SelectItem>
+            <SelectItem value="others">Others</SelectItem>
+          </SelectContent>
+        </Select>
+
       </div>
       <div className="flex flex-col gap-1">
         <Button type="submit" className="bg-black hover:bg-gray-900">
@@ -114,7 +138,6 @@ const ExpensesForm: React.FC = () => {
         </Button>
       </div>
     </form>
-    <Toaster position="top-right" reverseOrder={false} />
   </>
 };
 
