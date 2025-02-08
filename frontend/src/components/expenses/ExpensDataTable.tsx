@@ -64,15 +64,15 @@ export function ExpenseDataTable<TData, TValue>({
     return (
         <>
 
-            <div className="flex items-center py-4">
+            <div className="flex items-center py-4 md:mt-[8vh]">
                 <Input
-                    placeholder="Search all columns..."
+                    placeholder="Search all ..."
                     value={globalFilter ?? ""}
                     onChange={(event) => setGlobalFilter(event.target.value)}
                     className="max-w-sm"
                 />
             </div>
-            <div className="rounded-md border">
+            <div className="rounded-md border md:mt-[8vh]">
                 <Table>
                     <TableHeader>
                         {table.getHeaderGroups().map((headerGroup) => (

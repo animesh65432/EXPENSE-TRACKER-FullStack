@@ -1,3 +1,5 @@
+import { ExpenseTypes } from "@/stroe/slices/expense"
+
 export function parseJwt(token: string) {
   var base64Url = token.split(".")[1];
   var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
@@ -23,4 +25,26 @@ export const STRIPEPUBLISHKEY =
 export const expenstrackerwebsiteimages =
   "https://repository-images.githubusercontent.com/419507496/cfcc1354-86ac-432e-823a-da56c21302ba";
 
+
+export const groupTheExpense = (data: ExpenseTypes[]) => {
+  const groupedExpenses = data.reduce((acc, expense) => {
+    const category = expense.Category.toLowerCase(); // Normalize category name to lowercase
+
+    if (acc[category]) {
+      acc[category] += expense.Expenseamount;
+    } else {
+      acc[category] = expense.Expenseamount;
+    }
+
+    return acc;
+  }, {} as { [key: string]: number });
+
+  const result = Object.keys(groupedExpenses).map((category) => ({
+    Category: category,
+    Expenseamount: groupedExpenses[category],
+    fill: `var(--color-${category})`,
+  }));
+
+  return result;
+};
 

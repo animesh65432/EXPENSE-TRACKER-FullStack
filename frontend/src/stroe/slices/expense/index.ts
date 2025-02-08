@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-type ExpenseTypes = {
+export type ExpenseTypes = {
   _id: string;
   Category: "dress" | "grocery" | "books" | "others";
   Expenseamount: number;
