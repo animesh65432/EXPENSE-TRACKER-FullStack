@@ -173,10 +173,11 @@ const DowanloadTheExpenses = async (request, response) => {
 
     // Launch Puppeteer
     const browser = await puppeteer.launch({
-      executablePath: await chromium.executablePath(),
-      args: chromium.args,
-      headless: chromium.headless,
+      executablePath: "/usr/bin/google-chrome-stable",
+      args: ["--no-sandbox", "--disable-setuid-sandbox"],
+      headless: true,
     });
+
     const page = await browser.newPage();
 
     try {
