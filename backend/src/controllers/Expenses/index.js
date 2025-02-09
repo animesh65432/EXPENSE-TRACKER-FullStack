@@ -174,8 +174,8 @@ const DowanloadTheExpenses = async (request, response) => {
     // Launch Puppeteer
     const browser = await puppeteer.launch({
       executablePath: await chromium.executablePath(),
-      headless: true, // Keep true for best performance
-      args: chromium.args, // Required arguments for Render
+      args: chromium.args,
+      headless: chromium.headless,
     });
     const page = await browser.newPage();
 
