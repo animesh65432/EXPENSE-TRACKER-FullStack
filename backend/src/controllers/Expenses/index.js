@@ -4,7 +4,6 @@ const { uploadAndShareFile } = require("../../services");
 const ejs = require("ejs")
 const path = require("path")
 const puppeteer = require("puppeteer")
-const { readFileSync } = require("fs");
 const CreatetheExpenses = async (request, response) => {
   try {
     const { ExpensesName, description, Category, Expenseamount } = request.body;
@@ -44,22 +43,12 @@ const CreatetheExpenses = async (request, response) => {
 
 const GettheExpenses = async (request, response) => {
   try {
-    const page = parseInt(request.query.page) || 1;
-    const limit = parseInt(request.query.limit) || 5;
-    const startIndex = (page - 1) * limit;
 
-    const [expenses, totalItems] = await Promise.all([
-      expensemodel.find({ user: request.user._id }).skip(startIndex).limit(limit),
-      expensemodel.countDocuments({ user: request.user._id }),
-    ]);
+    const expenses = await expensemodel.find({ user: request.user._id })
 
-    const totalPages = Math.ceil(totalItems / limit)
     return response.status(StatusCodes.OK).json({
       success: true,
-      data: expenses,
-      totalItems,
-      totalPages,
-      currentPage: page,
+      data: expenses
     });
   } catch (error) {
     console.error("Get expenses error:", error);
@@ -165,53 +154,48 @@ const DowanloadTheExpenses = async (request, response) => {
     if (!user.ispremiumuser) {
       return response
         .status(400)
-        .json({ status: false, message: "User is not premiumuser" });
+        .json({ status: false, message: "User is not a premium user" });
     }
 
-    let expenses = await expensemodel.find({
-      user: user._id,
+    let expenses = await expensemodel.find({ user: user._id });
+
+    const totalexpenses = expenses.reduce((acc, cur) => acc + cur.Expenseamount, 0)
+
+    // Generate HTML content from EJS
+    const htmlContent = await new Promise((resolve, reject) => {
+      response.render("index", { expenses, totalexpenses }, (err, html) => {
+        if (err) reject(err);
+        else resolve(html);
+      });
     });
 
-    console.log(expenses)
-
-    const totalexpenses = expenses.reduce((acc, expense) => expense.Expenseamount + acc, 0)
-
-    const html = await ejs.renderFile(path.join(__dirname, "../../views/index.ejs"), { expenses })
-
-    console.log(html, "it's html")
+    // Launch Puppeteer
     const browser = await puppeteer.launch({
-      headless: true,
-      args: [
-        '--no-sandbox',
-        '--disable-setuid-sandbox'
-      ]
-    })
-
-    console.log(browser)
-
-    const page = await browser.newPage()
-
-    console.log(page)
-
-    await page.setContent(html, { waitUntil: "load" })
-
-    await page.emulateMediaType('screen');
-    const pdfBuffer = await page.pdf({ format: "A4", printBackground: true });
-
-    await browser.close();
-    response.set({
-      "Content-Type": "application/pdf",
-      "Content-Disposition": `attachment; filename="expenses.pdf"`,
+      headless: "new",
+      args: ["--no-sandbox", "--disable-setuid-sandbox"],
     });
-    return response.status(200).json({
-      message: "download the expense"
-    })
-  } catch (errors) {
-    console.log(errors);
+    const page = await browser.newPage();
 
+    try {
+      await page.setContent(htmlContent, { waitUntil: "domcontentloaded" });
+
+      const pdfBuffer = await page.pdf({ format: "A4" });
+
+      // Set headers before sending the PDF
+      response.setHeader("Content-Type", "application/pdf");
+      response.setHeader("Content-Disposition", 'attachment; filename="Expense.pdf"');
+      response.setHeader("Content-Length", pdfBuffer.length);
+
+      response.end(pdfBuffer);
+    } finally {
+      await browser.close();
+    }
+
+  } catch (errors) {
+    console.error("PDF Generation Error:", errors);
     return response.status(500).json({
-      sucess: false,
-      message: "internal server errors",
+      success: false,
+      message: "Internal server error",
     });
   }
 };

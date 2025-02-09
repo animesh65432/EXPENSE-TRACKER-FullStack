@@ -12,7 +12,7 @@ import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover
 import { Rootstate } from "@/stroe"
 const Header: React.FC = () => {
   const dispatch = useDispatch();
-  const isPremiumUser = useSelector((state: Rootstate) => state.user.ispremuinm);
+  const isPremiumUser = useSelector((state: Rootstate) => state.userDetails.user?.ispremiumuser);
   const user = useSelector((state: Rootstate) => state.userDetails.user)
   const [Fechdata] = useGetthefile();
   const navigate = useNavigate();
@@ -21,11 +21,13 @@ const Header: React.FC = () => {
     dispatch(deletethetokens());
     dispatch(removeuser())
   };
-  const navigatetoUpdateUser = () => {
-    navigate("/userupdate")
+  const navigateto = (Link: "/userupdate" | "/leaderborads") => {
+    navigate(Link)
   }
 
-  console.log(`Currentuser ${user?.name}`)
+  const uploadexpensefile = async () => {
+    Fechdata()
+  }
 
   return (
     <header className="sticky top-0 z-50 bg-gray-200 w-full h-[10vh] font-mono">
@@ -36,6 +38,14 @@ const Header: React.FC = () => {
               <img src={Logo} alt="Logo" />
             </div>
           </Link>
+        </div>
+        <div className="hidden lg:flex items-center space-x-4">
+          {isPremiumUser &&
+            <Button variant="ghost" className="text-black bg-slate-100" onClick={() => navigateto("/leaderborads")}>Show Leaderboards</Button>
+          }
+        </div>
+        <div className="hidden lg:flex items-center space-x-4">
+          {isPremiumUser && <Button variant="ghost" className="text-black bg-slate-100" onClick={uploadexpensefile}>Upload Expesne File</Button>}
         </div>
 
         <div className="hidden lg:flex items-center space-x-4">
@@ -52,7 +62,7 @@ const Header: React.FC = () => {
                 <div>{user?.name}</div>
                 <div className="flex gap-3">
                   <Button onClick={handleLogout} className="bg-black hover:bg-slate-600">logout</Button>
-                  <Button onClick={navigatetoUpdateUser} className="bg-black hover:bg-slate-600">Update</Button>
+                  <Button onClick={() => navigateto("/userupdate")} className="bg-black hover:bg-slate-600">Update</Button>
                 </div>
               </Card>
             </PopoverContent>
@@ -64,7 +74,7 @@ const Header: React.FC = () => {
         <div className="lg:hidden block">
           <MenuforSmallscreen
             handleLogout={handleLogout}
-            navigatetoUpdateUser={navigatetoUpdateUser}
+            navigateto={navigateto}
             isPremiumUser={isPremiumUser}
             Fechdata={Fechdata}
           />

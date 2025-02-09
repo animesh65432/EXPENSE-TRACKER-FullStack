@@ -1,12 +1,10 @@
 import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
-import { makePremuinm } from "../stroe/slices/index";
+import { useSelector } from "react-redux";
 import { backendurl } from "../utils";
 import { Rootstate } from "@/stroe"
 
 const useGettheuser = () => {
   const idtoken = useSelector((state: Rootstate) => state.user.value);
-  const dispatch = useDispatch();
 
   const GetTheCurrentUser = async () => {
     try {
@@ -15,8 +13,7 @@ const useGettheuser = () => {
           idtoken: idtoken,
         },
       });
-      let res = reponse?.data.data[0].ispremiumuser;
-      dispatch(makePremuinm(res));
+      reponse?.data.data[0].ispremiumuser;
       return reponse?.data?.data;
     } catch (error) {
       console.log(error);

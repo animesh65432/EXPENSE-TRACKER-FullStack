@@ -18,7 +18,7 @@ export function parseJwt(token: string) {
 
 // "https://expense-tracker-full-stack-jsqa.vercel.app";
 
-export const backendurl = "https://savewave-backend.onrender.com";
+export const backendurl = " http://localhost:3000";
 export const STRIPEPUBLISHKEY =
   "pk_test_51Psqi7JhBtJKyrO1Zrk7Uqzm09yw2dbHDJ5X3ANmtNuSnxwfwKaVu7tAEH5lp9OlWweGajBUsLkQ5qzcqBViqiFj0015Jw3xzG";
 

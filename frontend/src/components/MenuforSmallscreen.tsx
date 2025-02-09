@@ -4,18 +4,18 @@ import {
     SheetContent,
     SheetTrigger,
 } from "@/components/ui/sheet"
-import PremiunBottom from "./premiunFeatures/PremuinBottom"
+import LeaderBoradsBottom from "./premiunFeatures/LeaderBoradsBottom"
 import { Button } from "@/components/ui/button"
 import { Icons } from "@/Icon"
 
 type Props = {
-    navigatetoUpdateUser: () => void,
-    isPremiumUser: boolean,
+    navigateto: (Link: "/userupdate" | "/leaderborads") => void,
+    isPremiumUser?: boolean,
     Fechdata: () => void,
     handleLogout: () => void
 }
 
-const MenuforSmallscreen: React.FC<Props> = ({ navigatetoUpdateUser, isPremiumUser, Fechdata, handleLogout }) => {
+const MenuforSmallscreen: React.FC<Props> = ({ navigateto, isPremiumUser, Fechdata, handleLogout }) => {
 
     return (
         <>
@@ -30,7 +30,7 @@ const MenuforSmallscreen: React.FC<Props> = ({ navigatetoUpdateUser, isPremiumUs
                 <SheetContent>
                     <div className="flex flex-col mt-[3vh] gap-16">
                         <div className="flex items-center justify-center">
-                            <Button onClick={navigatetoUpdateUser} variant="ghost">
+                            <Button onClick={() => navigateto("/userupdate")} variant="ghost">
                                 UpdateUser
                             </Button>
                             <Icons.arrowRight />
@@ -53,7 +53,7 @@ const MenuforSmallscreen: React.FC<Props> = ({ navigatetoUpdateUser, isPremiumUs
                         )}
 
                         {isPremiumUser &&
-                            <div className="flex items-center justify-center"><PremiunBottom />
+                            <div className="flex items-center justify-center"><LeaderBoradsBottom />
                                 <Icons.arrowRight /></div>}
 
                         <div className="flex items-center justify-center">

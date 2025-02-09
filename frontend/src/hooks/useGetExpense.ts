@@ -7,7 +7,7 @@ import { Rootstate } from "@/stroe"
 
 type useGetExpensereturntypes = [
   loading: boolean,
-  getTheAllExpenses: ({ currentPage }: { currentPage: number }) => Promise<{ totalPages: number }>
+  getTheAllExpenses: () => Promise<boolean>
 ]
 
 const useGetExpense = (): useGetExpensereturntypes => {
@@ -15,12 +15,11 @@ const useGetExpense = (): useGetExpensereturntypes => {
   const idtoken = useSelector((state: Rootstate) => state.user.value);
   const dispatch = useDispatch();
 
-  const getTheAllExpenses = async ({ currentPage }: { currentPage: number }) => {
+  const getTheAllExpenses = async () => {
     setloading(true);
-    console.log(currentPage)
     try {
       let response = await axios.get(
-        `${backendurl}/Expenses/Get?page=${currentPage}&limit=50`,
+        `${backendurl}/Expenses/Get`,
         {
           headers: {
             idtoken: idtoken,
@@ -29,12 +28,11 @@ const useGetExpense = (): useGetExpensereturntypes => {
       );
 
       const expenseslist = response.data?.data;
-      const { totalPages } = response.data
       dispatch(Getexpenses(expenseslist));
-      return { totalPages: totalPages ?? 0 }
+      return true
     } catch (error) {
       console.log(error);
-      return { totalPages: 0 };
+      return false
     } finally {
       setloading(false);
     }

@@ -19,7 +19,7 @@
     "mysql2": "^3.9.4",
     "nodemailer": "^6.9.13",
     "puppeteer": "^23.11.1",
-    "razorpay": "^2.9.2",
+    "razorpay": "^2.9.5",
     "sequelize": "^6.37.3",
     "stripe": "^17.5.0",
     "util": "^0.12.5",

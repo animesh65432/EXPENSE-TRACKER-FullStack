@@ -21,7 +21,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../public')));
 app.set('view engine', 'ejs')
-app.set('views', path.join(__dirname, './views'))
+app.set('views', path.join(__dirname, 'views'))
+
 
 app.use(
   cors({
@@ -46,6 +47,17 @@ app.use("/userdeatils", userdetailsrouter);
 // payment.belongsTo(usermodel);
 // usermodel.hasMany(forgetpassword);
 // forgetpassword.belongsTo(usermodel);
+
+console.log("Views directory:", path.join(__dirname, 'views'));
+
+
+app.get("/", async (req, res) => {
+  try {
+    res.render("hello/index")
+  } catch (error) {
+    console.log(`something went wrong`)
+  }
+})
 
 
 database()

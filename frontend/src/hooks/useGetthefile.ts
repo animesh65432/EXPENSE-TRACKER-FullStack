@@ -2,9 +2,10 @@ import { useSelector } from "react-redux";
 import { backendurl } from "../utils";
 import axios from "axios";
 import { Rootstate } from "@/stroe"
-
+import { useToast } from "@/hooks/use-toast"
 const useGetFile = () => {
   const idToken = useSelector((state: Rootstate) => state.user.value);
+  const { toast } = useToast()
 
   const fetchData = async () => {
     try {
@@ -16,9 +17,21 @@ const useGetFile = () => {
         }
       });
 
-      console.log(response?.data)
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "Expenses.pdf";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+
+
+      window.URL.revokeObjectURL(url);
     } catch (error) {
-      console.error("Error downloading PDF:", error);
+      toast({
+        title: "something went wrong",
+        variant: "destructive",
+      })
       throw error;
     }
   };

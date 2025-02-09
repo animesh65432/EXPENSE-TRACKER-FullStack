@@ -3,10 +3,10 @@ const { StatusCodes } = require("http-status-codes");
 
 const ShowTheLeadersboard = async (request, response) => {
   try {
-    const LeaderBoards = await usermodel.find({}).sort({ totalexpenses: -1 });
+    const LeaderBoards = await usermodel.find({
+    }).sort({ totalexpenses: -1 }).select("name totalexpenses");
 
-    return response
-      .status(StatusCodes.OK)
+    return response.status(StatusCodes.OK)
       .json({ success: true, data: LeaderBoards });
   } catch (error) {
     console.log(error);

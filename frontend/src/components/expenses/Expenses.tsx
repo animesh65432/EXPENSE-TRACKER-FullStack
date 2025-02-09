@@ -18,7 +18,7 @@ const Expenses: React.FC = () => {
   useEffect(() => {
     const fetchExpenses = async () => {
       try {
-        const { totalPages } = await getTheAllExpenses({ currentPage: 1 });
+        await getTheAllExpenses();
       } catch (error) {
         console.log(error);
       }

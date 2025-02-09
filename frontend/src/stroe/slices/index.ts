@@ -1,8 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 type userloginintialstate = {
-  value: string,
-  ispremuinm: boolean
+  value: string
 }
 
 const UserLogin = createSlice({
@@ -20,12 +19,10 @@ const UserLogin = createSlice({
       state.value = "";
       localStorage.removeItem("idtoken");
     },
-    makePremuinm: (state, action) => {
-      state.ispremuinm = action.payload;
-    },
+
   },
 });
 
-export const { addthetokens, deletethetokens, makePremuinm } =
+export const { addthetokens, deletethetokens } =
   UserLogin.actions;
 export default UserLogin.reducer;

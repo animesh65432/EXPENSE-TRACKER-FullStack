@@ -72,7 +72,7 @@ export function ExpenseDataTable<TData, TValue>({
                     className="max-w-sm"
                 />
             </div>
-            <div className="rounded-md border md:mt-[8vh]">
+            <div className="rounded-md border md:mt-[4vh]">
                 <Table>
                     <TableHeader>
                         {table.getHeaderGroups().map((headerGroup) => (

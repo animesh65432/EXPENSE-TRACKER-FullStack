@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios, { AxiosError } from "axios";
 import { useDispatch } from "react-redux";
-import { addthetokens, makePremuinm } from "../stroe/slices";
+import { addthetokens } from "../stroe/slices";
 import { parseJwt } from "../utils";
 import { useNavigate } from "react-router-dom";
 import { backendurl } from "../utils";
@@ -30,8 +30,6 @@ const uselogin = () => {
       dispatch(addthetokens(token));
       dispatch(getuser(response?.data?.user))
       console.log(parseJwt(token));
-      let result = parseJwt(token).ispremiumuser;
-      dispatch(makePremuinm(result));
       navigate("/");
       return true;
     } catch (err) {

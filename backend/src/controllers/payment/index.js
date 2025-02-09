@@ -1,24 +1,25 @@
-const stripe = require("stripe")(
-  "sk_test_51Psqi7JhBtJKyrO1y9PnD88ySiq22pVUAyLWeliOG2dqfvyjzhP63xeiVvNUXx1aJxEYfynbWuFsMYp5lzPXwFwS00PLuX66mz"
-);
+const RazorpayIstances = require("../../services/Razorpay")
 const { payment } = require("../../model");
 
 const createPayment = async (req, res) => {
   const { amount } = req.body;
 
   try {
-    const paymentIntent = await stripe.paymentIntents.create({
+
+    const options = {
       amount: amount * 100,
-      currency: "inr",
-      payment_method_types: ["card"],
-    });
+      currency: 'INR',
+    };
+
+    const order = await RazorpayIstances.orders.create(options)
 
     await payment.create({
-      orderid: paymentIntent.id,
+      orderid: order.id,
       status: "pending",
-    });
+      user: req.user._id
+    })
 
-    res.status(201).json({ clientSecret: paymentIntent.client_secret });
+    res.status(201).json(order);
   } catch (error) {
     console.log(error);
     res.status(500).json({
@@ -28,7 +29,7 @@ const createPayment = async (req, res) => {
 };
 const updatePayment = async (request, response) => {
   try {
-    const { payment_id, order_id } = request.body;
+    const { order_id } = request.body;
 
     const order = await payment.findOne({ orderid: order_id });
 
@@ -40,7 +41,7 @@ const updatePayment = async (request, response) => {
     }
 
     await Promise.all([
-      order.updateOne({ paymentid: payment_id, status: "SUCCESS" }),
+      order.updateOne({ status: "SUCCESS" }),
       request.user.updateOne({ ispremiumuser: true }),
     ]);
 
@@ -59,5 +60,5 @@ const updatePayment = async (request, response) => {
 
 module.exports = {
   createPayment,
-  updatePayment,
+  updatePayment
 };

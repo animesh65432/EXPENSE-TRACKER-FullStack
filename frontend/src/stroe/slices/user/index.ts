@@ -26,9 +26,16 @@ const UserSlices = createSlice({
         removeuser: (state) => {
             state.user = null
             localStorage.removeItem("user")
+        },
+        makeuserPremuin: (state) => {
+            if (state.user) {
+                state.user.ispremiumuser = true
+                localStorage.removeItem("user")
+                localStorage.setItem("user", JSON.stringify(state.user))
+            }
         }
     }
 })
 
-export const { getuser, removeuser } = UserSlices.actions
+export const { getuser, removeuser, makeuserPremuin } = UserSlices.actions
 export default UserSlices.reducer
