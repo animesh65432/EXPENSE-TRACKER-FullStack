@@ -3,7 +3,9 @@ const { expensemodel } = require("../../model");
 const { uploadAndShareFile } = require("../../services");
 const ejs = require("ejs")
 const path = require("path")
-const puppeteer = require("puppeteer")
+const puppeteer = require("puppeteer-core");
+const chromium = require("@sparticuz/chromium");
+
 const CreatetheExpenses = async (request, response) => {
   try {
     const { ExpensesName, description, Category, Expenseamount } = request.body;
@@ -171,8 +173,9 @@ const DowanloadTheExpenses = async (request, response) => {
 
     // Launch Puppeteer
     const browser = await puppeteer.launch({
-      headless: "new",
-      args: ["--no-sandbox", "--disable-setuid-sandbox"],
+      executablePath: await chromium.executablePath(),
+      headless: true, // Keep true for best performance
+      args: chromium.args, // Required arguments for Render
     });
     const page = await browser.newPage();
 
