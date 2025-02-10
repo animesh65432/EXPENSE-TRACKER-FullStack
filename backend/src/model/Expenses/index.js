@@ -2,8 +2,6 @@
 // const { DataTypes } = require("sequelize");
 const mongoose = require("mongoose");
 const { create } = require("../user");
-const statusEnum = ["dress" | "grocery" | "books" | "others"];
-
 const ExpensesSchmea = new mongoose.Schema({
   ExpensesName: {
     type: String,
@@ -15,7 +13,6 @@ const ExpensesSchmea = new mongoose.Schema({
   },
   Category: {
     type: String,
-    enum: statusEnum,
     required: true
   },
   Expenseamount: {
